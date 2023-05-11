@@ -1,0 +1,20 @@
+{
+  "name": "mithriljs-i18n",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "dev": "npm run start",
+    "start": "tsc -w",
+    "build": "tsc -b"
+  },
+  "keywords": [],
+  "author": "Phrase / Memsource GmbH",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/mithril": "^2.0.12",
+    "mithril": "^2.2.2",
+    "typescript": "5.0.4"
+  }
+}

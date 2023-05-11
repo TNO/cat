@@ -25,7 +25,6 @@ module.exports = (env) => {
     devServer: {
       liveReload: true,
       port: 3388,
-      contentBase: './dist',
     },
     plugins: [
       new Dotenv(),
@@ -98,10 +97,10 @@ module.exports = (env) => {
           use: 'ts-loader',
           exclude: /node_modules/,
         },
-        {
-          test: /\.css$/i,
-          use: ['style-loader', 'css-loader'],
-        },
+        // {
+        //   test: /\.css$/i,
+        //   use: ['style-loader', 'css-loader'],
+        // },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
           type: 'asset/resource',

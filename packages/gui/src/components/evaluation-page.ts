@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { Select, Collapsible } from 'mithril-materialized';
-import { LayoutForm, render } from 'mithril-ui-form';
+import { ILayoutForm, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 
@@ -103,11 +103,11 @@ export const EvaluationPage: MeiosisComponent = () => {
             m(LayoutForm, {
               form: evaluation,
               obj: cap,
-              context: data,
+              context: data as any,
               onchange: () => {
                 saveModel(catModel);
               },
-            })
+            } as ILayoutForm<any>)
           ),
         projects &&
           projects.length > 0 &&
@@ -119,11 +119,11 @@ export const EvaluationPage: MeiosisComponent = () => {
                 m(LayoutForm, {
                   form: projectEvaluation,
                   obj: p,
-                  context: data,
+                  context: data as any,
                   onchange: () => {
                     saveModel(catModel);
                   },
-                })
+                } as ILayoutForm<any>)
               ),
               iconName: p.approved ? 'engineering' : 'lightbulb',
             })),

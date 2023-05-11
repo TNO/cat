@@ -48,12 +48,12 @@ export interface ICapabilityDataModel {
 
 export interface ICapabilityModel {
   version?: number;
-  preparations?: UIForm;
-  assessment?: UIForm;
-  development?: UIForm;
-  evaluation?: UIForm;
-  projectEvaluation?: UIForm;
-  settings?: UIForm;
+  preparations?: UIForm<any>;
+  assessment?: UIForm<any>;
+  development?: UIForm<any>;
+  evaluation?: UIForm<any>;
+  projectEvaluation?: UIForm<any>;
+  settings?: UIForm<any>;
   data: ICapabilityDataModel;
 }
 

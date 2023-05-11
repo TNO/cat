@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { ITabItem, Tabs } from 'mithril-materialized';
-import { LayoutForm } from 'mithril-ui-form';
+import { ILayoutForm, LayoutForm } from 'mithril-ui-form';
 import { Dashboards } from '../models';
 import { ICapabilityModel } from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
@@ -40,7 +40,7 @@ export const SettingsPage: MeiosisComponent = () => ({
               );
               saveModel(catModel);
             },
-          }),
+          } as ILayoutForm<any>),
         } as ITabItem)
     );
     return m('.row', { style: 'height: 90vh' }, m(Tabs, { tabs, tabWidth: 'fill' }));

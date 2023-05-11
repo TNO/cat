@@ -17,7 +17,7 @@ const createRestServiceFactory = () => {
           body: fd || item,
           withCredentials,
         });
-      } catch (err) {
+      } catch (err: any) {
         return error(err.message);
       }
     };
@@ -33,7 +33,7 @@ const createRestServiceFactory = () => {
             withCredentials,
           })
           .catch((e) => console.error(e));
-      } catch (err) {
+      } catch (err: any) {
         return error(err.message);
       }
     };
@@ -49,7 +49,7 @@ const createRestServiceFactory = () => {
           withCredentials,
         });
         log(`Deleted with id: ${id}.`);
-      } catch (err) {
+      } catch (err: any) {
         return error(err.message);
       }
     };

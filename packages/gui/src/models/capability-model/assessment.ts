@@ -111,4 +111,4 @@ export const assessmentModel = [
       { id: 'go', label: 'GO' },
     ],
   },
-] as UIForm;
+] as UIForm<any>;

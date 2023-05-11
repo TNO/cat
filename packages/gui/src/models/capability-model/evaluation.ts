@@ -6,7 +6,7 @@ export const evaluationModel = [
     label: 'Evaluation',
     type: 'textarea',
   },
-] as UIForm;
+] as UIForm<any>;
 
 export const projectEvaluationModel = [
   {
@@ -96,4 +96,4 @@ export const projectEvaluationModel = [
     overallAssessment: 'avg',
     readonly: true,
   },
-] as UIForm;
+] as UIForm<any>;

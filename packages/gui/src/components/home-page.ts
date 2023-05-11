@@ -9,6 +9,7 @@ import {
   defaultCapabilityModel,
   ICapabilityModel,
 } from '../models/capability-model/capability-model';
+import { t } from 'mithriljs-i18n';
 
 export const HomePage: MeiosisComponent = () => {
   const readerAvailable = window.File && window.FileReader && window.FileList && window.Blob;
@@ -60,7 +61,7 @@ export const HomePage: MeiosisComponent = () => {
             m(Button, {
               iconName: 'edit',
               className: 'btn-large',
-              label: 'Continue',
+              label: t('clear_btn'),
               onclick: () => {
                 dashboardSvc.switchTo(Dashboards.OVERVIEW);
               },
@@ -69,7 +70,7 @@ export const HomePage: MeiosisComponent = () => {
           m(Button, {
             iconName: 'download',
             className: 'btn-large',
-            label: 'Download',
+            label: t('download_btn'),
             onclick: () => {
               const dlAnchorElem = document.getElementById('downloadAnchorElem');
               if (!dlAnchorElem) return;
@@ -90,7 +91,7 @@ export const HomePage: MeiosisComponent = () => {
             m(Button, {
               iconName: 'upload',
               className: 'btn-large',
-              label: 'Upload',
+              label: t('upload_btn'),
               onclick: () => {
                 const fileInput = document.getElementById('selectFiles') as HTMLInputElement;
                 fileInput.onchange = () => {
@@ -118,7 +119,7 @@ export const HomePage: MeiosisComponent = () => {
           m(Button, {
             iconName: 'link',
             className: 'btn-large',
-            label: 'Permalink',
+            label: t('permalink_btn'),
             onclick: () => {
               const permLink = document.createElement('input') as HTMLInputElement;
               document.body.appendChild(permLink);
@@ -153,33 +154,24 @@ export const HomePage: MeiosisComponent = () => {
                 '.col.s12.m4',
                 m('.icon-block', [
                   m('.center', m(Icon, { iconName: 'dashboard' })),
-                  m('h5.center', 'Prepare'),
-                  m(
-                    'p.light',
-                    'Create or select the capabilities that are important for your organisations.'
-                  ),
+                  m('h5.center', t('prepare')),
+                  m('p.light', t('prepare_txt')),
                 ])
               ),
               m(
                 '.col.s12.m4',
                 m('.icon-block', [
                   m('.center', m(Icon, { iconName: 'flash_on' })),
-                  m('h5.center', 'Assess'),
-                  m(
-                    'p.light',
-                    `Determine for each capability how important it is, and your current performance, so you can prioritise and focus on the ones you really need.`
-                  ),
+                  m('h5.center', t('assess')),
+                  m('p.light', t('assess_txt')),
                 ])
               ),
               m(
                 '.col.s12.m4',
                 m('.icon-block', [
                   m('.center', m(Icon, { iconName: 'group' })),
-                  m('h5.center', 'Develop'),
-                  m(
-                    'p.light',
-                    'Start working on developing your capabilities, alone or with other organisations, and create your roadmap.'
-                  ),
+                  m('h5.center', t('develop')),
+                  m('p.light', t('develop_txt')),
                 ])
               ),
             ]),

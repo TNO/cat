@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { Select, Collapsible, FlatButton } from 'mithril-materialized';
-import { LayoutForm, render } from 'mithril-ui-form';
+import { ILayoutForm, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 
@@ -124,11 +124,11 @@ export const DevelopmentPage: MeiosisComponent = () => {
                 m(LayoutForm, {
                   form: development,
                   obj: p,
-                  context: data,
+                  context: data as any,
                   onchange: () => {
                     saveModel(catModel);
                   },
-                })
+                } as ILayoutForm<any>)
               ),
               iconName: p.approved ? 'engineering' : 'lightbulb',
             })),

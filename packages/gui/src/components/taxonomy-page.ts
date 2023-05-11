@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { FlatButton, ModalPanel } from 'mithril-materialized';
-import { LayoutForm, UIForm, render } from 'mithril-ui-form';
+import { ILayoutForm, LayoutForm, UIForm, render } from 'mithril-ui-form';
 import { Dashboards } from '../models';
 import { ICapabilityModel } from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
@@ -32,7 +32,7 @@ const TaxonomyForm = [
       { id: 'url', type: 'url', label: 'Reference URL', className: 'col s8 m9' },
     ],
   },
-] as UIForm;
+] as UIForm<any>;
 
 let textFilter = '';
 
@@ -125,7 +125,7 @@ export const TaxonomyPage: MeiosisComponent = () => ({
               console.log(JSON.stringify(catModel, null, 2));
               saveModel(catModel);
             },
-          }),
+          } as ILayoutForm<any>),
           bottomSheet: true,
         }),
       ]),

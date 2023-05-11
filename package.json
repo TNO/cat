@@ -6,8 +6,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "pnpm recursive run cleanup",
-    "start": "pnpm recursive run dev",
-    "update": "pnpm recursive run update",
+    "start": "pnpm --parallel dev",
     "build": "pnpm recursive run build"
   },
   "repository": {
@@ -27,6 +26,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "pnpm": "^6.4.0"
+    "pnpm": "^8.5.0"
   }
 }

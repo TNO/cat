@@ -1,0 +1,14 @@
+{
+  "app_name": "Capability Assessment Tool (CAT)",
+  "clear_btn": "Clear",
+  "continue_btn": "Continue",
+  "download_btn": "Download",
+  "upload_btn": "Upload",
+  "permalink_btn": "Permalink",
+  "prepare": "Prepare",
+  "prepare_txt": "Create or select the capabilities that are important for your organisations.",
+  "assess": "Assess",
+  "assess_txt": "Determine for each capability how important it is, and your current performance, so you can prioritise and focus on the ones you really need.",
+  "develop": "Develop",
+  "develop_txt": "Start working on developing your capabilities, alone or with other organisations, and create your roadmap."
+}

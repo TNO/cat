@@ -1,4 +1,5 @@
 import { UIForm } from 'mithril-ui-form';
+import { ICapabilityModel } from './capability-model';
 
 export const settingsModel = [
   { id: 'stakeholder-settings', type: 'section', label: 'Stakeholders' },
@@ -104,4 +105,4 @@ export const settingsModel = [
     rows: 'taskScale',
     cols: 'performanceScale',
   },
-] as UIForm;
+] as UIForm<ICapabilityModel>;

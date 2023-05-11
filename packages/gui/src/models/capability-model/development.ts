@@ -97,4 +97,4 @@ export const developmentModel = [
       { id: 'yes', label: 'YES' },
     ],
   },
-] as UIForm;
+] as UIForm<any>;

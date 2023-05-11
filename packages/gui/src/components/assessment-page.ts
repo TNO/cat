@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { Select } from 'mithril-materialized';
-import { LayoutForm, render } from 'mithril-ui-form';
+import { ILayoutForm, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 
@@ -107,11 +107,11 @@ export const AssessmentPage: MeiosisComponent = () => {
             m(LayoutForm, {
               form: assessment,
               obj: cap,
-              context: data,
+              context: data as any,
               onchange: () => {
                 saveModel(catModel);
               },
-            })
+            } as ILayoutForm<any>)
           )
       );
     },
