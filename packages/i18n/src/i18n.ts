@@ -21,17 +21,19 @@ export type Interpolations = {
 
 export type TextDirection = 'rtl' | 'ltr';
 
+export type Locale = {
+  /** Friendly name */
+  name: string;
+  /** Fully qualified name, e.g. 'en-UK' */
+  fqn: string;
+  /** Text direction: Left to right or right to left */
+  dir?: TextDirection;
+  /** Is the default language */
+  default?: boolean;
+};
+
 export type Locales = {
-  [key: string]: {
-    /** Friendly name */
-    name: string;
-    /** Fully qualified name, e.g. 'en-UK' */
-    fqn: string;
-    /** Text direction: Left to right or right to left */
-    dir?: TextDirection;
-    /** Is the default language */
-    default?: boolean;
-  };
+  [key: string]: Locale | string;
 } & {
   /** Default URL to load the language files, e.g. '/lang/{locale}.json' */
   url?: string;
@@ -62,7 +64,7 @@ export const i18n = {
 async function init(locales: Locales, selectedLocale: string) {
   i18n.locales = locales;
   const defaultLocale = Object.keys(locales)
-    .filter((l) => locales[l].default)
+    .filter((l) => (locales[l] as Locale).default)
     .shift();
   if (defaultLocale) {
     i18n.defaultLocale = defaultLocale || selectedLocale;
@@ -80,13 +82,19 @@ function pluralForm(message: string | Message, count: number) {
 }
 
 function number(num: number, options = {} as Intl.NumberFormatOptions) {
-  const formatter = new Intl.NumberFormat(i18n.locales[i18n.currentLocale].fqn, options);
+  const formatter = new Intl.NumberFormat(
+    (i18n.locales[i18n.currentLocale] as Locale).fqn,
+    options
+  );
 
   return formatter.format(num);
 }
 
 function date(date: Date, options = {}) {
-  const formatter = new Intl.DateTimeFormat(i18n.locales[i18n.currentLocale].fqn, options);
+  const formatter = new Intl.DateTimeFormat(
+    (i18n.locales[i18n.currentLocale] as Locale).fqn,
+    options
+  );
 
   return formatter.format(new Date(date));
 }
@@ -137,7 +145,7 @@ function supported(locale: string) {
 }
 
 function dir(locale = i18n.currentLocale) {
-  return i18n.locales[locale].dir || 'ltr';
+  return (i18n.locales[locale] as Locale).dir || 'ltr';
 }
 
 async function fetchMessages(locale: string, onComplete: (messages: Messages) => void) {

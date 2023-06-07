@@ -21,6 +21,7 @@ i18n.init(
   {
     en: { name: 'English', fqn: 'en-UK', default: true },
     nl: { name: 'Nederlands', fqn: 'nl-NL' },
+    url: `${process.env.SERVER}/lang/{locale}.json`,
   },
   window.localStorage.getItem('CAT_LANGUAGE') || 'nl'
 );

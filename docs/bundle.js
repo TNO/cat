@@ -17005,6 +17005,7 @@ var mithriljs_i18n_1 = __webpack_require__(2655);
 mithriljs_i18n_1.i18n.init({
     en: { name: 'English', fqn: 'en-UK', default: true },
     nl: { name: 'Nederlands', fqn: 'nl-NL' },
+    url: "".concat("https://tno.github.io/cat/public", "/lang/{locale}.json"),
 }, window.localStorage.getItem('CAT_LANGUAGE') || 'nl');
 mithriljs_i18n_1.i18n.addOnChangeListener(function () {
     routing_service_1.routingSvc.init();
@@ -20122,7 +20123,7 @@ var log = console.log;
 var error = console.error;
 var createRestServiceFactory = function () {
     return function (urlFragment) {
-        var url = "".concat("MISSING_ENV_VAR".SERVER, "/api/").concat(urlFragment, "/");
+        var url = "".concat("https://tno.github.io/cat/public", "/api/").concat(urlFragment, "/");
         var withCredentials = false;
         var create = function (item, fd) { return __awaiter(void 0, void 0, void 0, function () {
             var err_1;
@@ -20448,7 +20449,7 @@ exports.appStateMgmt = {
     initial: {
         app: {
             /** During development, use this URL to access the server. */
-            apiService: "MISSING_ENV_VAR".SERVER || window.location.origin,
+            apiService: "https://tno.github.io/cat/public" || 0,
             isSearching: false,
             searchQuery: '',
             catModel: catModel,
