@@ -1,6 +1,6 @@
 import { UIForm } from 'mithril-ui-form';
-import { assessmentModel } from './assessment';
-import { developmentModel } from './development';
+import { Assessment, assessmentModel } from './assessment';
+import { Development, developmentModel } from './development';
 import { evaluationModel, projectEvaluationModel } from './evaluation';
 import { preparationModel } from './preparation';
 import { settingsModel } from './settings';
@@ -43,18 +43,19 @@ export interface ICapabilityDataModel {
   assessmentScale?: ILabelled[];
   mainGaps?: ILabelled[];
   gapScale?: ILabelled[];
-  lexicon?: Array<ILabelled & { ref?: string; url?: string }>;
+  lexicon: Array<ILabelled & { ref?: string; url?: string }>;
 }
 
 export interface ICapabilityModel {
+  form: UIForm;
   version?: number;
-  preparations?: UIForm<any>;
-  assessment?: UIForm<any>;
-  development?: UIForm<any>;
-  evaluation?: UIForm<any>;
-  projectEvaluation?: UIForm<any>;
-  settings?: UIForm<any>;
-  data: ICapabilityDataModel;
+  preparations?: UIForm;
+  assessment?: UIForm<Assessment>;
+  development?: UIForm<Development>;
+  evaluation?: UIForm<Partial<ICapabilityModel>>;
+  projectEvaluation?: UIForm;
+  settings?: UIForm<ICapabilityDataModel>;
+  data: Partial<ICapabilityDataModel>;
 }
 
 export interface ILabelled {
@@ -68,13 +69,25 @@ export interface ICategory extends ILabelled {
   subcategories: ILabelled[];
 }
 
+export type CapabilityStakeholder = {
+  stakeholderId: string;
+  goal?: string;
+};
+
+export type Documentation = {
+  documentId?: string;
+  label?: string;
+  url?: string;
+  location?: string;
+};
+
 export interface ICapability extends ILabelled {
   categoryId: string;
   subcategoryId: string;
   desc?: string;
   goal?: string;
-  capabilityStakeholders?: Array<{ stakeholderId: string; goal?: string }>;
-  documentation?: Array<{ documentId?: string; label?: string; url?: string; location?: string }>;
+  capabilityStakeholders?: CapabilityStakeholder[];
+  documentation?: Documentation[];
   assessmentId?: string;
   shouldDevelop?: boolean;
 }
@@ -88,12 +101,13 @@ const towardsRedColors = ['#fef0d9', '#fdcc8a', '#fc8d59', '#e34a33', '#b30000']
 
 export const defaultCapabilityModel = {
   version: 0,
+  form: [],
   preparations: preparationModel,
-  assessment: assessmentModel,
-  development: developmentModel,
-  evaluation: evaluationModel,
-  projectEvaluation: projectEvaluationModel,
-  settings: settingsModel,
+  assessment: assessmentModel(),
+  development: developmentModel(),
+  evaluation: evaluationModel(),
+  projectEvaluation: projectEvaluationModel(),
+  settings: settingsModel(),
   data: {
     stakeholderTypes: [
       { id: 'ST1', label: 'Law enforcement' },

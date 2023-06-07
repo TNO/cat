@@ -1,8 +1,9 @@
 import m from 'mithril';
 import { Select } from 'mithril-materialized';
-import { ILayoutForm, LayoutForm, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, UIForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
+import { t } from 'mithriljs-i18n';
 
 export const AssessmentPage: MeiosisComponent = () => {
   return {
@@ -50,23 +51,12 @@ export const AssessmentPage: MeiosisComponent = () => {
         { style: 'min-height: 95vh; padding-bottom: 20px' },
         [
           m('.row', [
-            m('.col.s12', m('h4', 'Assessment')),
-            m(
-              '.col.s12',
-              m(
-                'p',
-                m.trust(
-                  render(
-                    `_Assess the contribution of a capability towards your goals, and the room for improvement. Start by selecting a capability._`,
-                    true
-                  )
-                )
-              )
-            ),
+            m('.col.s12', m('h4', t('ass'))),
+            m('.col.s12', m('p', m.trust(render(t('ass_instr'), true)))),
             m(Select, {
               className: 'col s4',
-              placeholder: 'Pick one',
-              label: 'Select category',
+              placeholder: t('pick_one'),
+              label: t('select_cat'),
               initialValue: categoryId,
               options: categories,
               onchange: (v) =>
@@ -81,8 +71,8 @@ export const AssessmentPage: MeiosisComponent = () => {
             category &&
               m(Select, {
                 className: 'col s4',
-                placeholder: 'Pick one',
-                label: 'Select subcategory',
+                placeholder: t('pick_one'),
+                label: t('select_subcat'),
                 initialValue: subcategoryId,
                 options: category && category.subcategories,
                 onchange: (v) =>
@@ -92,26 +82,26 @@ export const AssessmentPage: MeiosisComponent = () => {
               caps.length > 0 &&
               m(Select, {
                 className: 'col s4',
-                placeholder: 'Pick one',
-                label: 'Select capability',
+                placeholder: t('pick_one'),
+                label: t('select_cap'),
                 initialValue: capabilityId,
                 options: caps,
                 onchange: (v) => update({ app: { capabilityId: v[0] as string } }),
               }),
           ]),
-          cap && m('.row', m('h5.col.s12', `Capability '${cap.label}'`)),
+          cap && m('.row', m('h5.col.s12', `${t('cap')} '${cap.label}'`)),
         ],
         cap &&
           m(
             '.row',
             m(LayoutForm, {
-              form: assessment,
+              form: assessment as UIForm<ICapabilityModel>,
               obj: cap,
-              context: data as any,
+              context: [data],
               onchange: () => {
                 saveModel(catModel);
               },
-            } as ILayoutForm<any>)
+            } as FormAttributes)
           )
       );
     },

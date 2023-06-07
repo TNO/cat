@@ -1,8 +1,9 @@
 import m from 'mithril';
 import { Select, Collapsible, FlatButton } from 'mithril-materialized';
-import { ILayoutForm, LayoutForm, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
+import { t } from 'mithriljs-i18n';
 
 export const DevelopmentPage: MeiosisComponent = () => {
   return {
@@ -44,23 +45,12 @@ export const DevelopmentPage: MeiosisComponent = () => {
         { style: 'min-height: 95vh; padding-bottom: 20px' },
         [
           m('.row', [
-            m('.col.s12', m('h4', 'Development')),
-            m(
-              '.col.s12',
-              m(
-                'p',
-                m.trust(
-                  render(
-                    `_Suggest new projects to develop your capability. Start by selecting a capability._`,
-                    true
-                  )
-                )
-              )
-            ),
+            m('.col.s12', m('h4', t('development'))),
+            m('.col.s12', m('p', m.trust(render(t('dev_cap'), true)))),
             m(Select, {
               className: 'col s4',
-              placeholder: 'Pick one',
-              label: 'Select category',
+              placeholder: t('pick_one'),
+              label: t('select_cat'),
               initialValue: categoryId,
               options: categories,
               onchange: (v) =>
@@ -75,8 +65,8 @@ export const DevelopmentPage: MeiosisComponent = () => {
             category &&
               m(Select, {
                 className: 'col s4',
-                placeholder: 'Pick one',
-                label: 'Select subcategory',
+                placeholder: t('pick_one'),
+                label: t('select_subcat'),
                 initialValue: subCategoryId,
                 options: category && category.subcategories,
                 onchange: (v) =>
@@ -86,8 +76,8 @@ export const DevelopmentPage: MeiosisComponent = () => {
               caps.length > 0 &&
               m(Select, {
                 className: 'col s4',
-                placeholder: 'Pick one',
-                label: 'Select capability',
+                placeholder: t('pick_one'),
+                label: t('select_cap'),
                 initialValue: capabilityId,
                 options: caps,
                 onchange: (v) => update({ app: { capabilityId: v[0] as string } }),
@@ -95,17 +85,17 @@ export const DevelopmentPage: MeiosisComponent = () => {
           ]),
           cap &&
             m('.row', [
-              m('h5.col.s12', `Capability '${cap.label}'`),
+              m('h5.col.s12', `${t('cap')} '${cap.label}'`),
               m(
                 '.col.s12.right-align',
                 m(FlatButton, {
                   iconName: 'add',
                   iconClass: 'right',
-                  label: 'New project or proposal',
+                  label: t('proj_prop'),
                   onclick: () => {
                     projectProposals.push({
                       id: Date.now(),
-                      label: 'New proposal',
+                      label: t('prop_new'),
                       capabilityIds: [cap.id],
                     });
                     saveModel(catModel);
@@ -124,11 +114,11 @@ export const DevelopmentPage: MeiosisComponent = () => {
                 m(LayoutForm, {
                   form: development,
                   obj: p,
-                  context: data as any,
+                  context: [data],
                   onchange: () => {
                     saveModel(catModel);
                   },
-                } as ILayoutForm<any>)
+                } as FormAttributes)
               ),
               iconName: p.approved ? 'engineering' : 'lightbulb',
             })),

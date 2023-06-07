@@ -1,6 +1,14 @@
 import Stream from 'mithril/stream';
-import { dashboardSvc, ModelUpdateFunction } from '..';
-import { Dashboards } from '../../models';
+import { i18n } from 'mithriljs-i18n';
+import { routingSvc, ModelUpdateFunction } from '..';
+import {
+  Dashboards,
+  assessmentModel,
+  developmentModel,
+  evaluationModel,
+  projectEvaluationModel,
+  settingsModel,
+} from '../../models';
 import {
   defaultCapabilityModel,
   ICapabilityModel,
@@ -39,7 +47,8 @@ export interface IAppStateActions {
     params?: { [key: string]: string | number | undefined },
     query?: { [key: string]: string | number | undefined }
   ) => void;
-  saveModel: (cat: ICapabilityModel) => void;
+  saveModel: (cat: Partial<ICapabilityModel>) => void;
+  setLanguage: (locale: string) => void;
 }
 
 export interface IAppState {
@@ -75,13 +84,22 @@ export const appStateMgmt = {
       search: (isSearching: boolean, searchQuery?: string) =>
         update({ app: { isSearching, searchQuery } }),
       changePage: (page, params, query) => {
-        dashboardSvc && dashboardSvc.switchTo(page, params, query);
+        routingSvc && routingSvc.switchTo(page, params, query);
         update({ app: { page } });
       },
-      createRoute: (page, params) => dashboardSvc && dashboardSvc.route(page, params),
+      createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
       saveModel: (cat) => {
+        cat.assessment = assessmentModel();
+        cat.development = developmentModel();
+        cat.settings = settingsModel();
+        cat.evaluation = evaluationModel();
+        cat.projectEvaluation = projectEvaluationModel();
         localStorage.setItem(catModelKey, JSON.stringify(cat));
         update({ app: { catModel: () => cat } });
+      },
+      setLanguage: (locale: string) => {
+        localStorage.setItem('CAT_LANGUAGE', locale);
+        i18n.loadAndSetLocale(locale);
       },
     };
   },

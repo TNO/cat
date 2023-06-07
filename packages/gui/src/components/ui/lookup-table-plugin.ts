@@ -1,10 +1,11 @@
 import m from 'mithril';
 import { Select } from 'mithril-materialized';
-import { IInputField, resolveExpression } from 'mithril-ui-form';
+import { InputField, resolveExpression } from 'mithril-ui-form';
 import { PluginType } from 'mithril-ui-form-plugin';
 import { getTextColorFromBackground } from '../../utils';
+import { t } from 'mithriljs-i18n';
 
-type LookupTableFieldType = IInputField & {
+type LookupTableFieldType = InputField & {
   /** Path to the row ID */
   rowId: string;
   /** Path to the col ID */
@@ -21,7 +22,7 @@ type LookupTable = Array<{
   optionId: string;
 }>;
 
-type LookupTableCreatorFieldType = IInputField & {
+type LookupTableCreatorFieldType = InputField & {
   /** Property name of the table */
   table: LookupTable;
   /** Property name of an array of options (id, label) that you wish to use as result */
@@ -155,7 +156,7 @@ export const lookupTableCreatorPlugin: PluginType = () => {
                             'td',
                             m(Select, {
                               label: '',
-                              placeholder: 'Pick one',
+                              placeholder: t('pick_one'),
                               options: opt,
                               initialValue: lookup[r.id][c.id],
                               onchange: (v) => {

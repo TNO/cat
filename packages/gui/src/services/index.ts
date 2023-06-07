@@ -1,3 +1,3 @@
 export * from './meiosis';
-export * from './dashboard-service';
+export * from './routing-service';
 export * from './rest-service';

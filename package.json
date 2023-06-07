@@ -5,9 +5,10 @@
   "description": "SPA for a capability-assessment-tool dashboard",
   "main": "index.js",
   "scripts": {
-    "clean": "pnpm recursive run cleanup",
-    "start": "pnpm --parallel dev",
-    "build": "pnpm recursive run build"
+    "clean": "pnpm --parallel run cleanup",
+    "start": "pnpm --parallel run dev",
+    "update": "pnpm --parallel run update",
+    "build": "pnpm --parallel run build"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "pnpm": "^8.5.0"
+    "pnpm": "^8.6.1"
   }
 }

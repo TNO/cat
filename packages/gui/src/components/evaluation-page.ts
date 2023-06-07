@@ -1,8 +1,9 @@
 import m from 'mithril';
 import { Select, Collapsible } from 'mithril-materialized';
-import { ILayoutForm, LayoutForm, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
+import { t } from 'mithriljs-i18n';
 
 export const EvaluationPage: MeiosisComponent = () => {
   return {
@@ -61,7 +62,7 @@ export const EvaluationPage: MeiosisComponent = () => {
             ),
             m(Select, {
               className: 'col s4',
-              placeholder: 'Pick one',
+              placeholder: t('pick_one'),
               label: 'Select category',
               initialValue: categoryId,
               options: categories,
@@ -77,7 +78,7 @@ export const EvaluationPage: MeiosisComponent = () => {
             category &&
               m(Select, {
                 className: 'col s4',
-                placeholder: 'Pick one',
+                placeholder: t('pick_one'),
                 label: 'Select subcategory',
                 initialValue: subCategoryId,
                 options: category && category.subcategories,
@@ -88,7 +89,7 @@ export const EvaluationPage: MeiosisComponent = () => {
               caps.length > 0 &&
               m(Select, {
                 className: 'col s4',
-                placeholder: 'Pick one',
+                placeholder: t('pick_one'),
                 label: 'Select capability',
                 initialValue: capabilityId,
                 options: caps,
@@ -103,11 +104,11 @@ export const EvaluationPage: MeiosisComponent = () => {
             m(LayoutForm, {
               form: evaluation,
               obj: cap,
-              context: data as any,
+              context: [data],
               onchange: () => {
                 saveModel(catModel);
               },
-            } as ILayoutForm<any>)
+            } as FormAttributes)
           ),
         projects &&
           projects.length > 0 &&
@@ -119,11 +120,11 @@ export const EvaluationPage: MeiosisComponent = () => {
                 m(LayoutForm, {
                   form: projectEvaluation,
                   obj: p,
-                  context: data as any,
+                  context: [data],
                   onchange: () => {
                     saveModel(catModel);
                   },
-                } as ILayoutForm<any>)
+                } as FormAttributes)
               ),
               iconName: p.approved ? 'engineering' : 'lightbulb',
             })),

@@ -10,6 +10,7 @@ import {
 } from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
 import { TextInputWithClear } from './ui';
+import { t } from 'mithriljs-i18n';
 
 type ISubcategoryVM = ILabelled & {
   capabilities: ICapability[];
@@ -70,7 +71,7 @@ export const OverviewPage: MeiosisComponent = () => {
         data = {
           categories: [],
           capabilities: [],
-        } as ICapabilityDataModel,
+        } as Partial<ICapabilityDataModel>,
       } = catModel;
       catModel.data = data;
       const { categories, capabilities, projectProposals = [] } = data;
@@ -119,14 +120,14 @@ export const OverviewPage: MeiosisComponent = () => {
               },
             },
             [
-              m('h5', { style: 'margin-left: 0.5em;' }, 'Filters'),
+              m('h5', { style: 'margin-left: 0.5em;' }, t('filters')),
               [
                 m(TextInputWithClear, {
                   key,
-                  label: 'Text filter of events',
+                  label: t('filter_caps'),
                   id: 'filter',
                   initialValue: textFilter,
-                  placeholder: 'Part of title or description...',
+                  placeholder: t('filter_ph'),
                   iconName: 'filter_list',
                   onchange: (v?: string) => update({ app: { textFilter: v as string } }),
                   style: 'margin-right:100px',
@@ -135,8 +136,8 @@ export const OverviewPage: MeiosisComponent = () => {
               ],
               data.stakeholders &&
                 m(Select, {
-                  placeholder: 'Select one or more',
-                  label: 'Stakeholder',
+                  placeholder: t('select_m_ph'),
+                  label: t('stakeholder'),
                   checkedId: stakeholderFilter,
                   options: data.stakeholders.map((p) => ({ id: p.id, label: p.id })),
                   iconName: 'person',
@@ -145,7 +146,7 @@ export const OverviewPage: MeiosisComponent = () => {
                   className: 'col s12',
                 }),
               m(FlatButton, {
-                label: 'Clear all filters',
+                label: t('clear_all'),
                 iconName: 'clear_all',
                 class: 'col s11',
                 style: 'margin: 1em;',
@@ -219,7 +220,10 @@ export const OverviewPage: MeiosisComponent = () => {
                                                     ).length > 0
                                                       ? `${
                                                           projectProposals.filter(
-                                                            (p) => !p.approved
+                                                            (p) =>
+                                                              !p.approved &&
+                                                              p.capabilityIds &&
+                                                              p.capabilityIds.includes(cap.id)
                                                           ).length
                                                         }<i class="inline-icon material-icons">lightbulb</i>`
                                                       : ''
@@ -233,8 +237,12 @@ export const OverviewPage: MeiosisComponent = () => {
                                                         p.capabilityIds.includes(cap.id)
                                                     ).length > 0
                                                       ? `${
-                                                          projectProposals.filter((p) => p.approved)
-                                                            .length
+                                                          projectProposals.filter(
+                                                            (p) =>
+                                                              p.approved &&
+                                                              p.capabilityIds &&
+                                                              p.capabilityIds.includes(cap.id)
+                                                          ).length
                                                         }<i class="inline-icon material-icons">engineering</i>`
                                                       : ''
                                                   }`

@@ -1,9 +1,10 @@
 import m from 'mithril';
 import { Select, TextArea, TextInput } from 'mithril-materialized';
-import { IInputField, resolveExpression, render } from 'mithril-ui-form';
+import { InputField, resolveExpression, render } from 'mithril-ui-form';
 import { PluginType } from 'mithril-ui-form-plugin';
 import { ILabelled } from '../../models/capability-model/capability-model';
 import { getTextColorFromBackground } from '../../utils';
+import { t } from 'mithriljs-i18n';
 
 // const range = (start: number, end: number) =>
 //   Array.from({ length: end - start + 1 }, (_, k) => k + start);
@@ -17,7 +18,7 @@ type AssessmentType = {
   }>;
 };
 
-type AssessmentFieldType = IInputField & {
+type AssessmentFieldType = InputField & {
   assessmentOptions: string;
   optionLabel: string;
   assessmentLabel: string;
@@ -35,7 +36,7 @@ export const assessmentPlugin: PluginType = () => {
         assessmentOptions = '',
         optionLabel,
         assessmentLabel,
-        descriptionLabel,
+        descriptionLabel = 'desc',
         overallAssessment,
         overallAssessmentLabel,
         readonly,
@@ -92,9 +93,9 @@ export const assessmentPlugin: PluginType = () => {
             )
           ),
         m('.row', [
-          m('.col.s8.m5', m('h6', m('strong', optionLabel))),
-          m('.col.s4.m2', m('h6', m('strong', assessmentLabel))),
-          m('.col.s12.m5', m('h6', m('strong', descriptionLabel))),
+          m('.col.s8.m5', m('h6', m('strong', t(optionLabel)))),
+          m('.col.s4.m2', m('h6', m('strong', t(assessmentLabel)))),
+          m('.col.s12.m5', m('h6', m('strong', t(descriptionLabel)))),
           opt &&
             score &&
             opt.length > 0 &&
@@ -125,7 +126,7 @@ export const assessmentPlugin: PluginType = () => {
                         initialValue: score.filter((s) => s.id === item.value).shift()?.label,
                       })
                     : m(Select, {
-                        placeholder: 'Pick one',
+                        placeholder: t('pick_one'),
                         options: score,
                         initialValue: item.value,
                         onchange: (v) => {

@@ -22,15 +22,19 @@ export type Interpolations = {
 export type TextDirection = 'rtl' | 'ltr';
 
 export type Locales = {
-  /** Fully qualified name, e.g. 'en-UK' or 'nl-NL' */
-  [fqn: string]: {
+  [key: string]: {
     /** Friendly name */
     name: string;
-    /** Text direction: Left to right or right to left, @default ltr */
+    /** Fully qualified name, e.g. 'en-UK' */
+    fqn: string;
+    /** Text direction: Left to right or right to left */
     dir?: TextDirection;
     /** Is the default language */
     default?: boolean;
   };
+} & {
+  /** Default URL to load the language files, e.g. '/lang/{locale}.json' */
+  url?: string;
 };
 
 export type LoadingStatus = 'loading' | 'idle';
@@ -38,8 +42,6 @@ export type LoadingStatus = 'loading' | 'idle';
 export type Listener = (locale: string, dir: TextDirection) => void;
 
 export const i18n = {
-  /** Default URL to load the language files, e.g. '/lang/{locale}.json' */
-  url: '',
   defaultLocale: '',
   currentLocale: '',
   locales: {} as Locales,
@@ -57,56 +59,36 @@ export const i18n = {
   removeOnChangeListener,
 };
 
-/**
- * Initialize the i18n object, needs to be called before you do anything else!
- * @param locales Locales object
- * @param currentLocale e.g. 'en-UK'
- * @param url Should contain the {local} bit, which will be replaced by the requested language code, e.g. 'en-UK'
- * @default /lang/{locale}.json
- */
-function init(locales: Locales, currentLocale?: string, url = '/lang/{locale}.json') {
-  i18n.url = url;
+async function init(locales: Locales, selectedLocale: string) {
   i18n.locales = locales;
-  const defaultLocale =
-    Object.keys(locales)
-      .filter((l) => locales[l].default)
-      .shift() || currentLocale;
-  if (!defaultLocale) {
-    throw Error('No default locale set, and no current locale supplied!');
+  const defaultLocale = Object.keys(locales)
+    .filter((l) => locales[l].default)
+    .shift();
+  if (defaultLocale) {
+    i18n.defaultLocale = defaultLocale || selectedLocale;
   }
-  i18n.defaultLocale = defaultLocale;
+  await loadAndSetLocale(selectedLocale);
 }
 
-export function t(key: string, interpolations = {} as Interpolations) {
-  const message = i18n.messages[key] || key;
+function pluralForm(message: string | Message, count: number) {
+  if (typeof message === 'string' || typeof message === 'undefined') {
+    return message;
+  }
+  const rules = new Intl.PluralRules(i18n.currentLocale);
 
-  const pluralizedMessage = pluralForm(message, interpolations.count);
-
-  const numberFormattedInterpolations = formatNumbersInObject(interpolations);
-
-  return interpolate(pluralizedMessage, numberFormattedInterpolations);
+  return message.plural[rules.select(count)];
 }
 
 function number(num: number, options = {} as Intl.NumberFormatOptions) {
-  const formatter = new Intl.NumberFormat(i18n.currentLocale, options);
+  const formatter = new Intl.NumberFormat(i18n.locales[i18n.currentLocale].fqn, options);
 
   return formatter.format(num);
 }
 
 function date(date: Date, options = {}) {
-  const formatter = new Intl.DateTimeFormat(i18n.currentLocale, options);
+  const formatter = new Intl.DateTimeFormat(i18n.locales[i18n.currentLocale].fqn, options);
 
   return formatter.format(new Date(date));
-}
-
-function pluralForm(message: string | Message, count: number) {
-  if (typeof message === 'string') {
-    return message;
-  }
-
-  const rules = new Intl.PluralRules(i18n.currentLocale);
-
-  return message.plural[rules.select(count)];
 }
 
 function interpolate(message: string, interpolations: Interpolations) {
@@ -146,7 +128,7 @@ async function loadAndSetLocale(newLocale: string) {
     i18n.currentLocale = resolvedLocale;
     i18n.status = 'idle';
 
-    i18n.onChangeLocale.forEach((listener) => listener(resolvedLocale, dir()));
+    i18n.onChangeLocale.forEach((listener) => listener(i18n.currentLocale, dir()));
   });
 }
 
@@ -159,7 +141,10 @@ function dir(locale = i18n.currentLocale) {
 }
 
 async function fetchMessages(locale: string, onComplete: (messages: Messages) => void) {
-  await m.request<Messages>(i18n.url.replace('{locale}', locale)).then(onComplete);
+  const messages = await m.request<Messages>(
+    (i18n.locales.url || '/lang/{locale}.json').replace('{locale}', locale)
+  );
+  onComplete(messages);
 }
 
 function addOnChangeListener(listener: Listener) {
@@ -172,4 +157,12 @@ function removeOnChangeListener(listener: Listener) {
   );
 }
 
-// export default i18n;
+export function t(key: string, interpolations = {} as Interpolations) {
+  const message = i18n.messages[key] || key;
+
+  const pluralizedMessage = pluralForm(message, interpolations.count);
+
+  const numberFormattedInterpolations = formatNumbersInObject(interpolations);
+
+  return interpolate(pluralizedMessage, numberFormattedInterpolations);
+}

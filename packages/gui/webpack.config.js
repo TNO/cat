@@ -2,15 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
 module.exports = (env) => {
   const isProduction = env.production;
   const outputPath = path.resolve(__dirname, isProduction ? '../../docs' : 'dist');
-  const publicPath = isProduction
-    ? 'https://erikvullings.github.io/capability-assessment-tool/'
-    : '/';
+  const publicPath = isProduction ? 'https://tno.github.io/cat/' : '/';
 
   console.log(
     `Running in ${
@@ -25,6 +23,8 @@ module.exports = (env) => {
     devServer: {
       liveReload: true,
       port: 3388,
+      static: 'public',
+      // contentBase: './dist',
     },
     plugins: [
       new Dotenv(),
@@ -47,7 +47,7 @@ module.exports = (env) => {
           {
             attributes: {
               property: 'og:url',
-              content: 'https://erikvullings.github.io/capability-assessment-tool/',
+              content: 'https://tno.github.io/cat/',
             },
           },
           {
@@ -85,10 +85,10 @@ module.exports = (env) => {
           },
         ],
       }),
-      new MiniCssExtractPlugin({
-        filename: isProduction ? '[name].[contenthash].css' : '[name].css',
-        chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
-      }),
+      // new MiniCssExtractPlugin({
+      //   filename: isProduction ? '[name].[contenthash].css' : '[name].css',
+      //   chunkFilename: isProduction ? '[id].[contenthash].css' : '[id].css',
+      // }),
     ],
     module: {
       rules: [
@@ -97,10 +97,10 @@ module.exports = (env) => {
           use: 'ts-loader',
           exclude: /node_modules/,
         },
-        // {
-        //   test: /\.css$/i,
-        //   use: ['style-loader', 'css-loader'],
-        // },
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
           type: 'asset/resource',
@@ -109,10 +109,10 @@ module.exports = (env) => {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
           type: 'asset/resource',
         },
-        {
-          test: /\.css$/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader'],
-        },
+        // {
+        //   test: /\.css$/,
+        //   use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        // },
         // {
         //   test: /\.(csv|tsv)$/i,
         //   use: ['csv-loader'],

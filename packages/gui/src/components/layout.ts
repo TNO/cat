@@ -2,7 +2,7 @@ import m from 'mithril';
 import { Icon } from 'mithril-materialized';
 import logo from '../assets/logo.svg';
 import { IDashboard } from '../models';
-import { dashboardSvc } from '../services/dashboard-service';
+import { routingSvc } from '../services/routing-service';
 import { MeiosisComponent } from '../services';
 
 export const Layout: MeiosisComponent = () => ({
@@ -58,7 +58,7 @@ export const Layout: MeiosisComponent = () => ({
             ),
             m(
               'ul.right',
-              dashboardSvc
+              routingSvc
                 .getList()
                 .filter(
                   (d) => (typeof d.visible === 'boolean' ? d.visible : d.visible()) || isActive(d)

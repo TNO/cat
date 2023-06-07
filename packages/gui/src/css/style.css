@@ -540,3 +540,77 @@ ul.projects > li > span.project-id {
 .assessment-page .row {
   margin-bottom: 0;
 }
+label,
+.pagination li,
+.material-icons,
+.unselectable {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.chips {
+  margin-top: 0;
+}
+
+a.waves-effect.waves-teal.btn-flat.selected {
+  background: #1a237e;
+  color: white;
+}
+
+.input-field > label:not(.label-icon).active {
+  -webkit-transform: translateY(-8px) scale(0.8);
+  transform: translateY(-8px) scale(0.8);
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+.input-field > input[type='color'] {
+  margin-top: 20px;
+}
+
+.button-group {
+  display: flex;
+  flex-flow: nowrap;
+  flex-direction: row;
+}
+
+.language-option {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.language-option img {
+  width: 30px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.language-option span {
+  display: none;
+  position: absolute;
+  background-color: #000;
+  color: #fff;
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-top: 5px;
+  margin-left: 5px;
+  white-space: nowrap;
+  z-index: 100;
+}
+
+.language-option:hover span {
+  display: block;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.disabled-image {
+  filter: grayscale(100%);
+  opacity: 0.5;
+  pointer-events: none;
+}

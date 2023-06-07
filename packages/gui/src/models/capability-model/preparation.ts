@@ -1,84 +1,76 @@
 import { UIForm } from 'mithril-ui-form';
+import { t } from 'mithriljs-i18n';
 
 export const preparationModel = [
-  { type: 'section', id: 'stakeholders', label: 'Specify stakeholders' },
+  { type: 'section', id: 'stakeholders', label: t('spec_sh') },
   {
     type: 'md',
-    label: `1. **Specify your stakeholders and specify their organizational goals.**
-2. Set the group goals that you want to achieve.
-3. Specify capability categories to organize the capabilities.
-4. Specify the capabilities that you need to achieve the group goals.`,
+    label: t('spec_sh_instr'),
   },
   {
     id: 'stakeholders',
-    label: 'Stakeholder organisations',
+    label: t('sh_org'),
     repeat: true,
     pageSize: 1,
     propertyFilter: 'label',
     type: [
-      { id: 'id', type: 'text', label: 'Acronym', className: 'col s3 m2' },
+      { id: 'id', type: 'text', label: t('Acronym'), className: 'col s3 m2' },
       {
         id: 'label',
-        label: 'Organisation / department',
+        label: t('org_dept'),
         type: 'text',
         className: 'col s9 m7',
       },
       {
         id: 'type',
-        label: 'Type of stakeholder',
+        label: t('sh_type'),
         type: 'select',
         options: 'stakeholderTypes',
         className: 'col s12 m3',
       },
       {
         id: 'goals',
-        label: 'Goals',
+        label: t('goals'),
         type: 'textarea',
       },
     ],
   },
-  { type: 'section', id: 'goals', label: 'Specify group goals' },
+  { type: 'section', id: 'goals', label: t('group_goals') },
   {
     type: 'md',
-    label: `1. Specify your stakeholders and specify their organizational goals.
-2. **Set the group goals that you want to achieve.**
-3. Specify capability categories to organize the capabilities.
-4. Specify the capabilities that you need to achieve the group goals.`,
+    label: t('group_goals_instr'),
   },
   {
     id: 'mainTasks',
-    label: 'Main goals',
+    label: t('main_goals'),
     repeat: true,
     pageSize: 1,
     sortProperty: 'id',
     type: [
-      { id: 'id', label: 'ID', type: 'text', className: 'col s3 m2' },
-      { id: 'label', label: 'Goal', type: 'text', className: 'col s9 m10' },
-      { id: 'desc', label: 'Description', type: 'textarea', className: 'col s12' },
+      { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
+      { id: 'label', label: t('goal'), type: 'text', className: 'col s9 m10' },
+      { id: 'desc', label: t('desc'), type: 'textarea', className: 'col s12' },
     ],
   },
-  { type: 'section', id: 'categories', label: 'Specify categories' },
+  { type: 'section', id: 'categories', label: t('spec_cat') },
   {
     type: 'md',
-    label: `1. Specify your stakeholders and specify their organizational goals.
-2. Set the group goals that you want to achieve.
-3. **Specify capability categories to organize the capabilities.**
-4. Specify the capabilities that you need to achieve the group goals.`,
+    label: t('spec_cat_instr'),
   },
   {
     id: 'categories',
-    label: 'Capability category',
+    label: t('cap_cat'),
     repeat: true,
     pageSize: 1,
     propertyFilter: 'label',
     sortProperty: 'id',
     type: [
       { id: 'id', type: 'text', className: 'col s4 m3' },
-      { id: 'label', type: 'text', label: 'Name', className: 'col s8 m9' },
-      { id: 'desc', type: 'textarea', label: 'Description', className: 'col s12' },
+      { id: 'label', type: 'text', label: t('name'), className: 'col s8 m9' },
+      { id: 'desc', type: 'textarea', label: t('desc'), className: 'col s12' },
       {
         id: 'subcategories',
-        label: 'Subcategory',
+        label: t('subcat'),
         repeat: true,
         pageSize: 1,
         propertyFilter: 'label',
@@ -87,78 +79,75 @@ export const preparationModel = [
         className: 'col offset-s1 s11',
         type: [
           { id: 'id', type: 'text', className: 'col s4 m3' },
-          { id: 'label', type: 'text', label: 'Name', className: 'col s8 m9' },
-          { id: 'desc', type: 'textarea', label: 'Description', className: 'col s12' },
+          { id: 'label', type: 'text', label: t('name'), className: 'col s8 m9' },
+          { id: 'desc', type: 'textarea', label: t('desc'), className: 'col s12' },
         ],
       },
     ],
   },
-  { type: 'section', id: 'capabilities', label: 'Specify capabilities' },
+  { type: 'section', id: 'capabilities', label: t('spec_cap') },
   {
     type: 'md',
-    label: `1. Specify your stakeholders and specify their organizational goals.
-2. Set the group goals that you want to achieve.
-3. Specify capability categories to organize the capabilities.
-4. **Specify the capabilities that you need to achieve the group goals.**`,
+    label: t('spec_cap_instr'),
   },
   {
     id: 'capabilities',
-    label: 'Create capability',
+    label: t('create_cap'),
     repeat: true,
     pageSize: 1,
     propertyFilter: 'label',
     // sortProperty: 'categoryId',
-    filterLabel: 'Filter capabilities',
+    filterLabel: t('filter_cap'),
     type: [
       {
         id: 'categoryId',
-        label: 'Category',
+        label: t('cat'),
         type: 'select',
         options: 'categories',
         className: 'col s12 m3',
       },
       {
         id: 'subcategoryId',
-        label: 'Subcategory',
+        label: t('subcat'),
         type: 'select',
         options: 'categories.categoryId.subcategories',
         className: 'col s12 m3',
       },
       {
         id: 'label',
-        label: 'Capability',
+        label: t('cap'),
         type: 'text',
         className: 'col s12 m4',
       },
       {
         id: 'id',
-        label: 'ID',
+        label: t('id'),
         type: 'text',
         className: 'col s12 m2',
       },
       {
         id: 'desc',
-        label: 'Description',
-        placeholder: 'Describe the capability in detail.',
+        label: t('desc'),
+        placeholder: 'desc_cap_instr',
         type: 'textarea',
         className: 'col s12',
       },
       {
         id: 'capabilityStakeholders',
-        label: 'Stakeholders',
+        label: t('shs'),
         pageSize: 5,
         repeat: true,
         type: [
           {
             id: 'stakeholderId',
-            label: 'Stakeholder',
+            label: t('sh'),
             type: 'select',
             options: 'stakeholders',
             className: 'col s4 m2',
           },
           {
             id: 'goal',
-            label: 'Goals',
+            label: t('goals'),
             placeholder: 'Specify long and short term goals',
             type: 'textarea',
             className: 'col s8 m10',
@@ -168,31 +157,31 @@ export const preparationModel = [
       },
       {
         id: 'documentation',
-        label: 'Documentation',
+        label: t('doc'),
         repeat: true,
         pageSize: 5,
         type: [
           {
             id: 'documentId',
-            label: 'Document ID',
+            label: t('doc_id'),
             type: 'text',
             className: 'col s3 m2',
           },
           {
             id: 'label',
-            label: 'Title',
+            label: t('title'),
             type: 'text',
             className: 'col s6 m4',
           },
           {
             id: 'link',
-            label: 'URL',
+            label: t('url'),
             type: 'url',
             className: 'col s3 m3',
           },
           {
             id: 'location',
-            label: 'Room/location',
+            label: t('loc'),
             type: 'text',
             className: 'col s6 m3',
           },

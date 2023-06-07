@@ -9,16 +9,98 @@ import {
   TaxonomyPage,
   OverviewPage,
   PreparationPage,
-  EvaluationPage,
   AssessmentPage,
 } from '../components';
 import { DevelopmentPage } from '../components/development-page';
+import { t } from 'mithriljs-i18n';
 
-class DashboardService {
+class RoutingService {
   private dashboards!: ReadonlyArray<IDashboard>;
 
-  constructor(dashboards: IDashboard[]) {
-    this.setList(dashboards);
+  constructor() {}
+
+  public init() {
+    const routes = [
+      {
+        id: Dashboards.HOME,
+        title: t('home'),
+        icon: 'home',
+        route: t('home_route'),
+        visible: true,
+        component: HomePage,
+      },
+      {
+        id: Dashboards.OVERVIEW,
+        title: t('overview'),
+        icon: 'apps',
+        route: t('overview_route'),
+        visible: true,
+        component: OverviewPage,
+      },
+      {
+        id: Dashboards.PREPARATION,
+        title: t('preparation'),
+        icon: 'video_settings',
+        iconClass: 'blue-text',
+        route: t('preparation_route'),
+        visible: true,
+        component: PreparationPage,
+      },
+      {
+        id: Dashboards.ASSESSMENT,
+        title: t('assessment'),
+        icon: 'assessment',
+        iconClass: 'blue-text',
+        route: t('assessment_route'),
+        visible: true,
+        component: AssessmentPage,
+      },
+      {
+        id: Dashboards.DEVELOPMENT,
+        title: t('development'),
+        icon: 'engineering',
+        iconClass: 'blue-text',
+        route: t('development_route'),
+        visible: true,
+        component: DevelopmentPage,
+      },
+      // {
+      //   id: Dashboards.EVALUATION,
+      //   title: t('evaluation'),
+      //   icon: 'grading',
+      //   iconClass: 'blue-text',
+      //   route: '/evaluation',
+      //   visible: true,
+      //   component: EvaluationPage,
+      // },
+      {
+        id: Dashboards.ABOUT,
+        title: t('about'),
+        icon: 'info',
+        route: t('about_route'),
+        visible: true,
+        component: AboutPage,
+      },
+      {
+        id: Dashboards.TAXONOMY,
+        title: t('taxonomy'),
+        icon: 'book',
+        route: t('taxonomy_route'),
+        visible: true,
+        component: TaxonomyPage,
+      },
+      {
+        id: Dashboards.SETTINGS,
+        title: t('settings'),
+        icon: 'settings',
+        route: t('settings_route'),
+        visible: true,
+        component: SettingsPage,
+      },
+    ];
+    // console.log(JSON.stringify(routes, null, 2));
+    this.setList(routes);
+    // console.log(JSON.stringify(this.dashboards, null, 2));
   }
 
   public getList() {
@@ -59,7 +141,6 @@ class DashboardService {
   }
 
   public routingTable() {
-    // console.log('INIT');
     return this.dashboards.reduce((p, c) => {
       p[c.route] =
         c.hasNavBar === false
@@ -88,81 +169,4 @@ class DashboardService {
   }
 }
 
-export const dashboardSvc: DashboardService = new DashboardService([
-  {
-    id: Dashboards.HOME,
-    title: 'HOME',
-    icon: 'home',
-    route: '/',
-    visible: true,
-    component: HomePage,
-  },
-  {
-    id: Dashboards.OVERVIEW,
-    title: 'Overview',
-    icon: 'apps',
-    route: '/overview',
-    visible: true,
-    component: OverviewPage,
-  },
-  {
-    id: Dashboards.PREPARATION,
-    title: 'Preparation',
-    icon: 'video_settings',
-    iconClass: 'blue-text',
-    route: '/preparation',
-    visible: true,
-    component: PreparationPage,
-  },
-  {
-    id: Dashboards.ASSESSMENT,
-    title: 'Assessment',
-    icon: 'assessment',
-    iconClass: 'blue-text',
-    route: '/assessment',
-    visible: true,
-    component: AssessmentPage,
-  },
-  {
-    id: Dashboards.DEVELOPMENT,
-    title: 'Development',
-    icon: 'engineering',
-    iconClass: 'blue-text',
-    route: '/development',
-    visible: true,
-    component: DevelopmentPage,
-  },
-  {
-    id: Dashboards.EVALUATION,
-    title: 'Evaluation',
-    icon: 'grading',
-    iconClass: 'blue-text',
-    route: '/evaluation',
-    visible: true,
-    component: EvaluationPage,
-  },
-  {
-    id: Dashboards.TAXONOMY,
-    title: 'TAXONOMY',
-    icon: 'book',
-    route: '/taxonomy',
-    visible: true,
-    component: TaxonomyPage,
-  },
-  {
-    id: Dashboards.ABOUT,
-    title: 'About',
-    icon: 'info',
-    route: '/about',
-    visible: true,
-    component: AboutPage,
-  },
-  {
-    id: Dashboards.SETTINGS,
-    title: 'Settings',
-    icon: 'settings',
-    route: '/settings',
-    visible: true,
-    component: SettingsPage,
-  },
-]);
+export const routingSvc: RoutingService = new RoutingService();

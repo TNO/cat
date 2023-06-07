@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { ITabItem, Tabs } from 'mithril-materialized';
-import { ILayoutForm, LayoutForm } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
 import { Dashboards } from '../models';
 import { ICapabilityModel } from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
@@ -14,7 +14,13 @@ export const SettingsPage: MeiosisComponent = () => ({
   view: ({
     attrs: {
       state: {
-        app: { catModel = { form: [], settings: [], data: {} } as ICapabilityModel },
+        app: {
+          catModel = {
+            form: [] as UIForm,
+            settings: [] as UIForm,
+            data: {},
+          } as Partial<ICapabilityModel>,
+        },
       },
       actions: { saveModel },
     },
@@ -33,14 +39,14 @@ export const SettingsPage: MeiosisComponent = () => ({
             onchange: () => {
               console.log(
                 JSON.stringify(
-                  catModel.data.capabilities ? catModel.data.capabilities[0] : '',
+                  catModel.data && catModel.data.capabilities ? catModel.data.capabilities[0] : '',
                   null,
                   2
                 )
               );
               saveModel(catModel);
             },
-          } as ILayoutForm<any>),
+          } as FormAttributes),
         } as ITabItem)
     );
     return m('.row', { style: 'height: 90vh' }, m(Tabs, { tabs, tabWidth: 'fill' }));

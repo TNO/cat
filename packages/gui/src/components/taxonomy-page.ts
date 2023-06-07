@@ -1,10 +1,14 @@
 import m from 'mithril';
 import { FlatButton, ModalPanel } from 'mithril-materialized';
-import { ILayoutForm, LayoutForm, UIForm, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, UIForm, render } from 'mithril-ui-form';
 import { Dashboards } from '../models';
-import { ICapabilityModel } from '../models/capability-model/capability-model';
+import {
+  ICapabilityDataModel,
+  ICapabilityModel,
+} from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
 import { TextInputWithClear } from './ui';
+import { t } from 'mithriljs-i18n';
 
 const createTextFilter = (txt: string) => {
   if (!txt) return () => true;
@@ -13,26 +17,27 @@ const createTextFilter = (txt: string) => {
     checker.test(id) || checker.test(label);
 };
 
-const md = `#### Taxonomy
+export type Taxonomy = {
+  lexicon: Array<{ id: string; label: string; ref: string; url: string }>;
+};
 
-Definitions and abbreviations of commonly used words.`;
-
-const TaxonomyForm = [
-  {
-    id: 'lexicon',
-    label: 'Definitions',
-    repeat: true,
-    pageSize: 1,
-    propertyFilter: 'label',
-    sortProperty: 'id',
-    type: [
-      { id: 'id', label: 'Term', type: 'text', className: 'col s4 m3' },
-      { id: 'label', type: 'text', label: 'Description', className: 'col s8 m9' },
-      { id: 'ref', type: 'text', label: 'Reference', className: 'col s4 m3' },
-      { id: 'url', type: 'url', label: 'Reference URL', className: 'col s8 m9' },
-    ],
-  },
-] as UIForm<any>;
+const TaxonomyForm = () =>
+  [
+    {
+      id: 'lexicon',
+      label: t('defs'),
+      repeat: true,
+      pageSize: 1,
+      propertyFilter: 'label',
+      sortProperty: 'id',
+      type: [
+        { id: 'id', type: 'text', label: t('term'), className: 'col s4 m3' },
+        { id: 'label', type: 'text', label: t('desc'), className: 'col s8 m9' },
+        { id: 'ref', type: 'text', label: t('ref'), className: 'col s4 m3' },
+        { id: 'url', type: 'url', label: t('ref_url'), className: 'col s8 m9' },
+      ],
+    },
+  ] as UIForm<Pick<ICapabilityDataModel, 'lexicon'>>;
 
 let textFilter = '';
 
@@ -45,12 +50,18 @@ export const TaxonomyPage: MeiosisComponent = () => ({
   view: ({
     attrs: {
       state: {
-        app: { catModel = { form: [], settings: [], data: {} } as ICapabilityModel },
+        app: {
+          catModel = {
+            form: [] as UIForm,
+            settings: [] as UIForm,
+            data: {} as ICapabilityDataModel,
+          } as Partial<ICapabilityModel>,
+        },
       },
       actions: { saveModel },
     },
   }) => {
-    const { data = {} } = catModel;
+    const { data = {} as ICapabilityDataModel } = catModel;
     const { lexicon } = data;
 
     const filteredLexicon =
@@ -64,30 +75,30 @@ export const TaxonomyPage: MeiosisComponent = () => ({
     return [
       m('.row', { style: 'height: 100vh' }, [
         m(FlatButton, {
-          label: 'Add new term',
+          label: t('add_term'),
           iconName: 'add',
           className: 'col s6 l3',
           modalId: 'add-term',
         }),
         m(TextInputWithClear, {
-          label: 'Text filter of events',
+          label: t('filter_text'),
           id: 'filter',
           initialValue: textFilter,
-          placeholder: 'Part of term or description...',
+          placeholder: t('filter_text_ph'),
           iconName: 'filter_list',
           onchange: (v?: string) => (textFilter = v ? v : ''),
           style: 'margin-bottom: -4rem',
           className: 'col s6 offset-l6 l3',
         }),
-        m('.intro.col.s12', m.trust(render(md, false))),
+        m('.intro.col.s12', m.trust(render(t('tax_def'), false))),
         filteredLexicon &&
           m('table.highlight', { style: 'margin-bottom: 3rem' }, [
             m(
               'thead',
               m('tr', [
-                m('th', 'Term'),
-                m('th', 'Description'),
-                m('th.hide-on-med-and-down', 'Reference'),
+                m('th', t('term')),
+                m('th', t('desc')),
+                m('th.hide-on-med-and-down', t('ref')),
               ])
             ),
             m(
@@ -117,15 +128,15 @@ export const TaxonomyPage: MeiosisComponent = () => ({
           ]),
         m(ModalPanel, {
           id: 'add-term',
-          title: 'Add a new term',
+          title: t('add_term'),
           description: m(LayoutForm, {
-            form: TaxonomyForm,
+            form: TaxonomyForm(),
             obj: data,
             onchange: () => {
               console.log(JSON.stringify(catModel, null, 2));
               saveModel(catModel);
             },
-          } as ILayoutForm<any>),
+          } as FormAttributes),
           bottomSheet: true,
         }),
       ]),

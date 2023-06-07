@@ -5,16 +5,18 @@
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "dev": "npm run start",
     "start": "tsc -w",
+    "dev": "tsc -w",
     "build": "tsc -b"
   },
   "keywords": [],
   "author": "Phrase / Memsource GmbH",
   "license": "MIT",
+  "peerDependencies": {
+    "mithril": "^2.2.2"
+  },
   "devDependencies": {
     "@types/mithril": "^2.0.12",
-    "mithril": "^2.2.2",
-    "typescript": "5.0.4"
+    "typescript": "5.1.3"
   }
 }

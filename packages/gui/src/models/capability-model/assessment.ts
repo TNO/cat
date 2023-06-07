@@ -1,114 +1,126 @@
 import { UIForm } from 'mithril-ui-form-plugin';
+import { CapabilityStakeholder, Documentation } from './capability-model';
+import { t } from 'mithriljs-i18n';
 
-export const assessmentModel = [
-  {
-    id: 'desc',
-    label: 'Description',
-    placeholder: 'Describe the capability in detail.',
-    type: 'textarea',
-    className: 'col s12',
-  },
-  {
-    id: 'capabilityStakeholders',
-    label: 'Stakeholders',
-    pageSize: 5,
-    repeat: true,
-    type: [
-      {
-        id: 'stakeholderId',
-        label: 'Stakeholder',
-        type: 'select',
-        options: 'stakeholders',
-        className: 'col s4 m2',
-      },
-      {
-        id: 'goal',
-        label: 'Goals',
-        placeholder: 'Specify long and short term goals',
-        type: 'textarea',
-        className: 'col s8 m10',
-      },
-    ],
-    className: 'col m12',
-  },
-  {
-    id: 'documentation',
-    label: 'Documentation',
-    repeat: true,
-    pageSize: 5,
-    type: [
-      {
-        id: 'documentId',
-        label: 'Document ID',
-        type: 'text',
-        className: 'col s3 m2',
-      },
-      {
-        id: 'label',
-        label: 'Title',
-        type: 'text',
-        className: 'col s6 m6',
-      },
-      {
-        id: 'link',
-        label: 'URL',
-        type: 'url',
-        className: 'col s3 m4',
-      },
-    ],
-    className: 'col m12',
-  },
-  {
-    id: 'taskAssessment',
-    type: 'assessment',
-    options: 'mainTasks',
-    optionLabel: 'Main goals',
-    assessmentOptions: 'taskScale',
-    assessmentLabel: 'Importance',
-    descriptionLabel: 'Explanation',
-    overallAssessmentLabel: 'Maximum importance',
-    overallAssessment: 'max',
-  },
-  {
-    id: 'performanceAssessment',
-    type: 'assessment',
-    options: 'performanceAspects',
-    optionLabel: 'Performance aspect',
-    assessmentOptions: 'performanceScale',
-    assessmentLabel: 'Performance',
-    descriptionLabel: 'Explanation',
-    overallAssessmentLabel: 'Average performance',
-    overallAssessment: 'avg',
-  },
-  {
-    id: 'gapAssessment',
-    type: 'assessment',
-    options: 'mainGaps',
-    optionLabel: 'Problem areas',
-    assessmentOptions: 'gapScale',
-    assessmentLabel: 'Problem',
-    descriptionLabel: 'Explanation',
-    overallAssessmentLabel: 'Problem cause is well known',
-    overallAssessment: 'max',
-  },
-  {
-    id: 'assessmentId',
-    label: 'Overall assessment',
-    type: 'lookup-table',
-    table: 'assessmentTable',
-    options: 'assessmentScale',
-    rowId: 'taskAssessment.assessmentId',
-    colId: 'performanceAssessment.assessmentId',
-  },
-  { type: 'md', value: '###### GO / NO GO decision<br>', className: 'right-align' },
-  {
-    id: 'shouldDevelop',
-    type: 'switch',
-    className: 'right-align',
-    label: '',
-    options: [
-      { id: 'NO GO', label: 'NO GO' },
-      { id: 'go', label: 'GO' },
-    ],
-  },
-] as UIForm<any>;
+export type Assessment = Partial<{
+  desc: string;
+  capabilityStakeholders: CapabilityStakeholder[];
+  documentation: Documentation[];
+  taskAssessment: unknown;
+  performanceAssessment: unknown;
+  gapAssessment: unknown;
+  assessmentId: unknown;
+  shouldDevelop: 'GO' | 'NO GO';
+}>;
+
+export const assessmentModel = () =>
+  [
+    {
+      id: 'desc',
+      label: t('desc'),
+      placeholder: t('desc_cap_instr'),
+      type: 'textarea',
+      className: 'col s12',
+    },
+    {
+      id: 'capabilityStakeholders',
+      label: t('shs'),
+      pageSize: 5,
+      repeat: true,
+      type: [
+        {
+          id: 'stakeholderId',
+          label: t('sh'),
+          type: 'select',
+          options: 'stakeholders',
+          className: 'col s4 m2',
+        },
+        {
+          id: 'goal',
+          label: t('goals'),
+          placeholder: t('goals_instr'),
+          type: 'textarea',
+          className: 'col s8 m10',
+        },
+      ],
+      className: 'col m12',
+    },
+    {
+      id: 'documentation',
+      label: t('doc'),
+      repeat: true,
+      pageSize: 5,
+      type: [
+        {
+          id: 'documentId',
+          label: t('doc_id'),
+          type: 'text',
+          className: 'col s3 m2',
+        },
+        {
+          id: 'label',
+          label: t('title'),
+          type: 'text',
+          className: 'col s6 m6',
+        },
+        {
+          id: 'link',
+          label: t('url'),
+          type: 'url',
+          className: 'col s3 m4',
+        },
+      ],
+      className: 'col m12',
+    },
+    {
+      id: 'taskAssessment',
+      type: 'assessment',
+      options: 'mainTasks',
+      optionLabel: t('main_goals'),
+      assessmentOptions: 'taskScale',
+      assessmentLabel: t('importance'),
+      descriptionLabel: t('Explanation'),
+      overallAssessmentLabel: t('max_imp'),
+      overallAssessment: 'max',
+    },
+    {
+      id: 'performanceAssessment',
+      type: 'assessment',
+      options: 'performanceAspects',
+      optionLabel: t('perf_asp'),
+      assessmentOptions: 'performanceScale',
+      assessmentLabel: t('expl'),
+      overallAssessmentLabel: t('avg_perf'),
+      overallAssessment: 'avg',
+    },
+    {
+      id: 'gapAssessment',
+      type: 'assessment',
+      options: 'mainGaps',
+      optionLabel: t('prob_areas'),
+      assessmentOptions: 'gapScale',
+      assessmentLabel: t('expl'),
+      overallAssessmentLabel: t('ass_label'),
+      overallAssessment: 'max',
+    },
+    {
+      id: 'assessmentId',
+      label: t('ass_overall'),
+      type: 'lookup-table',
+      table: 'assessmentTable',
+      options: 'assessmentScale',
+      rowId: 'taskAssessment.assessmentId',
+      colId: 'performanceAssessment.assessmentId',
+    },
+    { type: 'md', value: t('gng'), className: 'right-align' },
+    {
+      id: 'shouldDevelop',
+      type: 'switch',
+      className: 'right-align',
+      label: '',
+      options: [
+        { id: 'NO GO', label: t('no_go') },
+        { id: 'GO', label: t('go') },
+      ],
+    },
+  ] as UIForm<Assessment>;
