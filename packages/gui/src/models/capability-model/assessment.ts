@@ -94,6 +94,15 @@ export const assessmentModel = () =>
       overallAssessment: 'avg',
     },
     {
+      id: 'assessmentId',
+      label: t('ass_overall'),
+      type: 'lookup-table',
+      table: 'assessmentTable',
+      options: 'assessmentScale',
+      rowId: 'taskAssessment.assessmentId',
+      colId: 'performanceAssessment.assessmentId',
+    },
+    {
       id: 'gapAssessment',
       type: 'assessment',
       options: 'mainGaps',
@@ -102,15 +111,6 @@ export const assessmentModel = () =>
       assessmentLabel: t('expl'),
       overallAssessmentLabel: t('ass_label'),
       overallAssessment: 'max',
-    },
-    {
-      id: 'assessmentId',
-      label: t('ass_overall'),
-      type: 'lookup-table',
-      table: 'assessmentTable',
-      options: 'assessmentScale',
-      rowId: 'taskAssessment.assessmentId',
-      colId: 'performanceAssessment.assessmentId',
     },
     { type: 'md', value: t('gng'), className: 'right-align' },
     {
