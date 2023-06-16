@@ -74,7 +74,7 @@ export const OverviewPage: MeiosisComponent = () => {
         } as Partial<ICapabilityDataModel>,
       } = catModel;
       catModel.data = data;
-      const { categories, capabilities, projectProposals = [] } = data;
+      const { categories, capabilities, projectProposals = [], assessmentScale = [] } = data;
       const filterText = createTextFilter(textFilter);
       const filterStakeholders = createStakeholderFilter(stakeholderFilter as string[]);
       const filteredCapabilities =
@@ -107,10 +107,11 @@ export const OverviewPage: MeiosisComponent = () => {
             )
           )
         : 0;
+      const height = 90 + maxItems * 30;
 
       return m('.row.overview', [
         m(
-          '.col.s12.l3',
+          '.col.s12.m2',
           m(
             'ul#slide-out.sidenav.sidenav-fixed',
             {
@@ -137,11 +138,12 @@ export const OverviewPage: MeiosisComponent = () => {
               data.stakeholders &&
                 m(Select, {
                   placeholder: t('select_m_ph'),
-                  label: t('stakeholder'),
+                  label: t('sh_filter'),
                   checkedId: stakeholderFilter,
                   options: data.stakeholders.map((p) => ({ id: p.id, label: p.id })),
                   iconName: 'person',
                   multiple: true,
+                  disabled: data.stakeholders.length === 0,
                   onchange: (f) => update({ app: { stakeholderFilter: f as string[] } }),
                   className: 'col s12',
                 }),
@@ -159,7 +161,7 @@ export const OverviewPage: MeiosisComponent = () => {
           )
         ),
         filteredCategories &&
-          m('.col.s12.l9', [
+          m('.col.s12.m10.cards', [
             filteredCategories.map(({ label, subcategories }, i) =>
               m('.category', [
                 i > 0 && m('.divider'),
@@ -170,13 +172,13 @@ export const OverviewPage: MeiosisComponent = () => {
                       '.row',
                       (subcategories as ISubcategoryVM[]).map((sc) =>
                         m(
-                          '.col.s12.m4',
+                          '.col.s12.m4.l3',
                           m(
                             '.card',
                             {
-                              style: `background: ${colors[i % colors.length]}; height: ${
-                                90 + maxItems * 30
-                              }px`,
+                              style: `background: ${
+                                colors[i % colors.length]
+                              }; height: ${height}px`,
                             },
                             [
                               m('.card-content.white-text', [
@@ -186,20 +188,29 @@ export const OverviewPage: MeiosisComponent = () => {
                                   m('strong', sc.label)
                                 ),
                                 m(
-                                  'ul',
-                                  sc.capabilities.map((cap) =>
-                                    m(
+                                  'ul.caps',
+                                  sc.capabilities.map((cap) => {
+                                    const { assessmentId } = cap;
+                                    const assessment = assessmentScale
+                                      .filter((a) => a.id === assessmentId)
+                                      .shift();
+                                    const color = assessment ? assessment.color : undefined;
+                                    const title = assessment ? assessment.label : undefined;
+                                    return m(
                                       'li',
                                       m(
                                         'a.white-text',
                                         {
-                                          style: 'line-height: 22px;',
                                           alt: cap.label,
                                           href: createRoute(Dashboards.ASSESSMENT, {
                                             id: cap.id,
                                           }),
                                         },
                                         m('.capability', [
+                                          m('.square', {
+                                            title,
+                                            style: `background-color: ${color}`,
+                                          }),
                                           m('.name', cap.label),
                                           m(
                                             '.badges.right-align',
@@ -250,8 +261,8 @@ export const OverviewPage: MeiosisComponent = () => {
                                           ),
                                         ])
                                       )
-                                    )
-                                  )
+                                    );
+                                  })
                                 ),
                               ]),
                             ]

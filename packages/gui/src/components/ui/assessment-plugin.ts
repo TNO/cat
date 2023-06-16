@@ -65,7 +65,7 @@ export const assessmentPlugin: PluginType = () => {
               : acc + index / items.length;
           }, 0)
         );
-      const outcomeIndex = typeof overallAssessment !== 'undefined' && score && computeOutcome();
+      const outcomeIndex = typeof overallAssessment !== 'undefined' && computeOutcome();
       const outcome =
         typeof outcomeIndex === 'number' && score && score.length > outcomeIndex
           ? score[outcomeIndex]

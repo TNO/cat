@@ -6,9 +6,11 @@
   "scripts": {
     "clean": "rimraf ./.parcel-cache ./.cache ./dist",
     "cleanup": "npm run clean",
-    "dev": "npm start",
+    "dev": "npx rspack serve",
+    "dev.old": "npm start",
     "start": "webpack serve --env development --open",
-    "build": "webpack --env production",
+    "build": "npx rspack build",
+    "build.old": "webpack --env production",
     "build:domain": "npm run clean && npm run build",
     "link": "pnpm link project-board-shared",
     "link2": "npm link mithril-ui-form"
@@ -43,20 +45,11 @@
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
+    "@rspack/cli": "^0.2.2",
     "@types/materialize-css": "^1.0.11",
     "@types/mithril": "^2.0.12",
-    "css-loader": "^6.8.1",
-    "css-minimizer-webpack-plugin": "^5.0.0",
     "dotenv-webpack": "^8.0.1",
-    "html-webpack-plugin": "^5.5.1",
-    "html-webpack-tags-plugin": "^3.0.2",
-    "mini-css-extract-plugin": "^2.7.6",
     "rimraf": "^5.0.1",
-    "style-loader": "^3.3.3",
-    "ts-loader": "^9.4.3",
-    "typescript": "next",
-    "webpack": "^5.85.0",
-    "webpack-cli": "^5.1.1",
-    "webpack-dev-server": "^4.15.0"
+    "typescript": "next"
   }
 }

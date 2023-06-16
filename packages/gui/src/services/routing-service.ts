@@ -38,6 +38,22 @@ class RoutingService {
         component: OverviewPage,
       },
       {
+        id: Dashboards.ABOUT,
+        title: t('about'),
+        icon: 'info',
+        route: t('about_route'),
+        visible: true,
+        component: AboutPage,
+      },
+      {
+        id: Dashboards.TAXONOMY,
+        title: t('taxonomy'),
+        icon: 'book',
+        route: t('taxonomy_route'),
+        visible: true,
+        component: TaxonomyPage,
+      },
+      {
         id: Dashboards.PREPARATION,
         title: t('preparation'),
         icon: 'video_settings',
@@ -73,22 +89,7 @@ class RoutingService {
       //   visible: true,
       //   component: EvaluationPage,
       // },
-      {
-        id: Dashboards.ABOUT,
-        title: t('about'),
-        icon: 'info',
-        route: t('about_route'),
-        visible: true,
-        component: AboutPage,
-      },
-      {
-        id: Dashboards.TAXONOMY,
-        title: t('taxonomy'),
-        icon: 'book',
-        route: t('taxonomy_route'),
-        visible: true,
-        component: TaxonomyPage,
-      },
+
       {
         id: Dashboards.SETTINGS,
         title: t('settings'),

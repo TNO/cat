@@ -45,17 +45,16 @@ export const lookupTable: PluginType = () => {
         options = '',
       } = field as LookupTableFieldType;
       if (obj instanceof Array) return;
-      const tbl = resolveExpression(table, [obj, context]) as LookupTable;
-      const rId = resolveExpression(rowId, [obj, context]) as string;
-      const cId = resolveExpression(colId, [obj, context]) as string;
+      const tbl = resolveExpression(table, [obj, ...context]) as LookupTable;
+      const rId = resolveExpression(rowId, [obj, ...context]) as string;
+      const cId = resolveExpression(colId, [obj, ...context]) as string;
       const optTmp =
         typeof options === 'string' &&
-        (resolveExpression(options, [obj, context]) as Array<{
+        (resolveExpression(options, [obj, ...context]) as Array<{
           id: string;
           label: string;
           color?: string;
         }>);
-      // console.log({ tbl, rId, cId });
       const optionId =
         tbl &&
         tbl instanceof Array &&

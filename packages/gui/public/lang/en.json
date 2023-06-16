@@ -102,6 +102,7 @@
   "select_subcat": "Select subcategory",
   "settings_route": "/settings",
   "settings": "Settings",
+  "sh_filter": "Filter involved organisations",
   "sh_org": "Stakeholder organisations",
   "sh_settings": "##### Stakeholder/stakeholder settings",
   "sh_type": "Type of stakeholder",

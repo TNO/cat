@@ -46,6 +46,7 @@ export const AssessmentPage: MeiosisComponent = () => {
         capabilities && capabilities.filter((cap) => cap.subcategoryId === subcategoryId);
       const cap = capabilities && capabilities.filter((cap) => cap.id === capabilityId).shift();
 
+      console.log(JSON.stringify(cap, null, 2));
       return m(
         '.assessment-page',
         { style: 'min-height: 95vh; padding-bottom: 20px' },
@@ -100,6 +101,7 @@ export const AssessmentPage: MeiosisComponent = () => {
               context: [data],
               onchange: () => {
                 saveModel(catModel);
+                console.log(JSON.stringify(catModel, null, 2));
               },
             } as FormAttributes)
           )

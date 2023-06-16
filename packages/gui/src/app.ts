@@ -26,7 +26,8 @@ i18n.init(
   window.localStorage.getItem('CAT_LANGUAGE') || 'nl'
 );
 
-i18n.addOnChangeListener(() => {
+i18n.addOnChangeListener((locale: string) => {
+  document.documentElement.setAttribute('lang', locale);
   routingSvc.init();
   m.route(document.body, routingSvc.defaultRoute, routingSvc.routingTable());
 });
