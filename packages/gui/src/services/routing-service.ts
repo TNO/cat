@@ -54,6 +54,15 @@ class RoutingService {
         component: TaxonomyPage,
       },
       {
+        id: Dashboards.SETTINGS,
+        title: t('settings'),
+        icon: 'settings',
+        iconClass: 'blue-text',
+        route: t('settings_route'),
+        visible: true,
+        component: SettingsPage,
+      },
+      {
         id: Dashboards.PREPARATION,
         title: t('preparation'),
         icon: 'video_settings',
@@ -89,15 +98,6 @@ class RoutingService {
       //   visible: true,
       //   component: EvaluationPage,
       // },
-
-      {
-        id: Dashboards.SETTINGS,
-        title: t('settings'),
-        icon: 'settings',
-        route: t('settings_route'),
-        visible: true,
-        component: SettingsPage,
-      },
     ];
     // console.log(JSON.stringify(routes, null, 2));
     this.setList(routes);

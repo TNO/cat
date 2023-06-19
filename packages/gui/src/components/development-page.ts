@@ -1,11 +1,13 @@
 import m from 'mithril';
-import { Select, Collapsible, FlatButton } from 'mithril-materialized';
+import { Select, Collapsible, FlatButton, ModalPanel } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
-import { Dashboards, ICapabilityModel } from '../models';
+import { Dashboards, ICapabilityModel, ProjectProposal } from '../models';
 import { MeiosisComponent } from '../services';
 import { t } from 'mithriljs-i18n';
 
 export const DevelopmentPage: MeiosisComponent = () => {
+  let selectedProject: ProjectProposal;
+
   return {
     oninit: ({
       attrs: {
@@ -35,14 +37,12 @@ export const DevelopmentPage: MeiosisComponent = () => {
       const caps =
         capabilities && capabilities.filter((cap) => cap.subcategoryId === subCategoryId);
       const cap = capabilities && capabilities.filter((cap) => cap.id === capabilityId).shift();
-      console.log(caps);
 
       const projects =
         cap && projectProposals.filter((p) => !p.capabilityIds || p.capabilityIds.includes(cap.id));
 
       return m(
-        '.development-page',
-        { style: 'min-height: 95vh; padding-bottom: 20px' },
+        '.development.page',
         [
           m('.row', [
             m('.col.s12', m('h4', t('development'))),
@@ -109,8 +109,16 @@ export const DevelopmentPage: MeiosisComponent = () => {
           m(Collapsible, {
             items: projects.map((p) => ({
               header: p.label,
-              body: m(
-                '.row',
+              body: m('.row', [
+                m(
+                  '.col.s12.right-align.red-text',
+                  m(FlatButton, {
+                    iconName: 'delete',
+                    iconClass: 'red-text',
+                    modalId: 'deleteProject',
+                    onclick: () => (selectedProject = p),
+                  })
+                ),
                 m(LayoutForm, {
                   form: development,
                   obj: p,
@@ -118,11 +126,28 @@ export const DevelopmentPage: MeiosisComponent = () => {
                   onchange: () => {
                     saveModel(catModel);
                   },
-                } as FormAttributes)
-              ),
+                } as FormAttributes),
+              ]),
               iconName: p.approved ? 'engineering' : 'lightbulb',
             })),
-          })
+          }),
+        m(ModalPanel, {
+          id: 'deleteProject',
+          title: t('del_proj') + `: ${selectedProject?.label}`,
+          buttons: [
+            {
+              label: t('yes'),
+              iconName: 'delete',
+              onclick: () => {
+                catModel.data.projectProposals = catModel.data.projectProposals?.filter(
+                  (p) => p.id !== selectedProject.id
+                );
+                saveModel(catModel);
+              },
+            },
+            { label: t('no'), iconName: 'cancel' },
+          ],
+        })
       );
     },
   };

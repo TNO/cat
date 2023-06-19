@@ -48,8 +48,7 @@ export const AssessmentPage: MeiosisComponent = () => {
 
       console.log(JSON.stringify(cap, null, 2));
       return m(
-        '.assessment-page',
-        { style: 'min-height: 95vh; padding-bottom: 20px' },
+        '.assessment.page',
         [
           m('.row', [
             m('.col.s12', m('h4', t('ass'))),

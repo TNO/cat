@@ -24,6 +24,12 @@ Na het opstarten verschijnt het START-scherm met daarin een korte toelichting op
 - BEOORDELING: Module waarin per capability de beoordeling kan worden vastgesteld.
 - ONTWIKKELING: Module waarin per capability verbetervoorstellen kunnen worden vastgelegd, inclusief de verwachtingen ten aanzien van verbeterde prestaties na implementatie van die voorstellen.
 
+![CAT proces](${process.env.SERVER}/cat_process.png)
+
+##### START
+
+Todo
+
 ##### OVERZICHT
 
 In dit scherm zijn alle binnen de categorieën gedefinieerde subcategorieën in gekleurde tegels weergegeven, inclusief de capability’s die op het derde niveau – binnen de subcatgeorieën – vastgesteld zijn. Door op de naam te klikken wordt overgeschakeld naar het scherm BEOORDELING van de desbetreffende capability.
@@ -73,6 +79,6 @@ export const AboutPage: MeiosisComponent = () => ({
     },
   }) => setPage(Dashboards.ABOUT),
   view: () => {
-    return [m('.row', m.trust(render(md)))];
+    return [m('.row.markdown', m.trust(render(md)))];
   },
 });

@@ -53,7 +53,7 @@ export const developmentModel = () =>
     },
     {
       id: 'projectStakeholders',
-      label: t('shs'),
+      label: t('sh_org'),
       pageSize: 5,
       repeat: true,
       type: [

@@ -6,6 +6,7 @@ import {
   assessmentModel,
   developmentModel,
   evaluationModel,
+  preparationModel,
   projectEvaluationModel,
   settingsModel,
 } from '../../models';
@@ -48,7 +49,7 @@ export interface IAppStateActions {
     query?: { [key: string]: string | number | undefined }
   ) => void;
   saveModel: (cat: Partial<ICapabilityModel>) => void;
-  setLanguage: (locale: string) => void;
+  setLanguage: (locale: string) => Promise<void>;
 }
 
 export interface IAppState {
@@ -58,12 +59,18 @@ export interface IAppState {
 
 // console.log(`API server: ${process.env.SERVER}`);
 
+const localizeCatModel = (cat: Partial<ICapabilityModel>) => {
+  cat.assessment = assessmentModel();
+  cat.development = developmentModel();
+  cat.settings = settingsModel();
+  cat.evaluation = evaluationModel();
+  cat.projectEvaluation = projectEvaluationModel();
+  cat.preparations = preparationModel();
+  return cat;
+};
+
 const cm = localStorage.getItem(catModelKey) || JSON.stringify(defaultCapabilityModel);
 const catModel = JSON.parse(cm) as ICapabilityModel;
-// TODO: DURING DEV
-// catModel.form = defaultCapabilityModel.form;
-// catModel.settings = defaultCapabilityModel.settings;
-// catModel.data = defaultCapabilityModel.data;
 
 export const appStateMgmt = {
   initial: {
@@ -77,7 +84,7 @@ export const appStateMgmt = {
       stakeholderFilter: [],
     },
   },
-  actions: (update, _states) => {
+  actions: (update, states) => {
     return {
       setPage: (page: Dashboards) => update({ app: { page } }),
       update: (model: Partial<ModelUpdateFunction>) => update(model),
@@ -89,17 +96,16 @@ export const appStateMgmt = {
       },
       createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
       saveModel: (cat) => {
-        cat.assessment = assessmentModel();
-        cat.development = developmentModel();
-        cat.settings = settingsModel();
-        cat.evaluation = evaluationModel();
-        cat.projectEvaluation = projectEvaluationModel();
+        cat = localizeCatModel(cat);
         localStorage.setItem(catModelKey, JSON.stringify(cat));
         update({ app: { catModel: () => cat } });
       },
-      setLanguage: (locale: string) => {
+      setLanguage: async (locale: string) => {
+        const state = states();
+        const catModel = state.app.catModel;
         localStorage.setItem('CAT_LANGUAGE', locale);
-        i18n.loadAndSetLocale(locale);
+        await i18n.loadAndSetLocale(locale);
+        update({ app: { catModel: () => localizeCatModel(catModel) } });
       },
     };
   },

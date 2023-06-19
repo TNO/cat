@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -30,8 +30,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       mithril-ui-form:
-        specifier: ^1.8.3-next.1
-        version: 1.8.3-next.1
+        specifier: ^1.8.6
+        version: 1.8.6
       mithril-ui-form-plugin:
         specifier: ^0.5.2-next.0
         version: 0.5.2-next.0
@@ -59,7 +59,7 @@ importers:
         version: 5.0.1
       typescript:
         specifier: next
-        version: 5.2.0-dev.20230616
+        version: 5.2.0-dev.20230617
 
   packages/i18n:
     dependencies:
@@ -2035,8 +2035,8 @@ packages:
       mithril: 2.2.2
     dev: false
 
-  /mithril-ui-form@1.8.3-next.1:
-    resolution: {integrity: sha512-zB1QkF7U8EcKbLqR+Q0JWfD3v7Iku2cQRN9CKUfR0vwZU8hPjdKaQOWMdxe+CWzi+2ljQMGHwcliLOld84qvZw==}
+  /mithril-ui-form@1.8.6:
+    resolution: {integrity: sha512-53CJR7IALxB7fdcCaWNSxgK5L3DKOf2oARFOx5palcC/dfR9V/S3fzdM/CdquN7zHL0VZz1w67WO/6Xdt+EaIA==}
     dependencies:
       mithril: 2.2.2
       mithril-materialized: 1.0.1
@@ -2732,8 +2732,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.2.0-dev.20230616:
-    resolution: {integrity: sha512-pprSaAXEPeobRjBGiyipvM7IXY4wSEHq5RiQS2BnDzYAXpfPi9jF5CRHg8QgWxm1KQlAy0JVLfsQI3rlHjDcEQ==}
+  /typescript@5.2.0-dev.20230617:
+    resolution: {integrity: sha512-+h4AOo0iCEIvT4MHNeTlZD+pmv7CW3/0zz1eZgY6AnatF/jvkBRaHa6ow+xHNHnRE7VJcBYDPdJQTOBqBkjVjw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true

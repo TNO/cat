@@ -544,10 +544,12 @@ ul.projects > li > span.project-id {
   margin-right: 8px;
 }
 
-.evaluation-page .row,
-.development-page .row,
-.assessment-page .row {
+.page .row {
   margin-bottom: 0;
+}
+.page {
+  min-height: 95vh;
+  padding-bottom: 20px;
 }
 label,
 .pagination li,

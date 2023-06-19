@@ -109,9 +109,9 @@ export const OverviewPage: MeiosisComponent = () => {
         : 0;
       const height = 90 + maxItems * 30;
 
-      return m('.row.overview', [
+      return m('.row.overview.page', [
         m(
-          '.col.s12.m2',
+          '.col.s12.m3',
           m(
             'ul#slide-out.sidenav.sidenav-fixed',
             {
@@ -161,7 +161,7 @@ export const OverviewPage: MeiosisComponent = () => {
           )
         ),
         filteredCategories &&
-          m('.col.s12.m10.cards', [
+          m('.col.s12.m9.cards', [
             filteredCategories.map(({ label, subcategories }, i) =>
               m('.category', [
                 i > 0 && m('.divider'),
@@ -172,7 +172,7 @@ export const OverviewPage: MeiosisComponent = () => {
                       '.row',
                       (subcategories as ISubcategoryVM[]).map((sc) =>
                         m(
-                          '.col.s12.m4.l3',
+                          '.col.s12.m4.xl3',
                           m(
                             '.card',
                             {

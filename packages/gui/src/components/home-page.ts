@@ -215,8 +215,8 @@ export const HomePage: MeiosisComponent = () => {
         ),
         m(ModalPanel, {
           id: 'clearAll',
-          title: 'Do you really want to delete everything?',
-          description: 'Are you sure that you want to delete your model?',
+          title: t('del_model'),
+          description: t('del_model_desc'),
           buttons: [
             {
               label: t('yes'),

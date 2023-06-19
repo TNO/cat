@@ -36,6 +36,7 @@ export const SettingsPage: MeiosisComponent = () => ({
             form,
             obj: data,
             section: s.id,
+            context: [data],
             onchange: () => {
               console.log(
                 JSON.stringify(
@@ -49,21 +50,6 @@ export const SettingsPage: MeiosisComponent = () => ({
           } as FormAttributes),
         } as ITabItem)
     );
-    return m('.row', { style: 'height: 90vh' }, m(Tabs, { tabs, tabWidth: 'fill' }));
-    // console.log(catModel);
-    // return [
-    //   m(
-    //     '.row',
-    //     { style: 'height: 95vh' },
-    //     m(LayoutForm, {
-    //       form: settings,
-    //       obj: data,
-    //       onchange: () => {
-    //         console.log('Settings updated');
-    //         saveModel(catModel);
-    //       },
-    //     })
-    //   ),
-    // ];
+    return m('.settings.page', m('.row', m(Tabs, { tabs, tabWidth: 'fill' })));
   },
 });

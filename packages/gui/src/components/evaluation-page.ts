@@ -43,8 +43,7 @@ export const EvaluationPage: MeiosisComponent = () => {
         );
 
       return m(
-        '.evaluation-page',
-        { style: 'min-height: 95vh; padding-bottom: 20px' },
+        '.evaluation.page',
         [
           m('.row', [
             m('.col.s12', m('h4', 'Evaluation')),

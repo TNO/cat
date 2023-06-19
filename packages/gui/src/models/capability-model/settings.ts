@@ -10,7 +10,6 @@ export const settingsModel = () =>
       id: 'stakeholderTypes',
       label: t('sh_types'),
       repeat: true,
-      pageSize: 1,
       propertyFilter: 'label',
       sortProperty: 'id',
       type: [
@@ -20,12 +19,11 @@ export const settingsModel = () =>
     },
 
     { id: 'task-settings', type: 'section', label: t('tasks') },
-    { type: 'md', value: 'task_settings' },
+    { type: 'md', value: t('task_settings') },
     {
       id: 'taskScale',
       label: t('goal_scale'),
       repeat: true,
-      pageSize: 1,
       sortProperty: 'id',
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
@@ -34,12 +32,11 @@ export const settingsModel = () =>
       ],
     },
     { id: 'performance-settings', type: 'section', label: t('perf') },
-    { type: 'md', value: 'perf_settings' },
+    { type: 'md', value: t('perf_settings') },
     {
       id: 'performanceAspects',
       label: t('perf_asps'),
       repeat: true,
-      pageSize: 1,
       sortProperty: 'id',
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
@@ -51,7 +48,6 @@ export const settingsModel = () =>
       id: 'performanceScale',
       label: t('perf_scale'),
       repeat: true,
-      pageSize: 1,
       sortProperty: 'id',
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
@@ -60,12 +56,11 @@ export const settingsModel = () =>
       ],
     },
     { id: 'gap-settings', type: 'section', label: t('gaps') },
-    { type: 'md', value: 'gap_settings' },
+    { type: 'md', value: t('gap_settings') },
     {
       id: 'mainGaps',
       label: t('gaps_common'),
       repeat: true,
-      pageSize: 1,
       sortProperty: 'id',
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
@@ -77,7 +72,6 @@ export const settingsModel = () =>
       id: 'gapScale',
       label: t('gap_scale'),
       repeat: true,
-      pageSize: 1,
       sortProperty: 'id',
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
@@ -85,13 +79,12 @@ export const settingsModel = () =>
         { id: 'color', label: t('color'), value: '#ffffff', type: 'color', className: 'col s3 m2' },
       ],
     },
-    { id: 'assessment-settings', type: 'section', label: t('Assessment') },
-    { type: 'md', value: '##### Task to performance table lookup' },
+    { id: 'assessment-settings', type: 'section', label: t('ass_setting') },
+    { type: 'md', value: t('task2perf') },
     {
       id: 'assessmentScale',
       label: t('ass_scale'),
       repeat: true,
-      pageSize: 1,
       sortProperty: 'id',
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },

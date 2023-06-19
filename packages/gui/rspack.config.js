@@ -9,6 +9,9 @@ module.exports = {
   entry: {
     main: './src/app.ts',
   },
+  devServer: {
+    port: 8338,
+  },
   builtins: {
     define: {
       'process.env.NODE_ENV': "'development'",

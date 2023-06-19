@@ -98,7 +98,7 @@ export const TaxonomyPage: MeiosisComponent = () => ({
               m('tr', [
                 m('th', t('term')),
                 m('th', t('desc')),
-                m('th.hide-on-med-and-down', t('ref')),
+                // m('th.hide-on-med-and-down', t('ref')),
               ])
             ),
             m(
@@ -107,21 +107,21 @@ export const TaxonomyPage: MeiosisComponent = () => ({
                 m('tr', [
                   m('td', m('strong', l.id)),
                   m('td', m.trust(render(l.label))),
-                  l.ref &&
-                    m(
-                      'td.hide-on-med-and-down',
-                      l.url
-                        ? m(
-                            'a',
-                            {
-                              target: '_',
-                              alt: l.ref,
-                              href: l.url,
-                            },
-                            l.ref
-                          )
-                        : l.ref
-                    ),
+                  // l.ref &&
+                  //   m(
+                  //     'td.hide-on-med-and-down',
+                  //     l.url
+                  //       ? m(
+                  //           'a',
+                  //           {
+                  //             target: '_',
+                  //             alt: l.ref,
+                  //             href: l.url,
+                  //           },
+                  //           l.ref
+                  //         )
+                  //       : l.ref
+                  //   ),
                 ])
               )
             ),
