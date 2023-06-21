@@ -1,6 +1,5 @@
-import { UIForm } from 'mithril-ui-form';
-import { Assessment, assessmentModel } from './assessment';
-import { Development, developmentModel } from './development';
+import { assessmentModel } from './assessment';
+import { developmentModel } from './development';
 import { evaluationModel, projectEvaluationModel } from './evaluation';
 import { preparationModel } from './preparation';
 import { settingsModel } from './settings';
@@ -47,14 +46,7 @@ export interface ICapabilityDataModel {
 }
 
 export interface ICapabilityModel {
-  form: UIForm;
   version?: number;
-  preparations?: UIForm;
-  assessment?: UIForm<Assessment>;
-  development?: UIForm<Development>;
-  evaluation?: UIForm<Partial<ICapabilityModel>>;
-  projectEvaluation?: UIForm;
-  settings?: UIForm<ICapabilityDataModel>;
   data: Partial<ICapabilityDataModel>;
 }
 

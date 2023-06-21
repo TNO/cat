@@ -27,6 +27,7 @@ i18n.init(
 );
 
 i18n.addOnChangeListener((locale: string) => {
+  console.log(`Language loaded`);
   document.documentElement.setAttribute('lang', locale);
   routingSvc.init();
   m.route(document.body, routingSvc.defaultRoute, routingSvc.routingTable());

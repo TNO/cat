@@ -110,7 +110,7 @@ export const HomePage: MeiosisComponent = () => {
             onclick: () => {
               const dlAnchorElem = document.getElementById('downloadAnchorElem');
               if (!dlAnchorElem) return;
-              const version = typeof catModel.version === 'undefined' ? 1 : catModel.version++;
+              const version = typeof catModel.version === 'undefined' ? 1 : ++catModel.version;
               const dataStr =
                 'data:text/json;charset=utf-8,' +
                 encodeURIComponent(JSON.stringify({ version, ...catModel }, null, 2));

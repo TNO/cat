@@ -15,6 +15,7 @@ export const SettingsPage: MeiosisComponent = () => ({
     attrs: {
       state: {
         app: {
+          settings: form = [],
           catModel = {
             form: [] as UIForm,
             settings: [] as UIForm,
@@ -25,7 +26,7 @@ export const SettingsPage: MeiosisComponent = () => ({
       actions: { saveModel },
     },
   }) => {
-    const { settings: form = [], data = {} } = catModel;
+    const { data = {} } = catModel;
     const sections = form.filter((i) => i.type === 'section');
     const tabs = sections.map(
       (s) =>

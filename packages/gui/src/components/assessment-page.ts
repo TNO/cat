@@ -34,19 +34,20 @@ export const AssessmentPage: MeiosisComponent = () => {
             categoryId,
             subcategoryId,
             capabilityId,
+            assessment = [],
           },
         },
         actions: { saveModel, update },
       },
     }) => {
-      const { assessment = [], data = {} } = catModel;
+      const { data = {} } = catModel;
       const { categories = [], capabilities } = data;
       const category = categoryId && categories.filter((cat) => cat.id === categoryId).shift();
       const caps =
         capabilities && capabilities.filter((cap) => cap.subcategoryId === subcategoryId);
       const cap = capabilities && capabilities.filter((cap) => cap.id === capabilityId).shift();
 
-      console.log(JSON.stringify(cap, null, 2));
+      // console.log(JSON.stringify(cap, null, 2));
       return m(
         '.assessment.page',
         [

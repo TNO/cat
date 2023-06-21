@@ -35,7 +35,7 @@
   "target": "web",
   "dependencies": {
     "lz-string": "^1.5.0",
-    "material-icons": "^1.13.7",
+    "material-icons": "^1.13.8",
     "materialize-css": "^1.0.0",
     "mithril": "^2.2.2",
     "mithril-materialized": "^1.0.1",
@@ -45,7 +45,7 @@
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.2.2",
+    "@rspack/cli": "^0.2.3",
     "@types/materialize-css": "^1.0.11",
     "@types/mithril": "^2.0.12",
     "dotenv-webpack": "^8.0.1",

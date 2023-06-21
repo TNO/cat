@@ -41,8 +41,8 @@ module.exports = {
     minifyOptions: devMode
       ? undefined
       : {
-          passes: 1,
-          dropConsole: true,
+          passes: 3,
+          dropConsole: false,
         },
   },
   module: {

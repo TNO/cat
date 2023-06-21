@@ -22,12 +22,13 @@ export const DevelopmentPage: MeiosisComponent = () => {
             categoryId,
             subcategoryId: subCategoryId,
             capabilityId,
+            development = [],
           },
         },
         actions: { saveModel, update },
       },
     }) => {
-      const { development = [], data = {} } = catModel;
+      const { data = {} } = catModel;
       const { categories = [], capabilities = [], projectProposals = [] } = data;
       if (!data.projectProposals) {
         data.projectProposals = projectProposals;

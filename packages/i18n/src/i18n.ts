@@ -39,7 +39,7 @@ export type Locales = {
   url?: string;
 };
 
-export type LoadingStatus = 'loading' | 'idle';
+export type LoadingStatus = 'loading' | 'idle' | 'uninitialized';
 
 export type Listener = (locale: string, dir: TextDirection) => void;
 
@@ -49,7 +49,7 @@ export const i18n = {
   locales: {} as Locales,
   messages: {} as Messages,
   onChangeLocale: [] as Listener[],
-  status: 'loading' as LoadingStatus,
+  status: 'uninitialized' as LoadingStatus,
   init,
   t,
   number,

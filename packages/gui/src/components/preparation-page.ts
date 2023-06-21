@@ -48,30 +48,17 @@ export const PreparationPage: MeiosisComponent = () => {
     view: ({
       attrs: {
         state: {
-          app: { catModel = { preparations: [], data: {} } as Partial<ICapabilityModel> },
+          app: {
+            preparations = [],
+            catModel = { preparations: [], data: {} } as Partial<ICapabilityModel>,
+          },
         },
         actions: { saveModel },
       },
     }) => {
-      const { preparations = [], data = {} } = catModel;
+      const { data = {} } = catModel;
       const prepare = preparations.filter((i) => i.type === 'section') as UIForm;
-      const opt = resolveExpression('categories[capabilities.categoryId]', [data]);
 
-      const options = (
-        opt && opt instanceof Array
-          ? opt
-              .filter(
-                (o) => typeof o.id !== 'undefined' && (o.label || !/[0-9]/.test(o.id)) && !o.show
-              )
-              .map((o) => (o.label ? o : { ...o, label: capitalizeFirstLetter(o.id) }))
-          : []
-      ) as Array<{
-        id: string;
-        label: string;
-        disabled?: boolean;
-        icon?: string;
-        show?: string | string[];
-      }>;
       const tabs = prepare.map(
         (s, i) =>
           ({

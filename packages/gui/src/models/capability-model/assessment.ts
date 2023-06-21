@@ -32,7 +32,7 @@ export const assessmentModel = () =>
           id: 'stakeholderId',
           label: t('sh'),
           type: 'select',
-          options: 'stakeholders',
+          options: 'stakeholderTypes',
           className: 'col s4 m2',
         },
         {

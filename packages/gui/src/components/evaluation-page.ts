@@ -20,12 +20,14 @@ export const EvaluationPage: MeiosisComponent = () => {
             categoryId,
             subcategoryId: subCategoryId,
             capabilityId,
+            projectEvaluation = [],
+            evaluation = [],
           },
         },
         actions: { saveModel, update },
       },
     }) => {
-      const { projectEvaluation = [], evaluation = [], data = {} } = catModel;
+      const { data = {} } = catModel;
       const { categories = [], capabilities = [], projectProposals = [] } = data;
       if (!data.projectProposals) {
         data.projectProposals = projectProposals;

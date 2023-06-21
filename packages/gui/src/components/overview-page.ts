@@ -74,12 +74,21 @@ export const OverviewPage: MeiosisComponent = () => {
         } as Partial<ICapabilityDataModel>,
       } = catModel;
       catModel.data = data;
-      const { categories, capabilities, projectProposals = [], assessmentScale = [] } = data;
+      const {
+        categories,
+        capabilities,
+        projectProposals = [],
+        assessmentScale = [],
+        stakeholders = [],
+      } = data;
       const filterText = createTextFilter(textFilter);
       const filterStakeholders = createStakeholderFilter(stakeholderFilter as string[]);
       const filteredCapabilities =
         capabilities && capabilities.filter(filterText).filter(filterStakeholders);
 
+      const stakeholderOpts = stakeholders
+        .filter((s) => s.id)
+        .map((p) => ({ id: p.id, label: p.id }));
       const filteredCategories =
         categories &&
         filteredCapabilities &&
@@ -135,15 +144,15 @@ export const OverviewPage: MeiosisComponent = () => {
                   className: 'col s12',
                 }),
               ],
-              data.stakeholders &&
+              stakeholderOpts &&
                 m(Select, {
                   placeholder: t('select_m_ph'),
                   label: t('sh_filter'),
                   checkedId: stakeholderFilter,
-                  options: data.stakeholders.map((p) => ({ id: p.id, label: p.id })),
+                  options: stakeholderOpts,
                   iconName: 'person',
                   multiple: true,
-                  disabled: data.stakeholders.length === 0,
+                  disabled: stakeholderOpts.length === 0,
                   onchange: (f) => update({ app: { stakeholderFilter: f as string[] } }),
                   className: 'col s12',
                 }),
@@ -189,38 +198,39 @@ export const OverviewPage: MeiosisComponent = () => {
                                 ),
                                 m(
                                   'ul.caps',
-                                  sc.capabilities.map((cap) => {
-                                    const { assessmentId } = cap;
-                                    const assessment = assessmentScale
-                                      .filter((a) => a.id === assessmentId)
-                                      .shift();
-                                    const color = assessment ? assessment.color : undefined;
-                                    const title = assessment ? assessment.label : undefined;
-                                    return m(
-                                      'li',
-                                      m(
-                                        'a.white-text',
-                                        {
-                                          alt: cap.label,
-                                          href: createRoute(Dashboards.ASSESSMENT, {
-                                            id: cap.id,
-                                          }),
-                                        },
-                                        m('.capability', [
-                                          m('.square', {
-                                            title,
-                                            style: `background-color: ${color}`,
-                                          }),
-                                          m('.name', cap.label),
-                                          m(
-                                            '.badges.right-align',
-                                            m.trust(
-                                              `${
-                                                cap.capabilityStakeholders &&
-                                                cap.capabilityStakeholders.length > 0
-                                                  ? `${cap.capabilityStakeholders.length}<i class="inline-icon material-icons">people</i> `
-                                                  : ''
-                                              }${cap.shouldDevelop ? '✓' : ''}
+                                  sc.capabilities &&
+                                    sc.capabilities.map((cap) => {
+                                      const { assessmentId } = cap;
+                                      const assessment = assessmentScale
+                                        .filter((a) => a.id === assessmentId)
+                                        .shift();
+                                      const color = assessment ? assessment.color : undefined;
+                                      const title = assessment ? assessment.label : undefined;
+                                      return m(
+                                        'li',
+                                        m(
+                                          'a.white-text',
+                                          {
+                                            alt: cap.label,
+                                            href: createRoute(Dashboards.ASSESSMENT, {
+                                              id: cap.id,
+                                            }),
+                                          },
+                                          m('.capability', [
+                                            m('.square', {
+                                              title,
+                                              style: `background-color: ${color}`,
+                                            }),
+                                            m('.name', cap.label),
+                                            m(
+                                              '.badges.right-align',
+                                              m.trust(
+                                                `${
+                                                  cap.capabilityStakeholders &&
+                                                  cap.capabilityStakeholders.length > 0
+                                                    ? `${cap.capabilityStakeholders.length}<i class="inline-icon material-icons">people</i> `
+                                                    : ''
+                                                }${cap.shouldDevelop ? '✓' : ''}
                                                   ${
                                                     projectProposals.length > 0 &&
                                                     projectProposals.filter(
@@ -257,12 +267,12 @@ export const OverviewPage: MeiosisComponent = () => {
                                                         }<i class="inline-icon material-icons">engineering</i>`
                                                       : ''
                                                   }`
-                                            )
-                                          ),
-                                        ])
-                                      )
-                                    );
-                                  })
+                                              )
+                                            ),
+                                          ])
+                                        )
+                                      );
+                                    })
                                 ),
                               ]),
                             ]

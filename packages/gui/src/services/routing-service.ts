@@ -101,6 +101,7 @@ class RoutingService {
     ];
     // console.log(JSON.stringify(routes, null, 2));
     this.setList(routes);
+    actions.setLanguage();
     // console.log(JSON.stringify(this.dashboards, null, 2));
   }
 

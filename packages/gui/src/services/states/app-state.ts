@@ -1,8 +1,10 @@
 import Stream from 'mithril/stream';
-import { i18n } from 'mithriljs-i18n';
+import { i18n, LoadingStatus } from 'mithriljs-i18n';
 import { routingSvc, ModelUpdateFunction } from '..';
 import {
+  Assessment,
   Dashboards,
+  Development,
   assessmentModel,
   developmentModel,
   evaluationModel,
@@ -12,9 +14,11 @@ import {
 } from '../../models';
 import {
   defaultCapabilityModel,
+  ICapabilityDataModel,
   ICapabilityModel,
 } from '../../models/capability-model/capability-model';
 import { IAppModel, UpdateStream } from '../meiosis';
+import { UIForm } from 'mithril-ui-form-plugin';
 /** Application state */
 
 const catModelKey = 'catModel';
@@ -31,6 +35,14 @@ export interface IAppStateModel {
     categoryId?: string;
     subcategoryId?: string;
     capabilityId?: string;
+
+    // FORMS
+    preparations?: UIForm;
+    assessment?: UIForm<Assessment>;
+    development?: UIForm<Development>;
+    evaluation?: UIForm<Partial<ICapabilityModel>>;
+    projectEvaluation?: UIForm;
+    settings?: UIForm<ICapabilityDataModel>;
   };
 }
 
@@ -49,7 +61,7 @@ export interface IAppStateActions {
     query?: { [key: string]: string | number | undefined }
   ) => void;
   saveModel: (cat: Partial<ICapabilityModel>) => void;
-  setLanguage: (locale: string) => Promise<void>;
+  setLanguage: (locale?: string) => Promise<void>;
 }
 
 export interface IAppState {
@@ -57,16 +69,17 @@ export interface IAppState {
   actions: (us: UpdateStream, states: Stream<IAppModel>) => IAppStateActions;
 }
 
-// console.log(`API server: ${process.env.SERVER}`);
+console.log(`API server: ${process.env.SERVER}`);
 
-const localizeCatModel = (cat: Partial<ICapabilityModel>) => {
-  cat.assessment = assessmentModel();
-  cat.development = developmentModel();
-  cat.settings = settingsModel();
-  cat.evaluation = evaluationModel();
-  cat.projectEvaluation = projectEvaluationModel();
-  cat.preparations = preparationModel();
-  return cat;
+const localizeDataModel = ({ app }: Partial<IAppStateModel>) => {
+  if (!app) return;
+  app.assessment = assessmentModel();
+  app.development = developmentModel();
+  app.settings = settingsModel();
+  app.evaluation = evaluationModel();
+  app.projectEvaluation = projectEvaluationModel();
+  app.preparations = preparationModel();
+  return app;
 };
 
 const cm = localStorage.getItem(catModelKey) || JSON.stringify(defaultCapabilityModel);
@@ -96,16 +109,15 @@ export const appStateMgmt = {
       },
       createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
       saveModel: (cat) => {
-        cat = localizeCatModel(cat);
         localStorage.setItem(catModelKey, JSON.stringify(cat));
-        update({ app: { catModel: () => cat } });
+        const catModel = { version: cat.version, data: cat.data };
+        update({ app: { catModel: () => catModel } });
       },
-      setLanguage: async (locale: string) => {
+      setLanguage: async (locale = i18n.currentLocale) => {
         const state = states();
-        const catModel = state.app.catModel;
         localStorage.setItem('CAT_LANGUAGE', locale);
         await i18n.loadAndSetLocale(locale);
-        update({ app: { catModel: () => localizeCatModel(catModel) } });
+        update({ app: () => localizeDataModel(state) });
       },
     };
   },
