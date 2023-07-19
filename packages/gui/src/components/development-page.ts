@@ -1,7 +1,7 @@
 import m from 'mithril';
 import { Select, Collapsible, FlatButton, ModalPanel } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
-import { Dashboards, ICapabilityModel, ProjectProposal } from '../models';
+import { Dashboards, Development, ICapabilityModel, ProjectProposal } from '../models';
 import { MeiosisComponent } from '../services';
 import { t } from 'mithriljs-i18n';
 
@@ -127,7 +127,7 @@ export const DevelopmentPage: MeiosisComponent = () => {
                   onchange: () => {
                     saveModel(catModel);
                   },
-                } as FormAttributes),
+                } as FormAttributes<Development>),
               ]),
               iconName: p.approved ? 'engineering' : 'lightbulb',
             })),

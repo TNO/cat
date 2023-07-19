@@ -1,43 +1,10 @@
 import m from 'mithril';
 import { ITabItem, Tabs } from 'mithril-materialized';
-import {
-  LayoutForm,
-  UIForm,
-  render,
-  resolveExpression,
-  capitalizeFirstLetter,
-} from 'mithril-ui-form';
-import { Dashboards, ICapabilityModel } from '../models';
+import { LayoutForm, UIForm, render, FormAttributes } from 'mithril-ui-form';
+import { Dashboards, ICapabilityDataModel, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t } from 'mithriljs-i18n';
 
-const getPath = <O extends {}>(obj: O, s: string) => {
-  s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-  s = s.replace(/^\./, ''); // strip a leading dot
-  const a = s.split('.');
-  let o = { ...obj };
-  // console.log(o)
-  for (let i = 0, n = a.length; i < n; ++i) {
-    const k = a[i];
-    console.log(k);
-    if (k in o) {
-      o = (o as Record<string, any>)[k];
-    } else if (o instanceof Array) {
-      const id = (obj as any)[k] || k;
-      const m = /([A-Z]\w+)/.exec(k); // categoryId => match Id, myNameLabel => NameLabel
-      const key = (m && m[0][0].toLowerCase() + m[0].substr(1)) || k; // key = id or nameLabel
-      const found = o.filter((i) => i[key] === id).shift();
-      if (found) {
-        o = found;
-      } else {
-        return undefined;
-      }
-    } else {
-      return undefined;
-    }
-  }
-  return o as any;
-};
 export const PreparationPage: MeiosisComponent = () => {
   return {
     oninit: ({
@@ -49,7 +16,7 @@ export const PreparationPage: MeiosisComponent = () => {
       attrs: {
         state: {
           app: {
-            preparations = [],
+            preparations = [] as UIForm<ICapabilityDataModel>,
             catModel = { preparations: [], data: {} } as Partial<ICapabilityModel>,
           },
         },
@@ -57,7 +24,9 @@ export const PreparationPage: MeiosisComponent = () => {
       },
     }) => {
       const { data = {} } = catModel;
-      const prepare = preparations.filter((i) => i.type === 'section') as UIForm;
+      const prepare = preparations.filter(
+        (i) => i.type === 'section'
+      ) as UIForm<ICapabilityDataModel>;
 
       const tabs = prepare.map(
         (s, i) =>
@@ -71,7 +40,7 @@ export const PreparationPage: MeiosisComponent = () => {
               onchange: () => {
                 saveModel(catModel);
               },
-            }),
+            } as FormAttributes<ICapabilityDataModel>),
           } as ITabItem)
       );
       return m('.row', { style: 'height: 90vh' }, [

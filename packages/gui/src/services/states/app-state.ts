@@ -1,5 +1,5 @@
 import Stream from 'mithril/stream';
-import { i18n, LoadingStatus } from 'mithriljs-i18n';
+import { i18n } from 'mithriljs-i18n';
 import { routingSvc, ModelUpdateFunction } from '..';
 import {
   Assessment,
@@ -18,7 +18,7 @@ import {
   ICapabilityModel,
 } from '../../models/capability-model/capability-model';
 import { IAppModel, UpdateStream } from '../meiosis';
-import { UIForm } from 'mithril-ui-form-plugin';
+import { UIForm } from 'mithril-ui-form';
 /** Application state */
 
 const catModelKey = 'catModel';
@@ -37,7 +37,7 @@ export interface IAppStateModel {
     capabilityId?: string;
 
     // FORMS
-    preparations?: UIForm;
+    preparations?: UIForm<ICapabilityDataModel>;
     assessment?: UIForm<Assessment>;
     development?: UIForm<Development>;
     evaluation?: UIForm<Partial<ICapabilityModel>>;

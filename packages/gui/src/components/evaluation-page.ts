@@ -109,7 +109,7 @@ export const EvaluationPage: MeiosisComponent = () => {
               onchange: () => {
                 saveModel(catModel);
               },
-            } as FormAttributes)
+            } as FormAttributes<Partial<ICapabilityModel>>)
           ),
         projects &&
           projects.length > 0 &&

@@ -96,14 +96,14 @@ export const AssessmentPage: MeiosisComponent = () => {
           m(
             '.row',
             m(LayoutForm, {
-              form: assessment as UIForm<ICapabilityModel>,
+              form: assessment as UIForm<Partial<ICapability>>,
               obj: cap,
               context: [data],
               onchange: () => {
                 saveModel(catModel);
                 console.log(JSON.stringify(catModel, null, 2));
               },
-            } as FormAttributes)
+            } as FormAttributes<Partial<ICapability>>)
           )
       );
     },

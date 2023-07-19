@@ -39,13 +39,12 @@
     "materialize-css": "^1.0.0",
     "mithril": "^2.2.2",
     "mithril-materialized": "^1.0.1",
-    "mithril-ui-form": "^1.8.6",
-    "mithril-ui-form-plugin": "^0.5.2-next.0",
-    "mithril-ui-form-rating-plugin": "^0.6.1",
+    "mithril-ui-form": "^1.9.1",
+    "mithril-ui-form-rating-plugin": "^0.7.1",
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.2.3",
+    "@rspack/cli": "^0.2.8",
     "@types/materialize-css": "^1.0.11",
     "@types/mithril": "^2.0.12",
     "dotenv-webpack": "^8.0.1",

@@ -1,5 +1,6 @@
 import { UIForm } from 'mithril-ui-form';
 import { t } from 'mithriljs-i18n';
+import { ICapabilityDataModel } from './capability-model';
 
 export const preparationModel = () =>
   [
@@ -190,4 +191,4 @@ export const preparationModel = () =>
         },
       ],
     },
-  ] as UIForm;
+  ] as UIForm<ICapabilityDataModel>;
