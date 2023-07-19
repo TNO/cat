@@ -1,4 +1,4 @@
-import { UIForm } from 'mithril-ui-form-plugin';
+import { UIForm } from 'mithril-ui-form';
 import { CapabilityStakeholder, Documentation } from './capability-model';
 import { t } from 'mithriljs-i18n';
 
@@ -24,7 +24,7 @@ export const assessmentModel = () =>
     },
     {
       id: 'capabilityStakeholders',
-      label: t('shs'),
+      label: t('sh'),
       pageSize: 5,
       repeat: true,
       type: [
@@ -32,15 +32,15 @@ export const assessmentModel = () =>
           id: 'stakeholderId',
           label: t('sh'),
           type: 'select',
-          options: 'stakeholderTypes',
-          className: 'col s4 m2',
+          options: 'stakeholders',
+          className: 'col s4',
         },
         {
           id: 'goal',
           label: t('goals'),
           placeholder: t('goals_instr'),
           type: 'textarea',
-          className: 'col s8 m10',
+          className: 'col s8',
         },
       ],
       className: 'col m12',

@@ -17,6 +17,24 @@ export const settingsModel = () =>
         { id: 'label', type: 'text', label: t('name'), className: 'col s8 m9' },
       ],
     },
+    {
+      id: 'stakeholders',
+      label: t('sh'),
+      repeat: true,
+      propertyFilter: 'label',
+      sortProperty: 'id',
+      type: [
+        { id: 'id', type: 'text', className: 'col s3 m3' },
+        { id: 'label', type: 'text', label: t('name'), className: 'col s6 m6' },
+        {
+          id: 'type',
+          type: 'select',
+          label: t('sh_type'),
+          options: 'stakeholderTypes',
+          className: 'col s3 m3',
+        },
+      ],
+    },
 
     { id: 'task-settings', type: 'section', label: t('tasks') },
     { type: 'md', value: t('task_settings') },
