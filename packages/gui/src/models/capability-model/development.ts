@@ -1,4 +1,4 @@
-import { UIForm } from 'mithril-ui-form-plugin';
+import { UIForm } from 'mithril-ui-form';
 import { t } from 'mithriljs-i18n';
 
 export type Development = {

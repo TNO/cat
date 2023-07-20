@@ -4,35 +4,17 @@ import { t } from 'mithriljs-i18n';
 
 export const settingsModel = () =>
   [
-    { id: 'stakeholder-settings', type: 'section', label: t('sh') },
+    { id: 'stakeholder-settings', type: 'section', label: t('sh_types') },
     { type: 'md', value: t('sh_settings') },
     {
       id: 'stakeholderTypes',
-      label: t('sh_types'),
+      label: t('sh_type'),
       repeat: true,
       propertyFilter: 'label',
       sortProperty: 'id',
       type: [
         { id: 'id', type: 'text', className: 'col s4 m3' },
         { id: 'label', type: 'text', label: t('name'), className: 'col s8 m9' },
-      ],
-    },
-    {
-      id: 'stakeholders',
-      label: t('sh'),
-      repeat: true,
-      propertyFilter: 'label',
-      sortProperty: 'id',
-      type: [
-        { id: 'id', type: 'text', className: 'col s3 m3' },
-        { id: 'label', type: 'text', label: t('name'), className: 'col s6 m6' },
-        {
-          id: 'type',
-          type: 'select',
-          label: t('sh_type'),
-          options: 'stakeholderTypes',
-          className: 'col s3 m3',
-        },
       ],
     },
 

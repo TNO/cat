@@ -24,7 +24,7 @@ export const assessmentModel = () =>
     },
     {
       id: 'capabilityStakeholders',
-      label: t('sh'),
+      label: t('shs'),
       pageSize: 5,
       repeat: true,
       type: [

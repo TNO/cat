@@ -2,7 +2,10 @@ import m from 'mithril';
 import { ITabItem, Tabs } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, UIForm } from 'mithril-ui-form';
 import { Dashboards } from '../models';
-import { ICapabilityModel } from '../models/capability-model/capability-model';
+import {
+  ICapabilityDataModel,
+  ICapabilityModel,
+} from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
 
 export const SettingsPage: MeiosisComponent = () => ({
@@ -48,7 +51,7 @@ export const SettingsPage: MeiosisComponent = () => ({
               );
               saveModel(catModel);
             },
-          } as FormAttributes),
+          } as FormAttributes<ICapabilityDataModel>),
         } as ITabItem)
     );
     return m('.settings.page', m('.row', m(Tabs, { tabs, tabWidth: 'fill' })));

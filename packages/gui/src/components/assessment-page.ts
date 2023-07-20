@@ -3,7 +3,7 @@ import { Select } from 'mithril-materialized';
 import { FormAttributes, LayoutForm, UIForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
-import { t } from 'mithriljs-i18n';
+import { t, i18n } from 'mithriljs-i18n';
 
 export const AssessmentPage: MeiosisComponent = () => {
   return {
@@ -28,26 +28,23 @@ export const AssessmentPage: MeiosisComponent = () => {
     },
     view: ({
       attrs: {
-        state: {
-          app: {
-            catModel = { data: {} } as ICapabilityModel,
-            categoryId,
-            subcategoryId,
-            capabilityId,
-            assessment = [],
-          },
-        },
-        actions: { saveModel, update },
+        state: { app },
+        actions: { saveModel, update, changePage },
       },
     }) => {
+      const capabilityId = m.route.param('id');
+      if (!capabilityId) {
+        changePage(Dashboards.HOME);
+      }
+      const { catModel = { data: {} } as ICapabilityModel, assessment = [] } = app;
       const { data = {} } = catModel;
-      const { categories = [], capabilities } = data;
+      const { categories = [], capabilities = [] } = data;
+      const cap = (capabilities.filter((cap) => cap.id === capabilityId).shift() ||
+        {}) as ICapability;
+      const { categoryId, subcategoryId } = cap;
       const category = categoryId && categories.filter((cat) => cat.id === categoryId).shift();
       const caps =
         capabilities && capabilities.filter((cap) => cap.subcategoryId === subcategoryId);
-      const cap = capabilities && capabilities.filter((cap) => cap.id === capabilityId).shift();
-
-      // console.log(JSON.stringify(cap, null, 2));
       return m(
         '.assessment.page',
         [
@@ -94,7 +91,8 @@ export const AssessmentPage: MeiosisComponent = () => {
         ],
         cap &&
           m(
-            '.row',
+            'form.row',
+            { lang: i18n.currentLocale, spellcheck: false },
             m(LayoutForm, {
               form: assessment as UIForm<Partial<ICapability>>,
               obj: cap,
