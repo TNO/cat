@@ -26,7 +26,10 @@
     "roadmap"
   ],
   "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ],
   "devDependencies": {
-    "pnpm": "^8.6.9"
+    "pnpm": "^8.7.5"
   }
 }

@@ -31,24 +31,23 @@
     "roadmap"
   ],
   "license": "MIT",
-  "app": "src/index.html",
   "target": "web",
   "dependencies": {
     "lz-string": "^1.5.0",
-    "material-icons": "^1.13.8",
+    "material-icons": "^1.13.11",
     "materialize-css": "^1.0.0",
     "mithril": "^2.2.2",
-    "mithril-materialized": "^1.0.1",
-    "mithril-ui-form": "^1.9.1",
+    "mithril-materialized": "^1.1.0",
+    "mithril-ui-form": "^1.9.2",
     "mithril-ui-form-rating-plugin": "^0.7.1",
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.2.8",
+    "@rspack/cli": "^0.3.4",
     "@types/materialize-css": "^1.0.11",
-    "@types/mithril": "^2.0.12",
+    "@types/mithril": "^2.0.14",
     "dotenv-webpack": "^8.0.1",
     "rimraf": "^5.0.1",
-    "typescript": "next"
+    "typescript": "5.2.2"
   }
 }
