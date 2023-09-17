@@ -1,7 +1,6 @@
 import m from 'mithril';
 import { Select } from 'mithril-materialized';
-import { InputField, resolveExpression } from 'mithril-ui-form';
-import { PluginType } from 'mithril-ui-form-plugin';
+import { InputField, resolveExpression, PluginType } from 'mithril-ui-form';
 import { getTextColorFromBackground } from '../../utils';
 import { t } from 'mithriljs-i18n';
 
@@ -63,19 +62,16 @@ export const lookupTable: PluginType = () => {
       const color = opt && opt.color ? opt.color : '#f0f8ff';
 
       if (onchange && opt && obj[id] !== opt.id) onchange(opt.id);
-      return m('section', [
+      return m('section.row', [
         m('.divider'),
         m(
-          '.row',
+          '.col.s12.right-align',
           m(
-            '.col.s12.right-align',
-            m(
-              `.assessment-score.${getTextColorFromBackground(color)}`,
-              {
-                style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
-              },
-              [m('strong', `${label}: `), m('span', opt ? opt.label : 'TBD')]
-            )
+            `.assessment-score.${getTextColorFromBackground(color)}`,
+            {
+              style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
+            },
+            [m('strong', `${label}: `), m('span', opt ? opt.label : 'TBD')]
           )
         ),
       ]);

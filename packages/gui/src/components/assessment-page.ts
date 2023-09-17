@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { Select } from 'mithril-materialized';
-import { FormAttributes, LayoutForm, UIForm, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t, i18n } from 'mithriljs-i18n';
@@ -98,12 +98,12 @@ export const AssessmentPage: MeiosisComponent = () => {
             'form.row',
             { lang: i18n.currentLocale, spellcheck: false },
             m(LayoutForm, {
-              form: assessment as UIForm<Partial<ICapability>>,
+              form: assessment,
               obj: cap,
               context: [data],
               onchange: () => {
                 saveModel(catModel);
-                console.log(JSON.stringify(catModel, null, 2));
+                console.table(catModel);
               },
             } as FormAttributes<Partial<ICapability>>)
           )

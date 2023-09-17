@@ -163,11 +163,13 @@ export const assessmentPlugin: PluginType = () => {
                             className: 'tiny left-align clickable',
                             style: 'line-height: 48px',
                             onclick: () => {
-                              console.log(item);
                               if (item.value) {
                                 item.value = undefined;
                                 key++;
-                                m.redraw();
+                                const o = computeOutcome(overallAssessment, score, items);
+                                if (typeof o === 'number')
+                                  (obj[id] as AssessmentType).assessmentId = score[o].id;
+                                onchange && onchange(obj[id]);
                               }
                             },
                           }),

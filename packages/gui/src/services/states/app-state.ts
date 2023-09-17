@@ -109,6 +109,7 @@ export const appStateMgmt = {
       },
       createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
       saveModel: (cat) => {
+        console.log('SAVING');
         localStorage.setItem(catModelKey, JSON.stringify(cat));
         const catModel = { version: cat.version, data: cat.data };
         update({ app: { catModel: () => catModel } });

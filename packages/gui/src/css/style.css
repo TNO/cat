@@ -545,7 +545,7 @@ ul.projects > li > span.project-id {
 }
 
 .page .row {
-  margin-bottom: 0;
+  margin-bottom: 10px;
 }
 .page {
   min-height: 95vh;
@@ -624,4 +624,22 @@ a.waves-effect.waves-teal.btn-flat.selected {
   filter: grayscale(100%);
   opacity: 0.5;
   pointer-events: none;
+}
+
+#category-list {
+  padding-left: 250px;
+  /* position: absolute;
+  left: 270px;
+  width: calc(100% - 320px); */
+}
+.category-item {
+  min-width: 500px;
+}
+@media only screen and (max-width: 992px) {
+  #category-list {
+    padding-left: 0;
+  }
+  .category-item {
+    min-width: 200px;
+  }
 }
