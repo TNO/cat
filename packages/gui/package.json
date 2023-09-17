@@ -37,7 +37,7 @@
     "material-icons": "^1.13.11",
     "materialize-css": "^1.0.0",
     "mithril": "^2.2.2",
-    "mithril-materialized": "^1.1.0",
+    "mithril-materialized": "^1.1.1",
     "mithril-ui-form": "^1.9.2",
     "mithril-ui-form-rating-plugin": "^0.7.1",
     "mithriljs-i18n": "workspace:*"
