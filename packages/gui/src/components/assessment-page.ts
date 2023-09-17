@@ -7,16 +7,18 @@ import { t, i18n } from 'mithriljs-i18n';
 import { CircularSpinner } from './ui';
 
 export const AssessmentPage: MeiosisComponent = () => {
+  let version = 0;
+
   return {
     oninit: ({
       attrs: {
         state: {
-          app: { catModel = {} as ICapabilityModel },
+          app: { capabilityId, catModel = {} as ICapabilityModel },
         },
         actions: { setPage, update },
       },
     }) => {
-      const id = m.route.param('id');
+      const id = capabilityId || m.route.param('id');
       const { capabilities = [] } = catModel.data;
       if (id && catModel) {
         const capability =
@@ -36,16 +38,13 @@ export const AssessmentPage: MeiosisComponent = () => {
         actions: { saveModel, update },
       },
     }) => {
-      const capabilityId = m.route.param('id') || app.capabilityId;
-      if (!capabilityId) {
-        return m(CircularSpinner);
-      }
       const { catModel = { data: {} } as ICapabilityModel, assessment = [] } = app;
       const { data = {} } = catModel;
       const { categories = [], capabilities = [] } = data;
+      const capabilityId = app.capabilityId || m.route.param('id');
       const cap = (capabilities.filter((cap) => cap.id === capabilityId).shift() ||
         {}) as ICapability;
-      const { categoryId, subcategoryId } = cap;
+      const { categoryId = app.categoryId, subcategoryId = app.subcategoryId } = cap;
       const category = categoryId && categories.filter((cat) => cat.id === categoryId).shift();
       const caps =
         capabilities && capabilities.filter((cap) => cap.subcategoryId === subcategoryId);
@@ -59,26 +58,30 @@ export const AssessmentPage: MeiosisComponent = () => {
               className: 'col s4',
               placeholder: t('pick_one'),
               label: t('select_cat'),
-              initialValue: categoryId,
+              checkedId: categoryId,
               options: categories,
-              onchange: (v) =>
+              onchange: (v) => {
+                version++;
                 update({
                   app: {
                     categoryId: v[0] as string,
                     subcategoryId: undefined,
                     capabilityId: undefined,
                   },
-                }),
+                });
+              },
             }),
             category &&
               m(Select, {
                 className: 'col s4',
                 placeholder: t('pick_one'),
                 label: t('select_subcat'),
-                initialValue: subcategoryId,
+                checkedId: subcategoryId,
                 options: category && category.subcategories,
-                onchange: (v) =>
-                  update({ app: { subcategoryId: v[0] as string, capabilityId: undefined } }),
+                onchange: (v) => {
+                  version++;
+                  update({ app: { subcategoryId: v[0] as string, capabilityId: undefined } });
+                },
               }),
             caps &&
               caps.length > 0 &&
@@ -86,18 +89,22 @@ export const AssessmentPage: MeiosisComponent = () => {
                 className: 'col s4',
                 placeholder: t('pick_one'),
                 label: t('select_cap'),
-                initialValue: capabilityId,
+                checkedId: capabilityId,
                 options: caps,
-                onchange: (v) => update({ app: { capabilityId: v[0] as string } }),
+                onchange: (v) => {
+                  version++;
+                  update({ app: { capabilityId: v[0] as string } });
+                },
               }),
           ]),
           cap && m('.row', m('h5.col.s12', `${t('cap')} '${cap.label}'`)),
         ],
-        cap &&
+        cap && [
           m(
             'form.row',
             { lang: i18n.currentLocale, spellcheck: false },
             m(LayoutForm, {
+              key: capabilityId,
               form: assessment,
               obj: cap,
               context: [data],
@@ -106,7 +113,8 @@ export const AssessmentPage: MeiosisComponent = () => {
                 console.table(catModel);
               },
             } as FormAttributes<Partial<ICapability>>)
-          )
+          ),
+        ]
       );
     },
   };

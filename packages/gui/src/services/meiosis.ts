@@ -2,6 +2,8 @@ import m, { FactoryComponent } from 'mithril';
 import Stream from 'mithril/stream';
 import { merge } from '../utils/mergerino';
 import { appStateMgmt, IAppStateActions, IAppStateModel } from './states';
+import { Dashboards } from '../models';
+import { routingSvc } from '.';
 
 export interface IAppModel extends IAppStateModel {}
 
@@ -32,7 +34,11 @@ const app = {
     Object.assign({}, appStateMgmt.actions(update, states)) as IActions,
   /** Services update the state */
   services: [
-    // (s) => console.log(s.app.page),
+    (s) => {
+      if (s.app.page === Dashboards.ASSESSMENT || s.app.page === Dashboards.DEVELOPMENT) {
+        routingSvc && routingSvc.switchTo(s.app.page, { id: s.app.capabilityId });
+      }
+    },
   ] as Array<(s: IAppModel) => Partial<IAppModel> | void>,
   // effects: (_update: UpdateStream, actions: IActions) => [
   //   LoginEffect(actions),
