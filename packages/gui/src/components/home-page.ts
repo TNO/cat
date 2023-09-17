@@ -2,6 +2,7 @@ import m from 'mithril';
 import lz from 'lz-string';
 import { Button, Icon, ModalPanel } from 'mithril-materialized';
 import background from '../assets/background.jpg';
+import tno from '../assets/tno.svg';
 import { routingSvc, MeiosisComponent } from '../services';
 import { Dashboards } from '../models';
 import { DutchFlag, EnglishFlag, formatDate } from '../utils';
@@ -47,9 +48,18 @@ export const HomePage: MeiosisComponent = () => {
           {
             style: 'position: absolute; width: 100%',
           },
-          [m('h3.white-text', 'Capability Assessment Tool (CAT)')]
+          m(
+            'a',
+            { target: '_blank', href: 'https://www.tno.nl' },
+            m('img.right', { style: 'margin: 15px', alt: 'TNO', src: tno })
+          ),
+          m('h3.white-text.left', { style: 'margin: 10px' }, 'Capability Assessment Tool (CAT)')
         ),
-        m('img.responsive-img.center', { src: background }),
+        m('img.responsive-img.center', {
+          alt: 'Background of a cat sitting in a tree.',
+          src: background,
+        }),
+
         m('.buttons.center', { style: 'margin: 10px auto;' }, [
           [
             [
