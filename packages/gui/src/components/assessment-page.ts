@@ -4,23 +4,27 @@ import { FormAttributes, LayoutForm, UIForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t, i18n } from 'mithriljs-i18n';
+import { CircularSpinner } from './ui';
 
 export const AssessmentPage: MeiosisComponent = () => {
   return {
     oninit: ({
       attrs: {
         state: {
-          app: { catModel },
+          app: { catModel = {} as ICapabilityModel },
         },
         actions: { setPage, update },
       },
     }) => {
       const id = m.route.param('id');
+      const { capabilities = [] } = catModel.data;
       if (id && catModel) {
-        const { capabilities = [] } = catModel.data;
         const capability =
           capabilities.filter((cap) => cap.id === id).shift() || ({} as ICapability);
         const { id: capabilityId, categoryId, subcategoryId } = capability;
+        update({ app: { page: Dashboards.ASSESSMENT, capabilityId, categoryId, subcategoryId } });
+      } else if (capabilities.length > 0) {
+        const { id: capabilityId, categoryId, subcategoryId } = capabilities[0];
         update({ app: { page: Dashboards.ASSESSMENT, capabilityId, categoryId, subcategoryId } });
       } else {
         setPage(Dashboards.ASSESSMENT);
@@ -29,12 +33,12 @@ export const AssessmentPage: MeiosisComponent = () => {
     view: ({
       attrs: {
         state: { app },
-        actions: { saveModel, update, changePage },
+        actions: { saveModel, update },
       },
     }) => {
-      const capabilityId = m.route.param('id');
+      const capabilityId = m.route.param('id') || app.capabilityId;
       if (!capabilityId) {
-        changePage(Dashboards.HOME);
+        return m(CircularSpinner);
       }
       const { catModel = { data: {} } as ICapabilityModel, assessment = [] } = app;
       const { data = {} } = catModel;

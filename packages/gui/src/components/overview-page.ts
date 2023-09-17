@@ -148,7 +148,7 @@ export const OverviewPage: MeiosisComponent = () => {
                 m(Select, {
                   placeholder: t('select_m_ph'),
                   label: t('sh_filter'),
-                  checkedId: stakeholderFilter,
+                  initialValue: stakeholderFilter,
                   options: stakeholderOpts,
                   iconName: 'person',
                   multiple: true,
