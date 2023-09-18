@@ -43,6 +43,7 @@ export const preparationModel = () =>
         {
           id: 'type',
           label: t('sh_type'),
+          placeholder: t('pick_one'),
           type: 'select',
           options: 'stakeholderTypes',
           className: 'col s12 m3',

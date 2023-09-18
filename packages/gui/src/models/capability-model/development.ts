@@ -60,6 +60,7 @@ export const developmentModel = () =>
         {
           id: 'stakeholderId',
           label: t('sh'),
+          placeholder: t('pick_one'),
           type: 'select',
           options: 'stakeholders',
           className: 'col s4 m2',
