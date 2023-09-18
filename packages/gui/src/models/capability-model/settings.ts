@@ -14,7 +14,7 @@ export const settingsModel = () =>
       sortProperty: 'id',
       type: [
         { id: 'id', type: 'text', className: 'col s4 m3' },
-        { id: 'label', type: 'text', label: t('name'), className: 'col s8 m9' },
+        { id: 'label', type: 'text', label: t('sh_type'), className: 'col s8 m9' },
       ],
     },
 
@@ -41,7 +41,7 @@ export const settingsModel = () =>
       type: [
         { id: 'id', label: t('id'), type: 'text', className: 'col s3 m2' },
         { id: 'label', label: t('task'), type: 'text', className: 'col s9 m10' },
-        { id: 'desc', label: t('desc'), type: 'textarea', className: 'col s12' },
+        { id: 'desc', label: t('expl2'), type: 'textarea', className: 'col s12' },
       ],
     },
     {
