@@ -125,6 +125,10 @@ export const DevelopmentPage: MeiosisComponent = () => {
                   obj: p,
                   context: [data],
                   onchange: () => {
+                    if (p.capabilityIds)
+                      if (p.capabilityIds.indexOf(cap.id) < 0) {
+                        p.capabilityIds.push(cap.id);
+                      }
                     saveModel(catModel);
                   },
                 } as FormAttributes<Development>),
