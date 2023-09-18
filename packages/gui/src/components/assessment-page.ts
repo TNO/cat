@@ -4,7 +4,6 @@ import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t, i18n } from 'mithriljs-i18n';
-import { CircularSpinner } from './ui';
 
 export const AssessmentPage: MeiosisComponent = () => {
   let version = 0;
@@ -18,7 +17,7 @@ export const AssessmentPage: MeiosisComponent = () => {
         actions: { setPage, update },
       },
     }) => {
-      const id = capabilityId || m.route.param('id');
+      const id = m.route.param('id') || capabilityId;
       const { capabilities = [] } = catModel.data;
       if (id && catModel) {
         const capability =
@@ -112,6 +111,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                 saveModel(catModel);
                 console.table(catModel);
               },
+              // i18n: i18n,
             } as FormAttributes<Partial<ICapability>>)
           ),
         ]
