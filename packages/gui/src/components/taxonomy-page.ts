@@ -136,7 +136,7 @@ export const TaxonomyPage: MeiosisComponent = () => ({
               console.log(JSON.stringify(catModel, null, 2));
               saveModel(catModel);
             },
-          } as FormAttributes),
+          } as FormAttributes<any>),
           bottomSheet: true,
         }),
       ]),
