@@ -69,7 +69,7 @@ export interface IAppState {
   actions: (us: UpdateStream, states: Stream<IAppModel>) => IAppStateActions;
 }
 
-console.log(`API server: ${process.env.SERVER}`);
+// console.log(`API server: ${process.env.SERVER}`);
 
 const localizeDataModel = ({ app }: Partial<IAppStateModel>) => {
   if (!app) return;
@@ -109,7 +109,6 @@ export const appStateMgmt = {
       },
       createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
       saveModel: (cat) => {
-        console.log('SAVING');
         localStorage.setItem(catModelKey, JSON.stringify(cat));
         const catModel = { version: cat.version, data: cat.data };
         update({ app: { catModel: () => catModel } });
