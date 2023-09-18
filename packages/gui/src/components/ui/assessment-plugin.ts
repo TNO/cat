@@ -102,7 +102,7 @@ export const assessmentPlugin: PluginType = () => {
                 },
                 [
                   m('strong', `${overallAssessmentLabel}: `),
-                  m('span', assessmentStarted ? outcome.label : 'TBD'),
+                  m('span', assessmentStarted ? outcome.label : t('TBD')),
                 ]
               )
             )

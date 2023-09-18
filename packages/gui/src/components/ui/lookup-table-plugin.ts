@@ -71,7 +71,7 @@ export const lookupTable: PluginType = () => {
             {
               style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
             },
-            [m('strong', `${label}: `), m('span', opt ? opt.label : 'TBD')]
+            [m('strong', `${label}: `), m('span', opt ? opt.label : t('TBD'))]
           )
         ),
       ]);
