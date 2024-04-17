@@ -30,6 +30,7 @@ export type ProjectProposal = {
 };
 
 export interface ICapabilityDataModel {
+  enableDecisionSupport?: boolean;
   stakeholders?: IStakeholder[];
   categories?: ICategory[];
   capabilities?: ICapability[];
@@ -95,7 +96,7 @@ export const defaultCapabilityModel = {
   version: 0,
   form: [],
   preparations: preparationModel,
-  assessment: assessmentModel(),
+  assessment: assessmentModel({} as ICapabilityDataModel),
   development: developmentModel(),
   evaluation: evaluationModel(),
   projectEvaluation: projectEvaluationModel(),

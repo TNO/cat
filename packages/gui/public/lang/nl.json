@@ -139,5 +139,7 @@
   "url": "URL",
   "value": "Waarde",
   "yes": "Ja",
-  "TBD": "Onbekend"
+  "TBD": "Onbekend",
+  "general_settings": "Algemeen",
+  "enable_decision_support": "Beslisondersteuning meegenomen"
 }

@@ -9,12 +9,11 @@ export const Layout: MeiosisComponent = () => ({
   view: ({
     children,
     attrs: {
-      state: {
-        app: { page },
-      },
+      state: { app },
       actions: { changePage },
     },
   }) => {
+    const { page } = app;
     const isActive = (d: IDashboard) => (page === d.id ? '.active' : '');
 
     return m('.main', { style: 'overflow-x: hidden' }, [
@@ -62,7 +61,8 @@ export const Layout: MeiosisComponent = () => ({
               routingSvc
                 .getList()
                 .filter(
-                  (d) => (typeof d.visible === 'boolean' ? d.visible : d.visible()) || isActive(d)
+                  (d) =>
+                    (typeof d.visible === 'boolean' ? d.visible : d.visible(app)) || isActive(d)
                 )
                 .map((d: IDashboard) =>
                   m(`li.tooltip${isActive(d)}`, [

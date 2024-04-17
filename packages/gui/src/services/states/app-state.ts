@@ -23,27 +23,28 @@ import { UIForm } from 'mithril-ui-form';
 
 const catModelKey = 'catModel';
 
-export interface IAppStateModel {
-  app: {
-    apiService: string;
-    isSearching: boolean;
-    searchQuery?: string;
-    page?: Dashboards;
-    catModel: ICapabilityModel;
-    textFilter: string;
-    stakeholderFilter: string[];
-    categoryId?: string;
-    subcategoryId?: string;
-    capabilityId?: string;
+export type AppState = {
+  apiService: string;
+  isSearching: boolean;
+  searchQuery?: string;
+  page?: Dashboards;
+  catModel: ICapabilityModel;
+  textFilter: string;
+  stakeholderFilter: string[];
+  categoryId?: string;
+  subcategoryId?: string;
+  capabilityId?: string;
+  // FORMS
+  preparations?: UIForm<ICapabilityDataModel>;
+  assessment?: UIForm<Assessment>;
+  development?: UIForm<Development>;
+  evaluation?: UIForm<Partial<ICapabilityModel>>;
+  projectEvaluation?: UIForm;
+  settings?: UIForm<ICapabilityDataModel>;
+};
 
-    // FORMS
-    preparations?: UIForm<ICapabilityDataModel>;
-    assessment?: UIForm<Assessment>;
-    development?: UIForm<Development>;
-    evaluation?: UIForm<Partial<ICapabilityModel>>;
-    projectEvaluation?: UIForm;
-    settings?: UIForm<ICapabilityDataModel>;
-  };
+export interface IAppStateModel {
+  app: AppState;
 }
 
 export interface IAppStateActions {
@@ -73,7 +74,7 @@ export interface IAppState {
 
 const localizeDataModel = ({ app }: Partial<IAppStateModel>) => {
   if (!app) return;
-  app.assessment = assessmentModel();
+  app.assessment = assessmentModel(app.catModel && app.catModel.data ? app.catModel.data : {});
   app.development = developmentModel();
   app.settings = settingsModel();
   app.evaluation = evaluationModel();

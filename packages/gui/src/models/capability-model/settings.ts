@@ -4,6 +4,13 @@ import { t } from 'mithriljs-i18n';
 
 export const settingsModel = () =>
   [
+    { id: 'general-settings', type: 'section', label: t('general_settings') },
+    {
+      id: 'enableDecisionSupport',
+      label: t('enable_decision_support'),
+      type: 'switch',
+    },
+
     { id: 'stakeholder-settings', type: 'section', label: t('sh_types') },
     { type: 'md', value: t('sh_settings') },
     {

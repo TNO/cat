@@ -1,5 +1,5 @@
 import { UIForm } from 'mithril-ui-form';
-import { CapabilityStakeholder, Documentation } from './capability-model';
+import { CapabilityStakeholder, Documentation, ICapabilityDataModel } from './capability-model';
 import { t } from 'mithriljs-i18n';
 
 export type Assessment = Partial<{
@@ -13,8 +13,8 @@ export type Assessment = Partial<{
   shouldDevelop: 'GO' | 'NO GO';
 }>;
 
-export const assessmentModel = () =>
-  [
+export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
+  const assessmentModel = [
     {
       id: 'desc',
       label: t('desc'),
@@ -112,15 +112,21 @@ export const assessmentModel = () =>
       overallAssessmentLabel: t('ass_label'),
       overallAssessment: 'max',
     },
-    { type: 'md', value: t('gng'), className: 'right-align' },
-    {
-      id: 'shouldDevelop',
-      type: 'switch',
-      className: 'right-align',
-      label: '',
-      options: [
-        { id: 'NO GO', label: t('no_go') },
-        { id: 'GO', label: t('go') },
-      ],
-    },
   ] as UIForm<Assessment>;
+  if (model.enableDecisionSupport) {
+    assessmentModel.push(
+      { type: 'md', value: t('gng'), className: 'right-align' },
+      {
+        id: 'shouldDevelop',
+        type: 'switch',
+        className: 'right-align',
+        label: '',
+        options: [
+          { id: 'NO GO', label: t('no_go') },
+          { id: 'GO', label: t('go') },
+        ],
+      }
+    );
+  }
+  return assessmentModel;
+};

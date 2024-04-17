@@ -86,7 +86,7 @@ class RoutingService {
         icon: 'engineering',
         iconClass: 'blue-text',
         route: t('development_route'),
-        visible: true,
+        visible: ({ catModel }) => catModel.data && catModel.data.enableDecisionSupport,
         component: DevelopmentPage,
       },
       // {
@@ -98,7 +98,7 @@ class RoutingService {
       //   visible: true,
       //   component: EvaluationPage,
       // },
-    ];
+    ] as IDashboard[];
     // console.log(JSON.stringify(routes, null, 2));
     this.setList(routes);
     actions.setLanguage();

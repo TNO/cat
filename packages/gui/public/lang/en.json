@@ -139,7 +139,8 @@
   "value": "Value",
   "yes": "Yes",
   "TBD": "Unknown",
-
+  "general_settings": "General",
+  "enable_decision_support": "Decision support enabled",
   "test1234": {
     "plural": {
       "other": "{count} stakeholders",

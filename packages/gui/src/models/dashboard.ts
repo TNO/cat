@@ -1,4 +1,5 @@
 import { ComponentTypes } from 'mithril';
+import { AppState } from '../services/states';
 
 export type IconType = () => string | string;
 
@@ -12,7 +13,7 @@ export interface IDashboard {
   icon: string | IconResolver;
   iconClass?: string;
   route: string;
-  visible: boolean | (() => boolean);
+  visible: boolean | ((app: AppState) => boolean);
   component: ComponentTypes<any, any>;
 }
 
