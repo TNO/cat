@@ -8,27 +8,27 @@ export const settingsModel = () =>
     {
       id: 'enableDecisionSupport',
       label: t('enable_decision_support'),
-      className: 'col s12 m6',
+      className: 'col s12 m9',
       type: 'switch',
     },
     {
       id: 'logo',
       label: t('logo'),
       type: 'base64',
-      className: 'col s12 m6',
+      className: 'col s12 m3',
       options: [{ id: '.png' }, { id: '.jpg ' }],
     },
     {
       id: 'attributionText',
       label: t('attribution_text'),
       type: 'textarea',
-      className: 'col s12 m6',
+      className: 'col s12 m9',
     },
     {
       id: 'attributionLogo',
       label: t('attribution_logo'),
       type: 'base64',
-      className: 'col s12 m6',
+      className: 'col s12 m3',
       options: [{ id: '.png' }, { id: '.jpg ' }],
     },
 

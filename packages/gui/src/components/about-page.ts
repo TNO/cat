@@ -73,24 +73,19 @@ Vastleggen van één of meer voorstellen om een capability te versterken. Het be
 
 ...`;
 
-export const AboutPage: MeiosisComponent = () => ({
-  oninit: ({
-    attrs: {
-      actions: { setPage },
-    },
-  }) => setPage(Dashboards.ABOUT),
-  view: ({
-    attrs: {
-      state: {
-        app: { catModel },
+export const Attribution: MeiosisComponent = () => {
+  return {
+    view: ({
+      attrs: {
+        state: {
+          app: { catModel },
+        },
       },
-    },
-  }) => {
-    const { attributionLogo, attributionText } = catModel.data || {};
-    return [
-      m('.row.markdown', m.trust(render(md))),
+    }) => {
+      const { attributionLogo, attributionText } = catModel.data || {};
 
-      (attributionLogo || attributionText) &&
+      return (
+        (attributionLogo || attributionText) &&
         m(
           '.flex-container',
           {
@@ -117,7 +112,19 @@ export const AboutPage: MeiosisComponent = () => ({
               m('img[height=50][title=Owner]', { src: tnoLogo })
             ),
           ]
-        ),
-    ];
+        )
+      );
+    },
+  };
+};
+
+export const AboutPage: MeiosisComponent = () => ({
+  oninit: ({
+    attrs: {
+      actions: { setPage },
+    },
+  }) => setPage(Dashboards.ABOUT),
+  view: ({ attrs: { state, actions } }) => {
+    return [m('.row.markdown', m.trust(render(md))), m(Attribution, { state, actions })];
   },
 });
