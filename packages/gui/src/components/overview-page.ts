@@ -80,6 +80,7 @@ export const OverviewPage: MeiosisComponent = () => {
         projectProposals = [],
         assessmentScale = [],
         stakeholders = [],
+        logo,
       } = data;
       const filterText = createTextFilter(textFilter);
       const filterStakeholders = createStakeholderFilter(stakeholderFilter as string[]);
@@ -163,6 +164,7 @@ export const OverviewPage: MeiosisComponent = () => {
                 update({ app: { stakeholderFilter: [], textFilter: '' } });
               },
             }),
+            logo && m('.center-align', m('img[title=Logo][width=80%]', { src: logo })),
           ])
         ),
         m(

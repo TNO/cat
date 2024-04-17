@@ -8,7 +8,28 @@ export const settingsModel = () =>
     {
       id: 'enableDecisionSupport',
       label: t('enable_decision_support'),
+      className: 'col s12 m6',
       type: 'switch',
+    },
+    {
+      id: 'logo',
+      label: t('logo'),
+      type: 'base64',
+      className: 'col s12 m6',
+      options: [{ id: '.png' }, { id: '.jpg ' }],
+    },
+    {
+      id: 'attributionText',
+      label: t('attribution_text'),
+      type: 'textarea',
+      className: 'col s12 m6',
+    },
+    {
+      id: 'attributionLogo',
+      label: t('attribution_logo'),
+      type: 'base64',
+      className: 'col s12 m6',
+      options: [{ id: '.png' }, { id: '.jpg ' }],
     },
 
     { id: 'stakeholder-settings', type: 'section', label: t('sh_types') },

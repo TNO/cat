@@ -1,7 +1,8 @@
 import m from 'mithril';
-import { render } from 'mithril-ui-form';
+import { SlimdownView, render } from 'mithril-ui-form';
 import { Dashboards } from '../models';
 import { MeiosisComponent } from '../services';
+import tnoLogo from '../assets/tno_txt.svg';
 
 const md = `#### Capability Assessment Tool
 
@@ -44,13 +45,13 @@ Vaststellen van het beoordelingskader binnen het betreffende veiligheidsdomein a
 - IMPORTANTIE: Definiëring van de schaal om het belang van een capability in uit te drukken.
 - PRESTATIECRITERIA: Definiëring van de criteria, inlcusief schaalindeling, om de huidige staat waarin een capability wordt uitgevoerd in uit te drukken.
 - PROBLEEMSOORTEN: Definiëring van de aard van problemen of tekortkomingen van een capability.
-- BEOORDELINGSMATRIX: Definiëring van beoordelingsscores op basis van de maten van belangrijkheid en de huidige prestaties, uitgedrukt in de noodzaak tot verbetering van de capability. 
+- BEOORDELINGSMATRIX: Definiëring van beoordelingsscores op basis van de maten van belangrijkheid en de huidige prestaties, uitgedrukt in de noodzaak tot verbetering van de capability.
 
 ###### VOORBEREIDING
 
 Nader specificeren van de omgeving binnen het veiligheidsdomein waarin evaluatie plaatsvindt aan de hand van:
 
-- STAKEHOLDERS: Specificeren van stakeholders die betrokken zijn bij het uitvoeren van één of meer capability’s. 
+- STAKEHOLDERS: Specificeren van stakeholders die betrokken zijn bij het uitvoeren van één of meer capability’s.
 - HOOFDDOELSTELLINGEN: Specificeren van de belangrijkste doelstellingen van de overheid binnen het betreffende veiligheidsdomein.
 - CATEGORIEËN: Specificeren van categorieën (eerste niveau) en daarbinnen subcategorieën (tweede niveau) van capability’s.
 - CAPABILITIES: Specificeren van capability’s binnen alle subcategorieën van capability’s (derde niveau). De capability-hiërarchie in CAT bestaat dus uit drie niveaus. Evaluatie vindt plaats met de op het derde niveau gedefinieerde capability’s.
@@ -78,7 +79,45 @@ export const AboutPage: MeiosisComponent = () => ({
       actions: { setPage },
     },
   }) => setPage(Dashboards.ABOUT),
-  view: () => {
-    return [m('.row.markdown', m.trust(render(md)))];
+  view: ({
+    attrs: {
+      state: {
+        app: { catModel },
+      },
+    },
+  }) => {
+    const { attributionLogo, attributionText } = catModel.data || {};
+    return [
+      m('.row.markdown', m.trust(render(md))),
+
+      (attributionLogo || attributionText) &&
+        m(
+          '.flex-container',
+          {
+            style: {
+              display: 'flex',
+              justifyContent: 'space-between',
+            },
+          },
+          [
+            m(
+              '.logo',
+              { style: 'max-width: 100%' },
+              attributionLogo &&
+                m('img[height=50][title=Attribution logo]', { src: attributionLogo })
+            ),
+            m(
+              '.flex-item',
+              { style: { flex: '1', margin: '0 20px', fontSize: '10pt' } },
+              attributionText && m(SlimdownView, { md: attributionText, removeParagraphs: true })
+            ),
+            m(
+              '.logo.right-align',
+              { style: 'max-width: 100%' },
+              m('img[height=50][title=Owner]', { src: tnoLogo })
+            ),
+          ]
+        ),
+    ];
   },
 });

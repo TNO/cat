@@ -31,6 +31,9 @@ export type ProjectProposal = {
 
 export interface ICapabilityDataModel {
   enableDecisionSupport?: boolean;
+  logo?: string;
+  attributionLogo?: string;
+  attributionText?: string;
   stakeholders?: IStakeholder[];
   categories?: ICategory[];
   capabilities?: ICapability[];

@@ -141,6 +141,9 @@
   "TBD": "Unknown",
   "general_settings": "General",
   "enable_decision_support": "Decision support enabled",
+  "logo": "User logo",
+  "attribution_logo": "Attribution logo",
+  "attribution_text": "Attribution text",
   "test1234": {
     "plural": {
       "other": "{count} stakeholders",

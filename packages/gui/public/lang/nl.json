@@ -141,5 +141,8 @@
   "yes": "Ja",
   "TBD": "Onbekend",
   "general_settings": "Algemeen",
-  "enable_decision_support": "Beslisondersteuning meegenomen"
+  "enable_decision_support": "Beslisondersteuning meegenomen",
+  "logo": "Gebruikerslogo",
+  "attribution_logo": "Attributie logo",
+  "attribution_text": "Attributie tekst"
 }
