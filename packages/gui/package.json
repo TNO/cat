@@ -34,20 +34,23 @@
   "target": "web",
   "dependencies": {
     "lz-string": "^1.5.0",
-    "material-icons": "^1.13.11",
+    "material-icons": "^1.13.12",
     "materialize-css": "^1.0.0",
     "mithril": "^2.2.2",
-    "mithril-materialized": "^1.1.1",
-    "mithril-ui-form": "^1.9.2",
+    "mithril-materialized": "^1.1.4",
+    "mithril-ui-form": "^1.10.4",
     "mithril-ui-form-rating-plugin": "^0.7.1",
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.3.4",
-    "@types/materialize-css": "^1.0.11",
-    "@types/mithril": "^2.0.14",
-    "dotenv-webpack": "^8.0.1",
-    "rimraf": "^5.0.1",
-    "typescript": "5.2.2"
+    "dotenv": "16.4.5",
+    "@rspack/cli": "^0.6.2",
+    "@rspack/core": "^0.6.2",
+    "@types/materialize-css": "^1.0.14",
+    "@types/mithril": "^2.2.6",
+    "dotenv-webpack": "^8.1.0",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "5.4.5"
   }
 }
