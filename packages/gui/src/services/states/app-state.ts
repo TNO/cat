@@ -5,6 +5,7 @@ import {
   Assessment,
   Dashboards,
   Development,
+  UserType,
   assessmentModel,
   developmentModel,
   evaluationModel,
@@ -22,8 +23,10 @@ import { UIForm } from 'mithril-ui-form';
 /** Application state */
 
 const catModelKey = 'catModel';
+const CUR_USER_KEY = 'CAT_CUR_USER';
 
 export type AppState = {
+  curUser: UserType;
   apiService: string;
   isSearching: boolean;
   searchQuery?: string;
@@ -63,6 +66,7 @@ export interface IAppStateActions {
   ) => void;
   saveModel: (cat: Partial<ICapabilityModel>) => void;
   setLanguage: (locale?: string) => Promise<void>;
+  saveCurUser: (curUser: UserType) => void;
 }
 
 export interface IAppState {
@@ -85,6 +89,7 @@ const localizeDataModel = ({ app }: Partial<IAppStateModel>) => {
 
 const cm = localStorage.getItem(catModelKey) || JSON.stringify(defaultCapabilityModel);
 const catModel = JSON.parse(cm) as ICapabilityModel;
+const curUser = (localStorage.getItem(CUR_USER_KEY) || 'user') as UserType;
 
 export const setTitle = (title?: string) => {
   document.title = `Capability Assessment Tool${title ? ` | ${title}` : ''}`;
@@ -95,6 +100,7 @@ setTitle(catModel.data?.title);
 export const appStateMgmt = {
   initial: {
     app: {
+      curUser,
       /** During development, use this URL to access the server. */
       apiService: process.env.SERVER || window.location.origin,
       isSearching: false,
@@ -126,6 +132,11 @@ export const appStateMgmt = {
         localStorage.setItem('CAT_LANGUAGE', locale);
         await i18n.loadAndSetLocale(locale);
         update({ app: () => localizeDataModel(state) });
+      },
+      saveCurUser: (curUser) => {
+        console.table(curUser);
+        localStorage.setItem(CUR_USER_KEY, curUser);
+        update({ app: { curUser } });
       },
     };
   },

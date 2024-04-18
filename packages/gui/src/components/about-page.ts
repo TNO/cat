@@ -1,8 +1,10 @@
 import m from 'mithril';
 import { SlimdownView, render } from 'mithril-ui-form';
-import { Dashboards } from '../models';
+import { Dashboards, UserType } from '../models';
 import { MeiosisComponent } from '../services';
 import tnoLogo from '../assets/tno_txt.svg';
+import { Select, ISelectOptions } from 'mithril-materialized';
+import { t } from 'mithriljs-i18n';
 
 const md = `#### Capability Assessment Tool
 
@@ -125,6 +127,24 @@ export const AboutPage: MeiosisComponent = () => ({
     },
   }) => setPage(Dashboards.ABOUT),
   view: ({ attrs: { state, actions } }) => {
-    return [m('.row.markdown', m.trust(render(md))), m(Attribution, { state, actions })];
+    const { curUser } = state.app;
+    console.log(`Cur user: ${curUser}`);
+    return [
+      m('.row', [
+        m(Select, {
+          label: t('select_user'),
+          initialValue: curUser,
+          options: [
+            { id: 'user', label: t('user') },
+            { id: 'moderator', label: t('moderator') },
+            { id: 'admin', label: t('admin') },
+          ],
+          onchange: (v) => v && actions.saveCurUser(v[0]),
+          className: 'col offset-s6 s6 offset-m9 m3',
+        } as ISelectOptions<UserType>),
+        m('.col.s12.markdown', m.trust(render(md))),
+      ]),
+      m(Attribution, { state, actions }),
+    ];
   },
 });

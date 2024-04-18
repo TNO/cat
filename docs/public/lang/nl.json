@@ -146,5 +146,9 @@
   "attribution_logo": "Attributie logo",
   "attribution_text": "Attributie tekst",
   "order": "Volgorde",
-  "hide": "Verberg in overzicht"
+  "hide": "Verberg in overzicht",
+  "select_user": "Selecteer gebruiker",
+  "user": "Reguliere gebruiker",
+  "moderator": "Moderator",
+  "admin": "Administrator"
 }

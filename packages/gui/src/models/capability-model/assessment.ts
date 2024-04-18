@@ -1,10 +1,10 @@
 import { UIForm } from 'mithril-ui-form';
-import { CapabilityStakeholder, Documentation, ICapabilityDataModel } from './capability-model';
+import { Documentation, ICapabilityDataModel } from './capability-model';
 import { t } from 'mithriljs-i18n';
 
 export type Assessment = Partial<{
   desc: string;
-  capabilityStakeholders: CapabilityStakeholder[];
+  capabilityStakeholders: string[];
   documentation: Documentation[];
   taskAssessment: unknown;
   performanceAssessment: unknown;

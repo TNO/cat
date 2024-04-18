@@ -63,7 +63,7 @@ export const lookupTable: PluginType = () => {
 
       if (onchange && opt && obj[id] !== opt.id) onchange(opt.id);
       return m('section.row', [
-        m('.divider'),
+        // m('.divider'),
         m(
           '.col.s12.right-align',
           m(
@@ -131,7 +131,7 @@ export const lookupTableCreatorPlugin: PluginType = () => {
         rowOpt &&
         rowOpt &&
         m('.section', [
-          m('.divider'),
+          // m('.divider'),
           lookup &&
             m(
               '.row',

@@ -94,7 +94,7 @@ export const assessmentPlugin: PluginType = () => {
       const color = assessmentStarted && outcome.color ? outcome.color : '#f0f8ff';
 
       return m('.assessment-plugin.section', [
-        m('.divider'),
+        // m('.divider'),
         overallAssessmentLabel &&
           m(
             '.row',

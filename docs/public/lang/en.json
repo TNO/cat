@@ -146,6 +146,10 @@
   "attribution_text": "Attribution text",
   "order": "Order",
   "hide": "Hide in overview",
+  "select_user": "Select user",
+  "user": "Regular user",
+  "moderator": "Moderator",
+  "admin": "Administrator",
   "test1234": {
     "plural": {
       "other": "{count} stakeholders",
