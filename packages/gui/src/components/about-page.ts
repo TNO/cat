@@ -82,7 +82,7 @@ export const Attribution: MeiosisComponent = () => {
         },
       },
     }) => {
-      const { attributionLogo, attributionText } = catModel.data || {};
+      const { attributionLogo, attributionText, logo } = catModel.data || {};
 
       return (
         (attributionLogo || attributionText) &&
@@ -109,7 +109,7 @@ export const Attribution: MeiosisComponent = () => {
             m(
               '.logo.right-align',
               { style: 'max-width: 100%' },
-              m('img[height=50][title=Owner]', { src: tnoLogo })
+              m('img[height=50][title=Owner]', { src: logo || tnoLogo })
             ),
           ]
         )

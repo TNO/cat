@@ -86,6 +86,12 @@ const localizeDataModel = ({ app }: Partial<IAppStateModel>) => {
 const cm = localStorage.getItem(catModelKey) || JSON.stringify(defaultCapabilityModel);
 const catModel = JSON.parse(cm) as ICapabilityModel;
 
+export const setTitle = (title?: string) => {
+  document.title = `Capability Assessment Tool${title ? ` | ${title}` : ''}`;
+};
+
+setTitle(catModel.data?.title);
+
 export const appStateMgmt = {
   initial: {
     app: {
@@ -110,6 +116,7 @@ export const appStateMgmt = {
       },
       createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
       saveModel: (cat) => {
+        setTitle(cat.data?.title);
         localStorage.setItem(catModelKey, JSON.stringify(cat));
         const catModel = { version: cat.version, data: cat.data };
         update({ app: { catModel: () => catModel } });

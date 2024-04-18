@@ -86,7 +86,7 @@ class RoutingService {
         icon: 'engineering',
         iconClass: 'blue-text',
         route: t('development_route'),
-        visible: ({ catModel }) => catModel.data && catModel.data.enableDecisionSupport,
+        visible: ({ catModel }) => catModel.data && catModel.data.enableSolutionAssessmentSupport,
         component: DevelopmentPage,
       },
       // {

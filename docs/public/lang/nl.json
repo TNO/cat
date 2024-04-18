@@ -5,7 +5,7 @@
   "add_term": "Voeg een nieuwe term toe",
   "addr_how": "Hoe wordt het aangepakt?",
   "addressed": "Aangepakt",
-  "ass_instr": "Beoordeel de capaciteit op basis van haar belang voor het realiseren van de gedefinieerde doelstellingen en de huidige prestaties en geef eventuele verbeterpunten aan. Begin met het selecteren van een capaciteit.",
+  "ass_instr": "_Beoordeel de capaciteit op basis van haar belang voor het realiseren van de gedefinieerde doelstellingen en de huidige prestaties en geef eventuele verbeterpunten aan._",
   "ass_label": "Oorzaak probleem bekend?",
   "ass_overall": "Noodzaak verbetering capaciteit",
   "ass_scale": "Schaal voor beoordelingsscore",
@@ -141,8 +141,10 @@
   "yes": "Ja",
   "TBD": "Onbekend",
   "general_settings": "Algemeen",
-  "enable_decision_support": "Beslisondersteuning meegenomen",
+  "enable_sol_ass_support": "Activeer oplossingsondersteuning",
   "logo": "Gebruikerslogo",
   "attribution_logo": "Attributie logo",
-  "attribution_text": "Attributie tekst"
+  "attribution_text": "Attributie tekst",
+  "order": "Volgorde",
+  "hide": "Verberg in overzicht"
 }

@@ -42,7 +42,7 @@ export const HomePage: MeiosisComponent = () => {
       return [
         m('div', { style: 'position: relative;' }, [
           m(
-            '.overlay.center',
+            '.overlay.center.black',
             {
               style: 'position: absolute; width: 100%',
             },
@@ -51,14 +51,24 @@ export const HomePage: MeiosisComponent = () => {
               { target: '_blank', href: 'https://www.tno.nl' },
               m('img.right', { style: 'margin: 15px', alt: 'TNO', src: tno })
             ),
-            m('h3.white-text.left', { style: 'margin: 10px' }, 'Capability Assessment Tool (CAT)')
+            m(
+              'h3.white-text.left',
+              { style: 'margin: 10px' },
+              catModel.data?.title || 'Capability Assessment Tool'
+            )
           ),
-          m('img.responsive-img.center', {
-            alt: 'Background of a cat sitting in a tree.',
-            src: background,
-          }),
+          m(
+            '.center.black',
+            m('img.responsive-img.center-align', {
+              alt: 'Background of a cat sitting in a tree.',
+              src: background,
+              style: {
+                'max-height': '500px',
+              },
+            })
+          ),
 
-          m('.buttons.center', { style: 'margin: 10px auto;' }, [
+          m('.buttons.center', { style: 'margin: 60px auto;' }, [
             [
               [
                 m(
