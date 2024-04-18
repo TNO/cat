@@ -25,51 +25,9 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
     {
       id: 'capabilityStakeholders',
       label: t('shs'),
-      pageSize: 5,
-      repeat: true,
-      type: [
-        {
-          id: 'stakeholderId',
-          label: t('sh'),
-          type: 'select',
-          options: 'stakeholders',
-          className: 'col s4',
-        },
-        {
-          id: 'goal',
-          label: t('goals'),
-          placeholder: t('goals_instr'),
-          type: 'textarea',
-          className: 'col s8',
-        },
-      ],
-      className: 'col m12',
-    },
-    {
-      id: 'documentation',
-      label: t('doc'),
-      repeat: true,
-      pageSize: 5,
-      type: [
-        {
-          id: 'documentId',
-          label: t('doc_id'),
-          type: 'text',
-          className: 'col s3 m2',
-        },
-        {
-          id: 'label',
-          label: t('title'),
-          type: 'text',
-          className: 'col s6 m6',
-        },
-        {
-          id: 'link',
-          label: t('url'),
-          type: 'url',
-          className: 'col s3 m4',
-        },
-      ],
+      type: 'options',
+      options: 'stakeholders',
+      checkboxClass: 'col s4',
       className: 'col m12',
     },
     {
@@ -109,11 +67,38 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       optionLabel: t('prob_areas'),
       assessmentOptions: 'gapScale',
       assessmentLabel: t('expl'),
-      overallAssessmentLabel: t('ass_label'),
+      // overallAssessmentLabel: t('ass_label'),
       overallAssessment: 'max',
     },
+    {
+      id: 'documentation',
+      label: t('doc'),
+      repeat: true,
+      pageSize: 5,
+      type: [
+        {
+          id: 'documentId',
+          label: t('doc_id'),
+          type: 'text',
+          className: 'col s3 m2',
+        },
+        {
+          id: 'label',
+          label: t('title'),
+          type: 'text',
+          className: 'col s6 m6',
+        },
+        {
+          id: 'link',
+          label: t('url'),
+          type: 'url',
+          className: 'col s3 m4',
+        },
+      ],
+      className: 'col m12',
+    },
   ] as UIForm<Assessment>;
-  if (model.enableDecisionSupport) {
+  if (model.enableSolutionAssessmentSupport) {
     assessmentModel.push(
       { type: 'md', value: t('gng'), className: 'right-align' },
       {

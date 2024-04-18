@@ -30,7 +30,7 @@ export const preparationModel = () =>
       id: 'stakeholders',
       label: t('sh_org'),
       repeat: true,
-      pageSize: 1,
+      pageSize: 12,
       propertyFilter: 'label',
       type: [
         { id: 'id', type: 'text', label: t('acronym'), className: 'col s3 m2' },
@@ -38,20 +38,7 @@ export const preparationModel = () =>
           id: 'label',
           label: t('org_dept'),
           type: 'text',
-          className: 'col s9 m7',
-        },
-        {
-          id: 'type',
-          label: t('sh_type'),
-          placeholder: t('pick_one'),
-          type: 'select',
-          options: 'stakeholderTypes',
-          className: 'col s12 m3',
-        },
-        {
-          id: 'goals',
-          label: t('goals'),
-          type: 'textarea',
+          className: 'col s9 m10',
         },
       ],
     },
@@ -59,6 +46,11 @@ export const preparationModel = () =>
     {
       type: 'md',
       label: t('spec_cat_instr'),
+    },
+    {
+      id: 'title',
+      label: t('title'),
+      type: 'text',
     },
     {
       id: 'categories',
@@ -100,20 +92,22 @@ export const preparationModel = () =>
       propertyFilter: 'label',
       // sortProperty: 'categoryId',
       filterLabel: t('filter_cap'),
+      sortProperty: 'order',
       type: [
+        { id: 'id', type: 'autogenerate', autogenerate: 'id' },
         {
           id: 'categoryId',
           label: t('cat'),
           type: 'select',
           options: 'categories',
-          className: 'col s12 m3',
+          className: 'col s12 m2',
         },
         {
           id: 'subcategoryId',
           label: t('subcat'),
           type: 'select',
           options: 'categories.categoryId.subcategories',
-          className: 'col s12 m3',
+          className: 'col s12 m2',
         },
         {
           id: 'label',
@@ -122,10 +116,20 @@ export const preparationModel = () =>
           className: 'col s12 m4',
         },
         {
-          id: 'id',
-          label: t('id'),
-          type: 'text',
+          id: 'order',
+          label: t('order'),
+          type: 'number',
           className: 'col s12 m2',
+        },
+        {
+          id: 'hide',
+          label: t('hide'),
+          type: 'switch',
+          className: 'col s12 m2',
+          options: [
+            { id: 'no', label: t('no') },
+            { id: 'yes', label: t('yes') },
+          ],
         },
         {
           id: 'desc',

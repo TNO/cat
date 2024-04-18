@@ -6,10 +6,14 @@ export const settingsModel = () =>
   [
     { id: 'general-settings', type: 'section', label: t('general_settings') },
     {
-      id: 'enableDecisionSupport',
-      label: t('enable_decision_support'),
+      id: 'enableSolutionAssessmentSupport',
+      label: t('enable_sol_ass_support'),
       className: 'col s12 m9',
       type: 'switch',
+      options: [
+        { id: 'no', label: t('no') },
+        { id: 'yes', label: t('yes') },
+      ],
     },
     {
       id: 'logo',
@@ -30,20 +34,6 @@ export const settingsModel = () =>
       type: 'base64',
       className: 'col s12 m3',
       options: [{ id: '.png' }, { id: '.jpg ' }],
-    },
-
-    { id: 'stakeholder-settings', type: 'section', label: t('sh_types') },
-    { type: 'md', value: t('sh_settings') },
-    {
-      id: 'stakeholderTypes',
-      label: t('sh_type'),
-      repeat: true,
-      propertyFilter: 'label',
-      sortProperty: 'id',
-      type: [
-        { id: 'id', type: 'text', className: 'col s4 m3' },
-        { id: 'label', type: 'text', label: t('sh_type'), className: 'col s8 m9' },
-      ],
     },
 
     { id: 'task-settings', type: 'section', label: t('tasks') },
