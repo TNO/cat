@@ -30,7 +30,8 @@ export type ProjectProposal = {
 };
 
 export interface ICapabilityDataModel {
-  enableDecisionSupport?: boolean;
+  enableSolutionAssessmentSupport?: boolean;
+  title?: string;
   logo?: string;
   attributionLogo?: string;
   attributionText?: string;
@@ -65,11 +66,6 @@ export interface ICategory extends ILabelled {
   subcategories: ILabelled[];
 }
 
-export type CapabilityStakeholder = {
-  stakeholderId: string;
-  goal?: string;
-};
-
 export type Documentation = {
   documentId?: string;
   label?: string;
@@ -78,11 +74,15 @@ export type Documentation = {
 };
 
 export interface ICapability extends ILabelled {
+  /** Used for sorting */
+  order?: number;
+  /** In case true, do not show the capability in the overview */
+  hide?: boolean;
   categoryId: string;
   subcategoryId: string;
   desc?: string;
   goal?: string;
-  capabilityStakeholders?: CapabilityStakeholder[];
+  capabilityStakeholders?: string[];
   documentation?: Documentation[];
   assessmentId?: string;
   shouldDevelop?: boolean;
@@ -105,15 +105,6 @@ export const defaultCapabilityModel = {
   projectEvaluation: projectEvaluationModel(),
   settings: settingsModel(),
   data: {
-    stakeholderTypes: [
-      { id: 'ST1', label: 'Law enforcement' },
-      { id: 'ST2', label: 'Governmental' },
-      { id: 'ST3', label: 'Public safety' },
-      { id: 'ST4', label: 'First response' },
-      { id: 'ST5', label: 'RTO/University' },
-      { id: 'ST6', label: 'Training institute' },
-      { id: 'ST7', label: 'Other' },
-    ],
     stakeholders: [
       { id: 'NCTV', label: 'NCTV', typeId: 'ST1' },
       { id: 'IFV', label: 'IFV', typeId: 'ST2' },

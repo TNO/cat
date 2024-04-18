@@ -7,6 +7,7 @@ import {
   ICapabilityModel,
   ICategory,
   ILabelled,
+  IStakeholder,
 } from '../models/capability-model/capability-model';
 import { MeiosisComponent } from '../services';
 import { TextInputWithClear } from './ui';
@@ -27,15 +28,10 @@ const createTextFilter = (txt: string) => {
     checker.test(label) || checker.test(desc);
 };
 
-const createStakeholderFilter = (shs: string[]) => {
-  if (!shs || shs.length === 0) return () => true;
-  console.log(shs);
-  return ({
-    capabilityStakeholders,
-  }: {
-    capabilityStakeholders?: Array<{ stakeholderId: string }>;
-  }) =>
-    capabilityStakeholders && capabilityStakeholders.some((p) => shs.indexOf(p.stakeholderId) >= 0);
+const createStakeholderFilter = (stakeholderIds: string[]) => {
+  if (!stakeholderIds || stakeholderIds.length === 0) return () => true;
+  return ({ capabilityStakeholders }: { capabilityStakeholders?: string[] }) =>
+    capabilityStakeholders && capabilityStakeholders.some((p) => stakeholderIds.includes(p));
 };
 
 export const OverviewPage: MeiosisComponent = () => {
@@ -52,6 +48,18 @@ export const OverviewPage: MeiosisComponent = () => {
   ];
 
   let key = 1;
+
+  const cleanUpOldSettings = (capabilities: ICapability[], stakeholders: IStakeholder[]) => {
+    const ids = stakeholders.reduce((acc, cur) => {
+      acc.add(cur.id);
+      return acc;
+    }, new Set<string>());
+    capabilities.forEach((cap) => {
+      if (cap.capabilityStakeholders) {
+        cap.capabilityStakeholders = cap.capabilityStakeholders.filter((id) => ids.has(id));
+      }
+    });
+  };
 
   return {
     oninit: ({
@@ -76,20 +84,25 @@ export const OverviewPage: MeiosisComponent = () => {
       catModel.data = data;
       const {
         categories,
-        capabilities,
+        capabilities = [],
         projectProposals = [],
         assessmentScale = [],
         stakeholders = [],
         logo,
       } = data;
+      cleanUpOldSettings(capabilities, stakeholders);
       const filterText = createTextFilter(textFilter);
       const filterStakeholders = createStakeholderFilter(stakeholderFilter as string[]);
       const filteredCapabilities =
-        capabilities && capabilities.filter(filterText).filter(filterStakeholders);
+        capabilities &&
+        capabilities
+          .filter((c) => !c.hide)
+          .filter(filterText)
+          .filter(filterStakeholders);
 
       const stakeholderOpts = stakeholders
         .filter((s) => s.id)
-        .map((p) => ({ id: p.id, label: p.id }));
+        .map((p) => ({ id: p.id, label: p.label }));
       const filteredCategories =
         categories &&
         filteredCapabilities &&
