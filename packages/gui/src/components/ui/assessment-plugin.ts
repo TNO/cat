@@ -69,11 +69,16 @@ export const assessmentPlugin: PluginType = () => {
       const ctx = context instanceof Array ? [obj, ...context] : [obj, context];
       const opt = typeof options === 'string' && (resolveExpression(options, ctx) as ILabelled[]);
       let items = (obj[id] as AssessmentType).items;
-      if (opt instanceof Array && items instanceof Array && opt.length !== items.length) {
-        // Option was added or, most likely, deleted
-        const optIds = new Set(opt.map((o) => o.id));
-        items = items.filter((i) => optIds.has(i.id));
+      if (opt instanceof Array && items instanceof Array) {
+        const values = items.reduce((acc, cur) => {
+          if (cur.value) acc.set(cur.id, cur.value);
+          return acc;
+        }, new Map<string, string>());
+        items.length = 0;
+        items.push(...opt.map((item) => ({ ...item, value: values.get(item.id) })));
+        (obj[id] as AssessmentType).items = items;
       }
+      console.log(`Assessment plugin ${optionLabel}: ${JSON.stringify(items)}`);
 
       const score =
         typeof options === 'string' && (resolveExpression(assessmentOptions, ctx) as ILabelled[]);

@@ -58,9 +58,13 @@ export const AssessmentPage: MeiosisComponent = () => {
               form: assessment,
               obj: cap,
               context: [data],
-              onchange: () => {
+              onchange: (_, cap) => {
+                // if (cap && catModel.data?.capabilities) {
+                //   catModel.data.capabilities = catModel.data.capabilities.map(c => c.id === cap.id ? cap : c)
+                // }
                 saveModel(catModel);
                 console.table(catModel);
+                console.table(cap);
               },
               // i18n: i18n,
             } as FormAttributes<Partial<ICapability>>)

@@ -1,4 +1,4 @@
-import { PluginType } from 'mithril-ui-form-plugin';
+import { PluginType } from 'mithril-ui-form';
 import m from 'mithril';
 
 export const tablePlugin: PluginType = () => {
@@ -7,6 +7,8 @@ export const tablePlugin: PluginType = () => {
       const { id = '', label = '', options = [] } = field;
       if (obj instanceof Array || !(options instanceof Array)) return;
       const values = obj[id] as Array<Record<string, any>>;
+
+      console.log(`Table plugin: ${values.join(', ')}`);
 
       return m('table.highlight.responsive-table', { style: 'margin-bottom: 30px' }, [
         label && m('caption', m('strong', label)),
