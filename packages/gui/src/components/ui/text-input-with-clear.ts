@@ -1,5 +1,6 @@
 import m, { FactoryComponent } from 'mithril';
-import { debounce, uniqueId } from '../../utils';
+import { uniqueId } from 'mithril-materialized';
+import { debounce } from '../../utils';
 
 export const TextInputWithClear: FactoryComponent<{
   label: string;
@@ -19,8 +20,8 @@ export const TextInputWithClear: FactoryComponent<{
   let debouncedOnInput: Function | undefined;
 
   return {
-    oninit: ({ attrs: { oninput, id } }) => {
-      id = id || uniqueId();
+    oninit: ({ attrs: { oninput, id: defId } }) => {
+      id = defId || uniqueId();
       debouncedOnInput = oninput && debounce(oninput, 500);
     },
     view: ({
@@ -36,14 +37,16 @@ export const TextInputWithClear: FactoryComponent<{
       },
     }) => {
       return m('.input-field', { className, style }, [
-        iconName && m('.material-icons prefix', iconName),
-        m('input.validate', {
+        iconName && m('i.material-icons prefix', iconName),
+        m('input', {
           id,
           type: 'text',
           placeholder,
           oncreate: ({ dom }) => {
             input = dom as HTMLInputElement;
-            if (initialValue) input.value = initialValue;
+            if (initialValue) {
+              input.value = initialValue;
+            }
           },
           oninput: () => {
             clearButton.style.opacity = typeof input.value !== 'undefined' ? '1' : '0';
@@ -69,7 +72,7 @@ export const TextInputWithClear: FactoryComponent<{
           'a.waves-effect.waves-light.btn-flat',
           {
             style:
-              'opacity: 0; float: right; position: relative; top: -55px; transition: opacity 0.2s linear;',
+              'opacity: 0; float: right; position: relative; top: -45px; transition: opacity 0.2s linear;',
             onclick: () => {
               input.value = '';
               !placeholder && labelElement.classList.remove('active');
@@ -79,7 +82,9 @@ export const TextInputWithClear: FactoryComponent<{
             },
             oncreate: ({ dom }) => {
               clearButton = dom as HTMLButtonElement;
-              if (initialValue) clearButton.style.opacity = '1';
+              if (initialValue) {
+                clearButton.style.opacity = '1';
+              }
             },
           },
           m('i.material-icons', 'clear')
