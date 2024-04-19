@@ -1,8 +1,10 @@
 import m from 'mithril';
-import { FormAttributes, LayoutForm, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, SlimdownView, render } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t, i18n } from 'mithriljs-i18n';
+import { FlatButton } from 'mithril-materialized';
+import { toWord } from '../utils';
 
 export const AssessmentPage: MeiosisComponent = () => {
   return {
@@ -34,20 +36,34 @@ export const AssessmentPage: MeiosisComponent = () => {
         actions: { saveModel },
       },
     }) => {
-      const { catModel = { data: {} } as ICapabilityModel, assessment = [] } = app;
-      const { data = {} } = catModel;
-      const { capabilities = [] } = data;
+      const { catModel = { data: {} } as ICapabilityModel, assessment: assessmentForm = [] } = app;
+      const { data = {}, version = 0 } = catModel;
+      const { capabilities = [], assessmentScale = [] } = data;
       const capabilityId = app.capabilityId || m.route.param('id');
       const cap = (capabilities.filter((cap) => cap.id === capabilityId).shift() ||
         {}) as ICapability;
+
+      const { assessmentId } = cap;
+      const assessment = assessmentScale.filter((a) => a.id === assessmentId).shift();
+      const color = assessment ? assessment.color : undefined;
       return m(
         '.assessment.page',
         [
-          m('.row', [
-            m('.col.s12', m('h4', t('ass'))),
-            m('.col.s12', m('p', m.trust(render(t('ass_instr'), true)))),
-          ]),
-          cap && m('.row', m('h5.col.s12', `${t('cap')} '${cap.label}'`)),
+          cap &&
+            m('.row', [
+              color &&
+                m('div.square.right', {
+                  style: `background-color: ${color}; width: 40px; height: 40px; border-radius: 20px`,
+                }),
+              m(FlatButton, {
+                title: 'Save to Word',
+                className: 'right',
+                iconName: 'download',
+                onclick: () => toWord(`${version}`, cap),
+              }),
+              m('h5.col.s12', `${t('cap')} '${cap.label}'`),
+              m('.col.s12', m(SlimdownView, { md: t('ass_instr'), removeParagraphs: true })),
+            ]),
         ],
         cap && [
           m(
@@ -55,7 +71,7 @@ export const AssessmentPage: MeiosisComponent = () => {
             { lang: i18n.currentLocale, spellcheck: false },
             m(LayoutForm, {
               key: capabilityId,
-              form: assessment,
+              form: assessmentForm,
               obj: cap,
               context: [data],
               onchange: (_, cap) => {
