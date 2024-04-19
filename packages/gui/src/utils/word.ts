@@ -61,68 +61,26 @@ const toTable = (rows: string[][]) => {
 export const toWord = async (
   filename: string,
   data: Partial<ICapabilityDataModel>,
-  cap: ICapability
+  cap: ICapability | ICapability[]
 ) => {
-  const {
-    assessmentScale = [],
-    title = 'cat',
-    categories = [],
-    stakeholders = [],
-    taskScale = [],
-    performanceScale = [],
-    gapScale = [],
-  } = data;
-  const category = categories.find((c) => c.id === cap.categoryId);
-  const subcategory = category && category.subcategories.find((c) => c.id === cap.subcategoryId);
-  const shs =
-    cap.capabilityStakeholders &&
-    stakeholders.filter((s) => cap.capabilityStakeholders!.includes(s.id));
+  const { assessmentScale = [] } = data;
+  const caps = (cap instanceof Array ? cap : [cap]).filter(
+    (cap) => cap.assessmentId && assessmentScale.find((s) => s.id === cap.assessmentId)
+  );
 
-  const tasks = cap.taskAssessment?.items || [];
-  const assRows = [
-    [t('main_goals'), t('importance'), t('expl')],
-    ...tasks.map((t) => [
-      t.label || '',
-      taskScale.find((ts) => ts.id === t.value)?.label || '',
-      t.desc || '',
-    ]),
-  ];
+  const { title = 'cat', categories: allCategories = [] } = data;
+  const [catIds, subIds] = caps.reduce(
+    (acc, cur) => {
+      acc[0].add(cur.categoryId);
+      acc[1].add(cur.subcategoryId);
+      return acc;
+    },
+    [new Set<string>(), new Set<string>()]
+  );
 
-  const perf = cap.performanceAssessment?.items || [];
-  const perfRows = [
-    [t('perf_asps'), t('level'), t('expl')],
-    ...perf.map((t) => [
-      t.label || '',
-      performanceScale.find((ts) => ts.id === t.value)?.label || '',
-      t.desc || '',
-    ]),
-  ];
-
-  const gaps = cap.gapAssessment?.items || [];
-  const gapRows = [
-    [t('prob_areas'), t('relevance'), t('expl')],
-    ...gaps.map((t) => [
-      t.label || '',
-      gapScale.find((ts) => ts.id === t.value)?.label || '',
-      t.desc || '',
-    ]),
-  ];
-
-  const stakeholderList = shs
-    ? shs.map((s) => {
-        return new Paragraph({
-          text: s.label,
-          numbering: {
-            reference: 'my-numbering-reference',
-            level: 0,
-          },
-          contextualSpacing: true,
-          spacing: {
-            before: 200,
-          },
-        });
-      })
-    : [];
+  const categories = allCategories
+    .filter((c) => catIds.has(c.id))
+    .map((c) => ({ ...c, subcategories: c.subcategories?.filter((s) => subIds.has(s.id)) }));
 
   const doc = new Document({
     creator: 'TNO',
@@ -275,50 +233,26 @@ export const toWord = async (
             text: t('doc_title'),
             heading: HeadingLevel.TITLE,
           }),
-          category &&
-            new Paragraph({
-              text: category.label,
-              heading: HeadingLevel.HEADING_1,
-            }),
-          subcategory &&
-            new Paragraph({
-              text: subcategory.label,
-              heading: HeadingLevel.HEADING_2,
-            }),
-          new Paragraph({
-            text: `${t('cap')} "${cap.label}" - ${t('ass_overall')}: ${
-              assessmentScale.find((ts) => ts.id === cap.assessmentId)?.label || ''
-            }`,
-            heading: HeadingLevel.HEADING_3,
-          }),
-          new Paragraph({
-            text: cap.desc,
-          }),
-          new Paragraph({
-            text: t('shs'),
-            heading: HeadingLevel.HEADING_4,
-          }),
-          ...stakeholderList,
-          new Paragraph({
-            text: `${t('goal')} - ${t('max_imp')}: ${
-              taskScale.find((ts) => ts.id === cap.taskAssessment?.assessmentId)?.label || ''
-            }`,
-            heading: HeadingLevel.HEADING_4,
-          }),
-          toTable(assRows),
-          new Paragraph({
-            text: `${t('perf_asps')} - ${t('avg_perf')}: ${
-              performanceScale.find((ts) => ts.id === cap.performanceAssessment?.assessmentId)
-                ?.label || ''
-            }`,
-            heading: HeadingLevel.HEADING_4,
-          }),
-          toTable(perfRows),
-          new Paragraph({
-            text: t('prob_areas'),
-            heading: HeadingLevel.HEADING_4,
-          }),
-          toTable(gapRows),
+          ...categories.reduce((acc, category) => {
+            acc.push(
+              new Paragraph({
+                text: category.label,
+                heading: HeadingLevel.HEADING_1,
+              })
+            );
+            category.subcategories?.forEach((subcategory) => {
+              acc.push(
+                new Paragraph({
+                  text: subcategory.label,
+                  heading: HeadingLevel.HEADING_2,
+                })
+              );
+              caps
+                .filter((cap) => cap.subcategoryId === subcategory.id)
+                .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
+            });
+            return acc;
+          }, [] as FileChild[]),
         ].filter((i) => i) as readonly FileChild[],
       },
     ],
@@ -328,4 +262,100 @@ export const toWord = async (
     // saveAs from FileSaver will download the blob
     saveAs(blob, filename);
   });
+};
+
+const capabilityToWord = (data: Partial<ICapabilityDataModel>, cap: ICapability) => {
+  const {
+    assessmentScale = [],
+    stakeholders = [],
+    taskScale = [],
+    performanceScale = [],
+    gapScale = [],
+  } = data;
+  const shs =
+    cap.capabilityStakeholders &&
+    stakeholders.filter((s) => cap.capabilityStakeholders!.includes(s.id));
+
+  const tasks = cap.taskAssessment?.items || [];
+  const assRows = [
+    [t('main_goals'), t('importance'), t('expl')],
+    ...tasks.map((t) => [
+      t.label || '',
+      taskScale.find((ts) => ts.id === t.value)?.label || '',
+      t.desc || '',
+    ]),
+  ];
+
+  const perf = cap.performanceAssessment?.items || [];
+  const perfRows = [
+    [t('perf_asps'), t('level'), t('expl')],
+    ...perf.map((t) => [
+      t.label || '',
+      performanceScale.find((ts) => ts.id === t.value)?.label || '',
+      t.desc || '',
+    ]),
+  ];
+
+  const gaps = cap.gapAssessment?.items || [];
+  const gapRows = [
+    [t('prob_areas'), t('relevance'), t('expl')],
+    ...gaps.map((t) => [
+      t.label || '',
+      gapScale.find((ts) => ts.id === t.value)?.label || '',
+      t.desc || '',
+    ]),
+  ];
+
+  const stakeholderList = shs
+    ? shs.map((s) => {
+        return new Paragraph({
+          text: s.label,
+          numbering: {
+            reference: 'my-numbering-reference',
+            level: 0,
+          },
+          contextualSpacing: true,
+          spacing: {
+            before: 200,
+          },
+        });
+      })
+    : [];
+
+  return [
+    new Paragraph({
+      text: `${t('cap')} "${cap.label}" - ${t('ass_overall')}: ${
+        assessmentScale.find((ts) => ts.id === cap.assessmentId)?.label || ''
+      }`,
+      heading: HeadingLevel.HEADING_3,
+    }),
+    new Paragraph({
+      text: cap.desc,
+    }),
+    new Paragraph({
+      text: t('shs'),
+      heading: HeadingLevel.HEADING_4,
+    }),
+    ...stakeholderList,
+    new Paragraph({
+      text: `${t('goal')} - ${t('max_imp')}: ${
+        taskScale.find((ts) => ts.id === cap.taskAssessment?.assessmentId)?.label || ''
+      }`,
+      heading: HeadingLevel.HEADING_4,
+    }),
+    toTable(assRows),
+    new Paragraph({
+      text: `${t('perf_asps')} - ${t('avg_perf')}: ${
+        performanceScale.find((ts) => ts.id === cap.performanceAssessment?.assessmentId)?.label ||
+        ''
+      }`,
+      heading: HeadingLevel.HEADING_4,
+    }),
+    toTable(perfRows),
+    new Paragraph({
+      text: t('prob_areas'),
+      heading: HeadingLevel.HEADING_4,
+    }),
+    toTable(gapRows),
+  ].filter((i) => i) as readonly FileChild[];
 };

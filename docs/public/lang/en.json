@@ -153,6 +153,7 @@
   "moderator": "Moderator",
   "admin": "Administrator",
   "doc_title": "Capability Assessment Report",
+  "export_to_word": "Export to Word",
   "test1234": {
     "plural": {
       "other": "{count} stakeholders",

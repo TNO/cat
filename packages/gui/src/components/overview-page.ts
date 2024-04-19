@@ -12,6 +12,7 @@ import {
 import { MeiosisComponent } from '../services';
 import { TextInputWithClear } from './ui';
 import { t } from 'mithriljs-i18n';
+import { formatDate, toWord } from '../utils';
 
 type ISubcategoryVM = ILabelled & {
   capabilities: ICapability[];
@@ -89,6 +90,7 @@ export const OverviewPage: MeiosisComponent = () => {
         assessmentScale = [],
         stakeholders = [],
         logo,
+        title = 'cat',
       } = data;
       cleanUpOldSettings(capabilities, stakeholders);
       const filterText = createTextFilter(textFilter);
@@ -131,6 +133,8 @@ export const OverviewPage: MeiosisComponent = () => {
           )
         : 0;
       const height = 90 + maxItems * 30;
+
+      const filename = `${formatDate(Date.now(), '')}_${title}_v${catModel.version}.docx`;
 
       return m('.overview.page', [
         m(
@@ -176,6 +180,14 @@ export const OverviewPage: MeiosisComponent = () => {
                 key++;
                 update({ app: { stakeholderFilter: [], textFilter: '' } });
               },
+            }),
+            m(FlatButton, {
+              title: 'Export to Word',
+              label: t('export_to_word'),
+              class: 'col s11',
+              style: 'margin: 0 1em;',
+              iconName: 'download',
+              onclick: () => toWord(filename, data, filteredCapabilities),
             }),
             logo && m('.center-align', m('img[title=Logo][width=80%]', { src: logo })),
           ])
