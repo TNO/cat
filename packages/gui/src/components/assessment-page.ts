@@ -4,7 +4,7 @@ import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t, i18n } from 'mithriljs-i18n';
 import { FlatButton } from 'mithril-materialized';
-import { toWord } from '../utils';
+import { formatDate, toWord } from '../utils';
 
 export const AssessmentPage: MeiosisComponent = () => {
   return {
@@ -38,7 +38,7 @@ export const AssessmentPage: MeiosisComponent = () => {
     }) => {
       const { catModel = { data: {} } as ICapabilityModel, assessment: assessmentForm = [] } = app;
       const { data = {}, version = 0 } = catModel;
-      const { capabilities = [], assessmentScale = [] } = data;
+      const { capabilities = [], assessmentScale = [], title = 'cat', categories = [] } = data;
       const capabilityId = app.capabilityId || m.route.param('id');
       const cap = (capabilities.filter((cap) => cap.id === capabilityId).shift() ||
         {}) as ICapability;
@@ -46,6 +46,9 @@ export const AssessmentPage: MeiosisComponent = () => {
       const { assessmentId } = cap;
       const assessment = assessmentScale.filter((a) => a.id === assessmentId).shift();
       const color = assessment ? assessment.color : undefined;
+
+      const filename = `${formatDate(Date.now(), '')}_${title}_v${version}.docx`;
+
       return m(
         '.assessment.page',
         [
@@ -59,7 +62,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                 title: 'Save to Word',
                 className: 'right',
                 iconName: 'download',
-                onclick: () => toWord(`${version}`, cap),
+                onclick: () => toWord(filename, data, cap),
               }),
               m('h5.col.s12', `${t('cap')} '${cap.label}'`),
               m('.col.s12', m(SlimdownView, { md: t('ass_instr'), removeParagraphs: true })),

@@ -33,6 +33,8 @@
   "license": "MIT",
   "target": "web",
   "dependencies": {
+    "docx": "^8.5.0",
+    "file-saver": "^2.0.5",
     "lz-string": "^1.5.0",
     "material-icons": "^1.13.12",
     "materialize-css": "^1.0.0",
@@ -43,11 +45,12 @@
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "dotenv": "16.4.5",
     "@rspack/cli": "^0.6.2",
     "@rspack/core": "^0.6.2",
+    "@types/file-saver": "^2.0.7",
     "@types/materialize-css": "^1.0.14",
     "@types/mithril": "^2.2.6",
+    "dotenv": "16.4.5",
     "dotenv-webpack": "^8.1.0",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.2",

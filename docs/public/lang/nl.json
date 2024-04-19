@@ -52,6 +52,7 @@
   "filter_text_ph": "Deel van term of beschrijving...",
   "filter_text": "Filter tekst",
   "filters": "Filters",
+  "relevance": "Relevant",
   "gap_scale": "Schaalindeling voor typering van gaps",
   "gap_settings": "##### Instellingen voor gaps",
   "gap": "Aard problematiek",
@@ -79,6 +80,7 @@
   "org_dept": "Organisatie / afdeling",
   "overview_route": "/overzicht",
   "overview": "Overzicht",
+  "level": "Niveau",
   "perf_asp": "Prestatieaspect",
   "perf_asps": "Prestatieaspecten",
   "perf_scale": "Schaal voor prestatiescore",
@@ -150,5 +152,6 @@
   "select_user": "Selecteer gebruiker",
   "user": "Reguliere gebruiker",
   "moderator": "Moderator",
+  "doc_title": "Capability Assessment Report",
   "admin": "Administrator"
 }

@@ -60,6 +60,7 @@ export interface ILabelled {
   label: string;
   desc?: string;
   color?: string;
+  value?: string;
 }
 
 export interface ICategory extends ILabelled {
@@ -86,6 +87,9 @@ export interface ICapability extends ILabelled {
   documentation?: Documentation[];
   assessmentId?: string;
   shouldDevelop?: boolean;
+  taskAssessment?: { assessmentId: string; items: ILabelled[] };
+  performanceAssessment?: { assessmentId: string; items: ILabelled[] };
+  gapAssessment?: { assessmentId: string; items: ILabelled[] };
 }
 
 export interface IStakeholder extends ILabelled {

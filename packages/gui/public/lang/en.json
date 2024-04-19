@@ -51,6 +51,7 @@
   "filter_text_ph": "Part of term or description...",
   "filter_text": "Filter text",
   "filters": "Filters",
+  "relevance": "Relevance",
   "gap_scale": "Scale for the gap",
   "gap_settings": "##### Gaps settings",
   "gap": "Gap",
@@ -78,6 +79,7 @@
   "org_dept": "Organisatie / Afdeling",
   "overview_route": "/overview",
   "overview": "Overview",
+  "level": "Level",
   "perf_asp": "Performance aspect",
   "perf_asps": "Performance aspects",
   "perf_scale": "Scale for performance score",
@@ -150,6 +152,7 @@
   "user": "Regular user",
   "moderator": "Moderator",
   "admin": "Administrator",
+  "doc_title": "Capability Assessment Report",
   "test1234": {
     "plural": {
       "other": "{count} stakeholders",
