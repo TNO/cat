@@ -56,7 +56,7 @@ export const AssessmentPage: MeiosisComponent = () => {
             m('.row', [
               color &&
                 m('div.square.right', {
-                  style: `background-color: ${color}; width: 40px; height: 40px; border-radius: 20px`,
+                  style: `background-color: ${color}; border: 4px solid black; width: 40px; height: 40px; border-radius: 20px`,
                 }),
               m(FlatButton, {
                 title: 'Save to Word',
