@@ -130,18 +130,22 @@ export const assessmentPlugin: PluginType = () => {
               const item = existing || items[items.length - 1];
               return m('.condensed', [
                 m(
-                  '.col.s8.m5.l3.truncate.tooltipped[data-position=bottom]',
+                  '.col.s8.m5.l3.truncate',
                   {
-                    'data-tooltip': o.desc
-                      ? `<div class="left-align">${render(o.desc).replace(
-                          /<ul/,
-                          '<ul class="browser-default"'
-                        )}</div>`
-                      : undefined,
                     style: 'margin: 9px auto 0 auto;',
-                    oncreate: ({ dom }) => o.desc && M.Tooltip.init(dom),
                   },
-                  o.label
+                  o.label,
+                  o.desc &&
+                    m(Icon, {
+                      iconName: 'info',
+                      className: 'tooltipped grey-text info-icon',
+                      'data-position': 'bottom',
+                      'data-tooltip': `<div class="left-align">${render(o.desc).replace(
+                        /<ul/,
+                        '<ul class="browser-default"'
+                      )}</div>`,
+                      oncreate: ({ dom }) => o.desc && M.Tooltip.init(dom),
+                    })
                 ),
                 m(
                   '.col.s4.m2.l2',
