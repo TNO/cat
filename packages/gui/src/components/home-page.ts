@@ -40,11 +40,11 @@ export const HomePage: MeiosisComponent = () => {
       const { saveModel, setLanguage } = actions;
 
       return [
-        m('div', { style: 'position: relative;' }, [
+        m('div', { style: 'position: relative; ' }, [
           m(
-            '.overlay.center.black',
+            '.center.black',
             {
-              style: 'position: absolute; width: 100%',
+              style: 'width: 100%',
             },
             m(
               'a',
