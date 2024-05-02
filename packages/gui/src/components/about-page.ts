@@ -89,7 +89,7 @@ export const Attribution: MeiosisComponent = () => {
       return (
         (attributionLogo || attributionText) &&
         m(
-          '.flex-container',
+          '.footer.flex-container',
           {
             style: {
               display: 'flex',
