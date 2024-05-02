@@ -57,7 +57,7 @@ export const Layout: MeiosisComponent = () => ({
               })
             ),
             m(
-              'ul.right',
+              'ul.right.hide-on-med-and-down',
               routingSvc
                 .getList()
                 .filter(
@@ -77,6 +77,43 @@ export const Layout: MeiosisComponent = () => ({
                       (typeof d.title === 'string' ? d.title : d.title()).toUpperCase()
                     ),
                   ])
+                )
+            ),
+            m(
+              'ul#slide-out.sidenav',
+              {
+                oncreate: ({ dom }) => {
+                  M.Sidenav.init(dom);
+                },
+              },
+              routingSvc
+                .getList()
+                .filter(
+                  (d) =>
+                    (typeof d.visible === 'boolean' ? d.visible : d.visible(app)) || isActive(d)
+                )
+                .map((d: IDashboard) =>
+                  m(
+                    `li${isActive(d)}`,
+                    m(
+                      'a',
+                      {
+                        href: routingSvc.href(d.id),
+                      },
+                      [
+                        m(Icon, {
+                          className: 'hoverable' + (d.iconClass ? ` ${d.iconClass}` : ''),
+                          style: 'font-size: 2.2rem; width: 4rem;',
+                          iconName: typeof d.icon === 'string' ? d.icon : d.icon(),
+                          onclick: () => changePage(d.id),
+                        }),
+                        m(
+                          'span',
+                          (typeof d.title === 'string' ? d.title : d.title()).toUpperCase()
+                        ),
+                      ]
+                    )
+                  )
                 )
             ),
           ])
