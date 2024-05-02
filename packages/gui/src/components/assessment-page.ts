@@ -47,7 +47,7 @@ export const AssessmentPage: MeiosisComponent = () => {
       const assessment = assessmentScale.filter((a) => a.id === assessmentId).shift();
       const color = assessment ? assessment.color : undefined;
 
-      const filename = `${formatDate(Date.now(), '')}_${title}_v${version}.docx`;
+      const filename = `${formatDate(Date.now(), '')}_${cap.label || title}_v${version}.docx`;
 
       return m(
         '.assessment.page',

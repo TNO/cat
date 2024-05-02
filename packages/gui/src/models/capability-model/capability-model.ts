@@ -1,4 +1,4 @@
-import { assessmentModel } from './assessment';
+import { AssessmentItem, assessmentModel } from './assessment';
 import { developmentModel } from './development';
 import { evaluationModel, projectEvaluationModel } from './evaluation';
 import { preparationModel } from './preparation';
@@ -59,6 +59,7 @@ export interface ILabelled {
   id: string;
   label: string;
   desc?: string;
+  placeholder?: string;
   color?: string;
   value?: string;
 }
@@ -70,8 +71,7 @@ export interface ICategory extends ILabelled {
 export type Documentation = {
   documentId?: string;
   label?: string;
-  url?: string;
-  location?: string;
+  link?: string;
 };
 
 export interface ICapability extends ILabelled {
@@ -87,9 +87,13 @@ export interface ICapability extends ILabelled {
   documentation?: Documentation[];
   assessmentId?: string;
   shouldDevelop?: boolean;
-  taskAssessment?: { assessmentId: string; items: ILabelled[] };
-  performanceAssessment?: { assessmentId: string; items: ILabelled[] };
-  gapAssessment?: { assessmentId: string; items: ILabelled[] };
+  taskAssessment?: AssessmentItem;
+  performanceAssessment?: AssessmentItem;
+  gaps?: {
+    title: string;
+    gapAssessment: AssessmentItem;
+    documentation?: Documentation[];
+  }[];
 }
 
 export interface IStakeholder extends ILabelled {

@@ -15,6 +15,7 @@ type AssessmentType = {
     id: string;
     value?: string;
     desc?: string;
+    placeholder?: string;
   }>;
 };
 
@@ -75,7 +76,14 @@ export const assessmentPlugin: PluginType = () => {
           return acc;
         }, new Map<string, { value?: string; desc?: string }>());
         items.length = 0;
-        items.push(...opt.map((item) => ({ ...item, ...values.get(item.id) })));
+        items.push(
+          ...opt.map((item) => ({
+            ...item,
+            placeholder: item.desc,
+            desc: undefined,
+            ...values.get(item.id),
+          }))
+        );
         (obj[id] as AssessmentType).items = items;
       }
       // console.log(`Assessment plugin ${optionLabel}: ${JSON.stringify(items)}`);
@@ -97,22 +105,19 @@ export const assessmentPlugin: PluginType = () => {
         // m('.divider'),
         overallAssessmentLabel &&
           m(
-            '.row',
+            '.col.s12.right-align',
             m(
-              '.col.s12.right-align',
-              m(
-                `.assessment-score.${getTextColorFromBackground(color)}`,
-                {
-                  style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
-                },
-                [
-                  m('strong', `${overallAssessmentLabel}: `),
-                  m('span', assessmentStarted ? outcome.label : t('TBD')),
-                ]
-              )
+              `.assessment-score.${getTextColorFromBackground(color)}`,
+              {
+                style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
+              },
+              [
+                m('strong', `${overallAssessmentLabel}: `),
+                m('span', assessmentStarted ? outcome.label : t('TBD')),
+              ]
             )
           ),
-        m('.row', [
+        m('div', [
           m('.col.s8.m5.l3', m('h6', m('strong', t(optionLabel)))),
           m('.col.s4.m2.l2', m('h6', m('strong', t(assessmentLabel)))),
           m('.col.s12.m5.l7', m('h6', m('strong', t(descriptionLabel)))),
@@ -187,6 +192,7 @@ export const assessmentPlugin: PluginType = () => {
                     '.row',
                     m(TextArea, {
                       disabled,
+                      placeholder: item.placeholder,
                       initialValue: item.desc,
                       onchange: (v) => {
                         item.desc = v;

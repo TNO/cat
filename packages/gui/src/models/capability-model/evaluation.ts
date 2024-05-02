@@ -1,5 +1,4 @@
-import { UIForm } from 'mithril-ui-form-plugin';
-import { ICapabilityModel } from './capability-model';
+import { UIForm } from 'mithril-ui-form';
 import { t } from 'mithriljs-i18n';
 
 export const evaluationModel = () =>
@@ -9,7 +8,7 @@ export const evaluationModel = () =>
       label: t('evaluation'),
       type: 'textarea',
     },
-  ] as UIForm<Partial<ICapabilityModel>>;
+  ] as UIForm<Partial<any>>;
 
 export const projectEvaluationModel = () =>
   [
@@ -53,7 +52,11 @@ export const projectEvaluationModel = () =>
       className: 'col s12',
       readonly: true,
     },
-    ...evaluationModel(),
+    {
+      id: 'evaluation',
+      label: t('evaluation'),
+      type: 'textarea',
+    },
     {
       id: 'projectStakeholders',
       label: t('shs'),
@@ -100,4 +103,4 @@ export const projectEvaluationModel = () =>
       overallAssessment: 'avg',
       readonly: true,
     },
-  ] as UIForm;
+  ] as UIForm<any>;

@@ -1,6 +1,7 @@
 import {
   AlignmentType,
   Document,
+  ExternalHyperlink,
   HeadingLevel,
   LevelFormat,
   Packer,
@@ -172,6 +173,42 @@ export const toWord = async (
           },
         },
         {
+          id: 'Heading5',
+          name: 'Heading 5',
+          basedOn: 'Normal',
+          next: 'Normal',
+          quickFormat: true,
+          run: {
+            color: blue,
+            // size: `12pt`,
+            bold: true,
+          },
+          paragraph: {
+            spacing: {
+              before: 120,
+              after: 60,
+            },
+          },
+        },
+        {
+          id: 'Heading6',
+          name: 'Heading 6',
+          basedOn: 'Normal',
+          next: 'Normal',
+          quickFormat: true,
+          run: {
+            // color: blue,
+            // size: `12pt`,
+            bold: true,
+          },
+          paragraph: {
+            spacing: {
+              before: 120,
+              after: 60,
+            },
+          },
+        },
+        {
           id: 'aside',
           name: 'Aside',
           basedOn: 'Normal',
@@ -296,15 +333,71 @@ const capabilityToWord = (data: Partial<ICapabilityDataModel>, cap: ICapability)
     ]),
   ];
 
-  const gaps = cap.gapAssessment?.items || [];
-  const gapRows = [
-    [t('prob_areas'), t('relevance'), t('expl')],
-    ...gaps.map((t) => [
-      t.label || '',
-      gapScale.find((ts) => ts.id === t.value)?.label || '',
-      t.desc || '',
-    ]),
-  ];
+  const gaps = cap.gaps;
+  const gapDesc =
+    gaps && gaps.length > 0
+      ? gaps.reduce(
+          (acc, gap) => {
+            const assessments = gap.gapAssessment?.items || [];
+            const gapRows = [
+              [t('prob_areas'), t('relevance'), t('expl')],
+              ...assessments.map((t) => [
+                t.label || '',
+                gapScale.find((ts) => ts.id === t.value)?.label || '',
+                t.desc || '',
+              ]),
+            ];
+            const doc =
+              gap.documentation &&
+              new Paragraph({
+                children: gap.documentation.reduce((acc, doc) => {
+                  acc.push(
+                    new TextRun(
+                      `[${doc.documentId || ''}]: ${doc.label || ''}${doc.link ? `, ` : ''}`
+                    )
+                  );
+                  doc.link &&
+                    acc.push(
+                      new ExternalHyperlink({
+                        children: [
+                          new TextRun({
+                            text: doc.link,
+                            style: 'Hyperlink',
+                          }),
+                        ],
+                        link: doc.link,
+                      })
+                    );
+                  return acc;
+                }, [] as Array<TextRun | ExternalHyperlink>),
+              });
+
+            acc.push(
+              new Paragraph({
+                text: gap.title || '',
+                heading: HeadingLevel.HEADING_5,
+              })
+            );
+            acc.push(toTable(gapRows));
+            if (doc) {
+              acc.push(
+                new Paragraph({
+                  text: t('doc'),
+                  heading: HeadingLevel.HEADING_6,
+                })
+              );
+              acc.push(doc);
+            }
+            return acc;
+          },
+          [
+            new Paragraph({
+              text: t('gaps'),
+              heading: HeadingLevel.HEADING_4,
+            }),
+          ] as Array<Paragraph | Table | undefined>
+        )
+      : [];
 
   const stakeholderList = shs
     ? shs.map((s) => {
@@ -352,10 +445,7 @@ const capabilityToWord = (data: Partial<ICapabilityDataModel>, cap: ICapability)
       heading: HeadingLevel.HEADING_4,
     }),
     toTable(perfRows),
-    new Paragraph({
-      text: t('prob_areas'),
-      heading: HeadingLevel.HEADING_4,
-    }),
-    toTable(gapRows),
+    ...gapDesc,
+    // toTable(gapRows),
   ].filter((i) => i) as readonly FileChild[];
 };

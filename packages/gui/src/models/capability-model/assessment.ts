@@ -1,14 +1,19 @@
 import { UIForm } from 'mithril-ui-form';
-import { Documentation, ICapabilityDataModel } from './capability-model';
+import { Documentation, ICapabilityDataModel, ILabelled } from './capability-model';
 import { t } from 'mithriljs-i18n';
+
+export type AssessmentItem = {
+  assessmentId: string;
+  items: ILabelled[];
+};
 
 export type Assessment = Partial<{
   desc: string;
   capabilityStakeholders: string[];
   documentation: Documentation[];
-  taskAssessment: unknown;
-  performanceAssessment: unknown;
-  gapAssessment: unknown;
+  taskAssessment: AssessmentItem;
+  performanceAssessment: AssessmentItem;
+  gaps: AssessmentItem[];
   assessmentId: unknown;
   shouldDevelop: 'GO' | 'NO GO';
 }>;
@@ -62,43 +67,53 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       colId: 'performanceAssessment.assessmentId',
     },
     {
-      id: 'gapAssessment',
-      type: 'assessment',
-      options: 'mainGaps',
-      optionLabel: t('prob_areas'),
-      assessmentOptions: 'gapScale',
-      assessmentLabel: t('relevance'),
-      descriptionLabel: t('Explanation'),
-      // overallAssessmentLabel: t('ass_label'),
-      overallAssessment: 'max',
-    },
-    {
-      id: 'documentation',
-      label: t('doc'),
+      id: 'gaps',
+      label: t('add_gap'),
       repeat: true,
-      pageSize: 5,
+      pageSize: 1,
       type: [
+        { id: 'title', label: t('title'), type: 'text' },
         {
-          id: 'documentId',
-          label: t('doc_id'),
-          type: 'text',
-          className: 'col s3 m2',
+          id: 'gapAssessment',
+          type: 'assessment',
+          options: 'mainGaps',
+          optionLabel: t('prob_areas'),
+          assessmentOptions: 'gapScale',
+          assessmentLabel: t('relevance'),
+          descriptionLabel: t('Explanation'),
+          // overallAssessmentLabel: t('ass_label'),
+          overallAssessment: 'max',
         },
         {
-          id: 'label',
-          label: t('title'),
-          type: 'text',
-          className: 'col s6 m6',
-        },
-        {
-          id: 'link',
-          label: t('url'),
-          type: 'url',
-          className: 'col s3 m4',
+          id: 'documentation',
+          label: t('doc'),
+          repeat: true,
+          pageSize: 5,
+          type: [
+            {
+              id: 'documentId',
+              label: t('doc_id'),
+              type: 'text',
+              className: 'col s3 m2',
+            },
+            {
+              id: 'label',
+              label: t('title'),
+              type: 'text',
+              className: 'col s6 m6',
+            },
+            {
+              id: 'link',
+              label: t('url'),
+              type: 'url',
+              className: 'col s3 m4',
+            },
+          ],
+          className: 'col m12',
         },
       ],
-      className: 'col m12',
     },
+    ,
   ] as UIForm<Assessment>;
   if (model.enableSolutionAssessmentSupport) {
     assessmentModel.push(

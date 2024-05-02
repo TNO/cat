@@ -247,6 +247,10 @@ export const OverviewPage: MeiosisComponent = () => {
                                             '.badges.right-align',
                                             m.trust(
                                               `${
+                                                cap.gaps && cap.gaps.length > 0
+                                                  ? `${cap.gaps.length}<i class="inline-icon material-icons">report_problem</i> `
+                                                  : ''
+                                              }${
                                                 cap.capabilityStakeholders &&
                                                 cap.capabilityStakeholders.length > 0
                                                   ? `${cap.capabilityStakeholders.length}<i class="inline-icon material-icons">people</i> `

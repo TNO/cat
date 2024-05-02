@@ -154,6 +154,7 @@
   "admin": "Administrator",
   "doc_title": "Capability Assessment Report",
   "export_to_word": "Export to Word",
+  "add_gap": "Add capability gap",
   "test1234": {
     "plural": {
       "other": "{count} stakeholders",
