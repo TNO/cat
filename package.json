@@ -26,6 +26,6 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "pnpm": "^8.7.5"
+    "pnpm": "^9.0.6"
   }
 }

@@ -45,8 +45,8 @@
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.6.2",
-    "@rspack/core": "^0.6.2",
+    "@rspack/cli": "^0.6.3",
+    "@rspack/core": "^0.6.3",
     "@types/file-saver": "^2.0.7",
     "@types/materialize-css": "^1.0.14",
     "@types/mithril": "^2.2.6",
