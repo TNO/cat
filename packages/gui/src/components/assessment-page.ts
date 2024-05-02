@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { FormAttributes, LayoutForm, SlimdownView, render } from 'mithril-ui-form';
+import { FormAttributes, LayoutForm, SlimdownView } from 'mithril-ui-form';
 import { Dashboards, ICapability, ICapabilityModel } from '../models';
 import { MeiosisComponent } from '../services';
 import { t, i18n } from 'mithriljs-i18n';
@@ -38,7 +38,7 @@ export const AssessmentPage: MeiosisComponent = () => {
     }) => {
       const { catModel = { data: {} } as ICapabilityModel, assessment: assessmentForm = [] } = app;
       const { data = {}, version = 0 } = catModel;
-      const { capabilities = [], assessmentScale = [], title = 'cat', categories = [] } = data;
+      const { capabilities = [], assessmentScale = [], title = 'cat' } = data;
       const capabilityId = app.capabilityId || m.route.param('id');
       const cap = (capabilities.filter((cap) => cap.id === capabilityId).shift() ||
         {}) as ICapability;
