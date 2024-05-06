@@ -42,16 +42,27 @@ const createStakeholderFilter = (stakeholderIds: string[]) => {
 
 export const OverviewPage: MeiosisComponent = () => {
   const colors = [
-    '#e41a1c',
-    '#377eb8',
-    '#4daf4a',
-    '#984ea3',
-    '#ff7f00',
-    '#ffff33',
-    '#a65628',
-    '#f781bf',
-    '#999999',
+    '#fbb4ae',
+    '#b3cde3',
+    '#ccebc5',
+    '#decbe4',
+    '#fed9a6',
+    '#ffffcc',
+    '#e5d8bd',
+    '#fddaec',
+    '#f2f2f2',
   ];
+  // const colors = [
+  //   '#8dd3c7',
+  //   '#ffffb3',
+  //   '#bebada',
+  //   '#fb8072',
+  //   '#80b1d3',
+  //   '#fdb462',
+  //   '#b3de69',
+  //   '#fccde5',
+  //   '#d9d9d9',
+  // ];
 
   let key = 1;
 
@@ -223,7 +234,7 @@ export const OverviewPage: MeiosisComponent = () => {
                             m('.card-content.white-text', [
                               m(
                                 'span.card-title.black-text.white.center-align',
-                                { style: 'padding: 0.4rem' },
+                                { style: 'padding: 0.4rem; border: 2px solid black' },
                                 m('strong', sc.label)
                               ),
                               m(
@@ -239,7 +250,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                     return m(
                                       'li',
                                       m(
-                                        'a.white-text',
+                                        'a.black-text',
                                         {
                                           alt: cap.label,
                                           href: createRoute(Dashboards.ASSESSMENT, {
