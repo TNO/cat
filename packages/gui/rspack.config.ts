@@ -26,6 +26,8 @@ console.log(
   } mode, serving from ${SERVER}, output directed to ${outputPath}.`
 );
 
+const buildDate = new Date().toUTCString();
+
 const configuration: Configuration = {
   mode: isProduction ? 'production' : 'development',
   entry: {
@@ -39,6 +41,7 @@ const configuration: Configuration = {
     new DefinePlugin({
       'process.env.NODE_ENV': "'development'",
       'process.env.SERVER': devMode ? "''" : "'https://tno.github.io/cat/public'",
+      'process.env.BUILD_DATE': `"${buildDate}"`,
     }),
     new HtmlRspackPlugin({
       title: 'Capability Assessment Tool',

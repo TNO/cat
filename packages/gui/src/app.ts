@@ -13,6 +13,8 @@ import {
 } from './components/ui';
 import { i18n } from 'mithriljs-i18n';
 
+console.info(`BUILD DATE: ${process.env.BUILD_DATE}`);
+
 registerPlugin('assessment', assessmentPlugin);
 registerPlugin('create-lookup-table', lookupTableCreatorPlugin);
 registerPlugin('lookup-table', lookupTable);
