@@ -50,8 +50,8 @@ const configuration: Configuration = {
       minify: !devMode,
       favicon: './src/favicon.ico',
       meta: {
-        '': { 'http-equiv': 'Permissions-Policy', content: 'interest-cohort=()' },
         viewport: 'width=device-width, initial-scale=1',
+        '': { 'http-equiv': 'Permissions-Policy', content: 'interest-cohort=(), user-id=()' },
         'og:title': 'Capability Assessment Tool',
         'og:description': "Specify your organization's capabilities, assess, and develop them.",
         'og:url': 'https://tno.github.io/cat/',
