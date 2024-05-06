@@ -56,7 +56,7 @@ export const OverviewPage: MeiosisComponent = () => {
       return acc;
     }, new Set<string>());
     capabilities.forEach((cap) => {
-      if (cap.capabilityStakeholders instanceof Array) {
+      if (cap.capabilityStakeholders && Array.isArray(cap.capabilityStakeholders)) {
         cap.capabilityStakeholders = cap.capabilityStakeholders.filter((id) => ids.has(id));
       }
     });
