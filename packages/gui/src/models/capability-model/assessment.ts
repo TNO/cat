@@ -72,7 +72,8 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       repeat: true,
       pageSize: 1,
       type: [
-        { id: 'title', label: t('title'), type: 'text' },
+        { id: 'title', label: t('title'), type: 'text', className: 'col s8 m5 l3' },
+        { id: 'desc', label: t('desc'), type: 'textarea', className: 'col m7 l9' },
         {
           id: 'gapAssessment',
           type: 'assessment',

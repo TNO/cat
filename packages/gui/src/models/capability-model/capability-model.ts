@@ -108,8 +108,9 @@ export interface ICapability extends ILabelled {
   taskAssessment?: AssessmentItem;
   performanceAssessment?: AssessmentItem;
   gaps?: {
-    title: string;
-    gapAssessment: AssessmentItem;
+    title?: string;
+    desc?: string;
+    gapAssessment?: AssessmentItem;
     documentation?: Documentation[];
   }[];
 }
