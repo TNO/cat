@@ -50,6 +50,7 @@ const configuration: Configuration = {
       minify: !devMode,
       favicon: './src/favicon.ico',
       meta: {
+        '': { 'http-equiv': 'Permissions-Policy', content: 'interest-cohort=()' },
         viewport: 'width=device-width, initial-scale=1',
         'og:title': 'Capability Assessment Tool',
         'og:description': "Specify your organization's capabilities, assess, and develop them.",
