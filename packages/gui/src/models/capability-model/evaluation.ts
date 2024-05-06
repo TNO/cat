@@ -1,5 +1,6 @@
 import { UIForm } from 'mithril-ui-form';
 import { t } from 'mithriljs-i18n';
+import { Evaluation, ProjectEvaluation } from './capability-model';
 
 export const evaluationModel = () =>
   [
@@ -8,7 +9,7 @@ export const evaluationModel = () =>
       label: t('evaluation'),
       type: 'textarea',
     },
-  ] as UIForm<Partial<any>>;
+  ] as UIForm<Partial<Evaluation>>;
 
 export const projectEvaluationModel = () =>
   [
@@ -103,4 +104,4 @@ export const projectEvaluationModel = () =>
       overallAssessment: 'avg',
       readonly: true,
     },
-  ] as UIForm<any>;
+  ] as UIForm<Partial<ProjectEvaluation>>;

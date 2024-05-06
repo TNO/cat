@@ -15,8 +15,10 @@ import {
 } from '../../models';
 import {
   defaultCapabilityModel,
+  Evaluation,
   ICapabilityDataModel,
   ICapabilityModel,
+  ProjectEvaluation,
 } from '../../models/capability-model/capability-model';
 import { IAppModel, UpdateStream } from '../meiosis';
 import { UIForm } from 'mithril-ui-form';
@@ -41,8 +43,8 @@ export type AppState = {
   preparations?: UIForm<ICapabilityDataModel>;
   assessment?: UIForm<Assessment>;
   development?: UIForm<Development>;
-  evaluation?: UIForm<Partial<ICapabilityModel>>;
-  projectEvaluation?: UIForm;
+  evaluation?: UIForm<Partial<Evaluation>>;
+  projectEvaluation?: UIForm<Partial<ProjectEvaluation>>;
   settings?: UIForm<ICapabilityDataModel>;
 };
 

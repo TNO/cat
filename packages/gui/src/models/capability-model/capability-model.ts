@@ -1,4 +1,4 @@
-import { AssessmentItem, assessmentModel } from './assessment';
+import { Assessment, AssessmentItem, assessmentModel } from './assessment';
 import { developmentModel } from './development';
 import { evaluationModel, projectEvaluationModel } from './evaluation';
 import { preparationModel } from './preparation';
@@ -50,6 +50,24 @@ export interface ICapabilityDataModel {
   lexicon: Array<ILabelled & { ref?: string; url?: string }>;
 }
 
+export type Evaluation = {
+  evaluation: string;
+};
+
+export type ProjectEvaluation = Evaluation & {
+  label: string;
+  start: string;
+  duration: string;
+  capabilityIds: string[];
+  proposal: string;
+  projectStakeholders: {
+    stakeholderId: string[];
+    persons: string;
+  };
+  gapAssessment: Assessment;
+  performanceAssessment: Assessment;
+};
+
 export interface ICapabilityModel {
   version?: number;
   data: Partial<ICapabilityDataModel>;
@@ -83,7 +101,7 @@ export interface ICapability extends ILabelled {
   subcategoryId: string;
   desc?: string;
   goal?: string;
-  capabilityStakeholders?: string[];
+  capabilityStakeholders?: string | string[];
   documentation?: Documentation[];
   assessmentId?: string;
   shouldDevelop?: boolean;

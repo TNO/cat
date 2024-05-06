@@ -31,8 +31,13 @@ const createTextFilter = (txt: string) => {
 
 const createStakeholderFilter = (stakeholderIds: string[]) => {
   if (!stakeholderIds || stakeholderIds.length === 0) return () => true;
-  return ({ capabilityStakeholders }: { capabilityStakeholders?: string[] }) =>
-    capabilityStakeholders && capabilityStakeholders.some((p) => stakeholderIds.includes(p));
+  return ({ capabilityStakeholders }: { capabilityStakeholders?: string | string[] }) => {
+    const caps =
+      typeof capabilityStakeholders === 'string'
+        ? [capabilityStakeholders]
+        : capabilityStakeholders;
+    return caps && caps.some((p) => stakeholderIds.includes(p));
+  };
 };
 
 export const OverviewPage: MeiosisComponent = () => {
@@ -56,8 +61,12 @@ export const OverviewPage: MeiosisComponent = () => {
       return acc;
     }, new Set<string>());
     capabilities.forEach((cap) => {
-      if (cap.capabilityStakeholders && Array.isArray(cap.capabilityStakeholders)) {
-        cap.capabilityStakeholders = cap.capabilityStakeholders.filter((id) => ids.has(id));
+      if (cap.capabilityStakeholders) {
+        const caps =
+          typeof cap.capabilityStakeholders === 'string'
+            ? [cap.capabilityStakeholders]
+            : cap.capabilityStakeholders;
+        cap.capabilityStakeholders = caps.filter((id) => ids.has(id));
       }
     });
   };
