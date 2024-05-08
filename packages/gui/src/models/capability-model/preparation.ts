@@ -60,8 +60,9 @@ export const preparationModel = () =>
       propertyFilter: 'label',
       sortProperty: 'id',
       type: [
-        { id: 'id', type: 'text', className: 'col s4 m3' },
-        { id: 'label', type: 'text', label: t('name'), className: 'col s8 m9' },
+        { id: 'id', type: 'text', className: 'col s4 m3 l2' },
+        { id: 'label', type: 'text', label: t('name'), className: 'col s5 m6 l8' },
+        { id: 'color', type: 'color', label: t('color'), className: 'col s3 m3 l2' },
         { id: 'desc', type: 'textarea', label: t('desc'), className: 'col s12' },
         {
           id: 'subcategories',

@@ -10,7 +10,7 @@ import { t } from 'mithriljs-i18n';
 //   Array.from({ length: end - start + 1 }, (_, k) => k + start);
 
 type AssessmentType = {
-  assessmentId: string;
+  assessmentId?: string;
   items: Array<{
     id: string;
     value?: string;
@@ -26,7 +26,11 @@ type AssessmentFieldType = InputField & {
   descriptionLabel: string;
   overallAssessment: 'min' | 'max' | 'avg';
   overallAssessmentLabel: string;
+  /** If set, the aspect can be ignored */
+  excludeLabel?: string;
 };
+
+const EXCLUDE_ID = '__exclude__id__';
 
 export const assessmentPlugin: PluginType = () => {
   let key = 1;
@@ -36,19 +40,23 @@ export const assessmentPlugin: PluginType = () => {
     score: false | ILabelled[],
     items: Array<{ value?: string }>
   ) =>
-    score &&
-    Math.round(
-      items.reduce((acc, cur) => {
-        const index = score.findIndex((s) => s.id === cur.value);
-        return index < 0
-          ? acc
-          : overallAssessment === 'max'
-          ? Math.max(index, acc)
-          : overallAssessment === 'min'
-          ? Math.min(index, acc)
-          : acc + index / items.length;
-      }, 0)
-    );
+    items.every((i) => typeof i.value === 'undefined' || i.value === EXCLUDE_ID)
+      ? undefined
+      : score &&
+        Math.round(
+          items
+            .filter((i) => i.value && i.value !== EXCLUDE_ID)
+            .reduce((acc, cur, _i, arr) => {
+              const index = score.findIndex((s) => s.id === cur.value);
+              return index < 0
+                ? acc
+                : overallAssessment === 'max'
+                ? Math.max(index, acc)
+                : overallAssessment === 'min'
+                ? Math.min(index, acc)
+                : acc + index / arr.length;
+            }, 0)
+        );
 
   return {
     view: ({ attrs: { field, obj, context = [], onchange } }) => {
@@ -62,6 +70,7 @@ export const assessmentPlugin: PluginType = () => {
         overallAssessment,
         overallAssessmentLabel,
         readonly,
+        excludeLabel,
       } = field as AssessmentFieldType;
       if (obj instanceof Array) return;
       if (!obj.hasOwnProperty(id)) obj[id] = { assessmentId: '', items: [] } as AssessmentType;
@@ -77,39 +86,50 @@ export const assessmentPlugin: PluginType = () => {
         }, new Map<string, { value?: string; desc?: string }>());
         items.length = 0;
         items.push(
-          ...opt.map((item) => ({
-            ...item,
-            placeholder: item.desc,
-            desc: undefined,
-            ...values.get(item.id),
-          }))
+          ...opt
+            .filter((o) => !excludeLabel || o.id !== EXCLUDE_ID)
+            .map((item) => ({
+              ...item,
+              placeholder: item.desc,
+              desc: undefined,
+              ...values.get(item.id),
+            }))
         );
         (obj[id] as AssessmentType).items = items;
       }
       // console.log(`Assessment plugin ${optionLabel}: ${JSON.stringify(items)}`);
 
       const score =
-        typeof options === 'string' && (resolveExpression(assessmentOptions, ctx) as ILabelled[]);
+        typeof options === 'string' &&
+        (resolveExpression(assessmentOptions, ctx) as ILabelled[]).map((i) => i);
+      if (score && excludeLabel) {
+        score.push({
+          id: EXCLUDE_ID,
+          label: excludeLabel,
+        });
+      }
 
       const outcomeIndex =
         typeof overallAssessment !== 'undefined' && computeOutcome(overallAssessment, score, items);
       const outcome =
         typeof outcomeIndex === 'number' && score && score.length > outcomeIndex
           ? score[outcomeIndex]
-          : { label: '?', color: '' };
+          : { label: t('TBD'), color: '' };
 
       const assessmentStarted = items.filter((i) => i.value).length > 0;
       const color = assessmentStarted && outcome.color ? outcome.color : '#f0f8ff';
 
-      return m('.assessment-plugin.section', [
+      const now = Date.now();
+
+      return m('.assessment-plugin.section', { key: now }, [
         // m('.divider'),
         overallAssessmentLabel &&
           m(
             '.col.s12.right-align',
             m(
-              `.assessment-score.${getTextColorFromBackground(color)}`,
+              `.assessment-score.en${getTextColorFromBackground(color)}`,
               {
-                style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
+                style: { background: color },
               },
               [
                 m('strong', `${overallAssessmentLabel}: `),
@@ -124,7 +144,7 @@ export const assessmentPlugin: PluginType = () => {
           opt &&
             score &&
             opt.length > 0 &&
-            opt.map((o) => {
+            opt.map((o, i) => {
               const existing = items.filter((i) => i.id === o.id).shift();
               if (!existing) items.push({ id: o.id });
               const item = existing || items[items.length - 1];
@@ -133,6 +153,7 @@ export const assessmentPlugin: PluginType = () => {
                   '.col.s8.m5.l3.truncate',
                   {
                     style: 'margin: 9px auto 0 auto;',
+                    className: item.value === EXCLUDE_ID ? 'disabled-option' : '',
                   },
                   o.label,
                   o.desc &&
@@ -151,6 +172,9 @@ export const assessmentPlugin: PluginType = () => {
                   '.col.s4.m2.l2',
                   m(
                     '.row',
+                    {
+                      className: item.value === EXCLUDE_ID ? 'disabled-option' : undefined,
+                    },
                     disabled
                       ? m(TextInput, {
                           disabled,
@@ -158,7 +182,7 @@ export const assessmentPlugin: PluginType = () => {
                         })
                       : [
                           m(Select, {
-                            key: `select${key}`,
+                            key: `select_${key}_${i}`,
                             placeholder: t('pick_one'),
                             options: score,
                             className: 'col s10',
@@ -166,8 +190,8 @@ export const assessmentPlugin: PluginType = () => {
                             onchange: (v) => {
                               item.value = v[0] as string;
                               const o = computeOutcome(overallAssessment, score, items);
-                              if (typeof o === 'number')
-                                (obj[id] as AssessmentType).assessmentId = score[o].id;
+                              (obj[id] as AssessmentType).assessmentId =
+                                typeof o === 'number' ? score[o].id : undefined;
                               onchange && onchange(obj[id]);
                             },
                           }),
@@ -181,8 +205,8 @@ export const assessmentPlugin: PluginType = () => {
                                 item.value = undefined;
                                 key++;
                                 const o = computeOutcome(overallAssessment, score, items);
-                                if (typeof o === 'number')
-                                  (obj[id] as AssessmentType).assessmentId = score[o].id;
+                                (obj[id] as AssessmentType).assessmentId =
+                                  typeof o === 'number' ? score[o].id : undefined;
                                 onchange && onchange(obj[id]);
                               }
                             },

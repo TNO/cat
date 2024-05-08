@@ -121,7 +121,7 @@ class RoutingService {
   public route(dashboardId: Dashboards, query?: { [key: string]: string | number | undefined }) {
     const dashboard = this.dashboards.filter((d) => d.id === dashboardId).shift();
     return dashboard
-      ? '#!' + dashboard.route + (query ? '?' + m.buildQueryString(query) : '')
+      ? dashboard.route + (query ? '?' + m.buildQueryString(query) : '')
       : this.defaultRoute;
   }
 
@@ -135,6 +135,7 @@ class RoutingService {
     params?: { [key: string]: string | number | undefined },
     query?: { [key: string]: string | number | undefined }
   ) {
+    console.log('SWITCH_TO');
     const dashboard = this.dashboards.filter((d) => d.id === dashboardId).shift();
     if (dashboard) {
       const url = dashboard.route + (query ? '?' + m.buildQueryString(query) : '');

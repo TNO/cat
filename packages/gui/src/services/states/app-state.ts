@@ -65,7 +65,7 @@ export interface IAppStateActions {
     page: Dashboards,
     params?: { [key: string]: string | number | undefined },
     query?: { [key: string]: string | number | undefined }
-  ) => void;
+  ) => string;
   saveModel: (cat: Partial<ICapabilityModel>) => void;
   setLanguage: (locale?: string) => Promise<void>;
   saveCurUser: (curUser: UserType) => void;
@@ -114,7 +114,9 @@ export const appStateMgmt = {
   },
   actions: (update, states) => {
     return {
-      setPage: (page: Dashboards) => update({ app: { page } }),
+      setPage: (page: Dashboards) => {
+        update({ app: { page } });
+      },
       update: (model: Partial<ModelUpdateFunction>) => update(model),
       search: (isSearching: boolean, searchQuery?: string) =>
         update({ app: { isSearching, searchQuery } }),
@@ -122,7 +124,7 @@ export const appStateMgmt = {
         routingSvc && routingSvc.switchTo(page, params, query);
         update({ app: { page } });
       },
-      createRoute: (page, params) => routingSvc && routingSvc.route(page, params),
+      createRoute: (page, params) => (routingSvc ? routingSvc.route(page, params) : ''),
       saveModel: (cat) => {
         setTitle(cat.data?.title);
         localStorage.setItem(catModelKey, JSON.stringify(cat));

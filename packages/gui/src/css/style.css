@@ -513,6 +513,17 @@ ul.projects > li > span.project-id {
 .assessment-plugin.section {
   padding: 0;
 }
+
+.assessment-score {
+  text-align: center;
+  min-width: 300px;
+  border: solid 2px black;
+  border-radius: 8px;
+  float: right;
+  padding: 5px;
+  margin-top: 10px;
+}
+
 .inline-icon {
   vertical-align: bottom;
   /* font-size: 20px !important; */
@@ -661,4 +672,13 @@ a.waves-effect.waves-teal.btn-flat.selected {
 
 .condensed:hover .info-icon {
   opacity: 1;
+}
+
+.disabled-option,
+.disabled-option input[type='text'],
+.disabled-option i.material-icons.tiny {
+  color: lightgrey;
+}
+.disabled-option svg.caret {
+  fill: lightgrey;
 }

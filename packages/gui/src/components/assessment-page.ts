@@ -39,15 +39,20 @@ export const AssessmentPage: MeiosisComponent = () => {
       const { catModel = { data: {} } as ICapabilityModel, assessment: assessmentForm = [] } = app;
       const { data = {}, version = 0 } = catModel;
       const { capabilities = [], assessmentScale = [], title = 'cat' } = data;
-      const capabilityId = app.capabilityId || m.route.param('id');
+      const capabilityId = app.capabilityId || m.route.param('id').replace(':id', '');
       const cap = (capabilities.filter((cap) => cap.id === capabilityId).shift() ||
+        (capabilities.length > 0 && capabilities[0]) ||
         {}) as ICapability;
+      console.table({ capabilityId });
+
+      if (!capabilityId) {
+        console.log('SET ROUTE ');
+        m.route.set(t('assessment_route'), { id: cap.id });
+      }
 
       const { assessmentId } = cap;
       const assessment = assessmentScale.filter((a) => a.id === assessmentId).shift();
       const color = assessment ? assessment.color : undefined;
-
-      const filename = `${formatDate(Date.now(), '')}_${cap.label || title}_v${version}.docx`;
 
       return m(
         '.assessment.page',
@@ -62,7 +67,12 @@ export const AssessmentPage: MeiosisComponent = () => {
                 title: 'Save to Word',
                 className: 'right',
                 iconName: 'download',
-                onclick: () => toWord(filename, data, cap),
+                onclick: () => {
+                  const filename = `${formatDate(Date.now(), '')}_${
+                    cap.label || title
+                  }_v${version}.docx`;
+                  toWord(filename, data, cap);
+                },
               }),
               m('h5.col.s12', `${t('cap')} '${cap.label}'`),
               m('.col.s12', m(SlimdownView, { md: t('ass_instr'), removeParagraphs: true })),
@@ -73,17 +83,13 @@ export const AssessmentPage: MeiosisComponent = () => {
             'form.row',
             { lang: i18n.currentLocale, spellcheck: false },
             m(LayoutForm, {
-              key: capabilityId,
+              // key: capabilityId,
               form: assessmentForm,
               obj: cap,
               context: [data],
-              onchange: (_, cap) => {
-                // if (cap && catModel.data?.capabilities) {
-                //   catModel.data.capabilities = catModel.data.capabilities.map(c => c.id === cap.id ? cap : c)
-                // }
+              onchange: () => {
                 saveModel(catModel);
-                console.table(catModel);
-                console.table(cap);
+                // console.table(catModel);
               },
               // i18n: i18n,
             } as FormAttributes<Partial<ICapability>>)

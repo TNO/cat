@@ -12,7 +12,7 @@ import {
 import { MeiosisComponent } from '../services';
 import { TextInputWithClear } from './ui';
 import { t } from 'mithriljs-i18n';
-import { formatDate, toWord } from '../utils';
+import { colorPalette, formatDate, toWord } from '../utils';
 
 type ISubcategoryVM = ILabelled & {
   capabilities: ICapability[];
@@ -41,29 +41,6 @@ const createStakeholderFilter = (stakeholderIds: string[]) => {
 };
 
 export const OverviewPage: MeiosisComponent = () => {
-  const colors = [
-    '#fbb4ae',
-    '#b3cde3',
-    '#ccebc5',
-    '#decbe4',
-    '#fed9a6',
-    '#ffffcc',
-    '#e5d8bd',
-    '#fddaec',
-    '#f2f2f2',
-  ];
-  // const colors = [
-  //   '#8dd3c7',
-  //   '#ffffb3',
-  //   '#bebada',
-  //   '#fb8072',
-  //   '#80b1d3',
-  //   '#fdb462',
-  //   '#b3de69',
-  //   '#fccde5',
-  //   '#d9d9d9',
-  // ];
-
   let key = 1;
 
   const cleanUpOldSettings = (capabilities: ICapability[], stakeholders: IStakeholder[]) => {
@@ -87,7 +64,9 @@ export const OverviewPage: MeiosisComponent = () => {
       attrs: {
         actions: { setPage },
       },
-    }) => setPage(Dashboards.OVERVIEW),
+    }) => {
+      setPage(Dashboards.OVERVIEW);
+    },
     view: ({
       attrs: {
         state: {
@@ -216,7 +195,7 @@ export const OverviewPage: MeiosisComponent = () => {
           '#category-list',
           filteredCategories &&
             // m('.row', [
-            filteredCategories.map(({ label, subcategories }, i) =>
+            filteredCategories.map(({ label, subcategories, color }, i) =>
               m('.category', [
                 i > 0 && m('.divider'),
                 m(i > 0 ? '.section.row' : '.row', [
@@ -228,35 +207,37 @@ export const OverviewPage: MeiosisComponent = () => {
                         m(
                           '.card',
                           {
-                            style: `background: ${colors[i % colors.length]}; height: ${height}px`,
+                            style: `background: ${
+                              color || colorPalette[i % colorPalette.length]
+                            }; height: ${height}px`,
                           },
-                          [
-                            m('.card-content.white-text', [
-                              m(
-                                'span.card-title.black-text.white.center-align',
-                                { style: 'padding: 0.4rem; border: 2px solid black' },
-                                m('strong', sc.label)
-                              ),
-                              m(
-                                'ul.caps',
-                                sc.capabilities &&
-                                  sc.capabilities.map((cap) => {
-                                    const { assessmentId } = cap;
-                                    const assessment = assessmentScale
-                                      .filter((a) => a.id === assessmentId)
-                                      .shift();
-                                    const color = assessment ? assessment.color : undefined;
-                                    const title = assessment ? assessment.label : undefined;
-                                    return m(
-                                      'li',
-                                      m(
-                                        'a.black-text',
-                                        {
-                                          alt: cap.label,
-                                          href: createRoute(Dashboards.ASSESSMENT, {
-                                            id: cap.id,
-                                          }),
-                                        },
+                          m('.card-content.white-text', [
+                            m(
+                              'span.card-title.black-text.white.center-align',
+                              { style: 'padding: 0.4rem; border: 2px solid black' },
+                              m('strong', sc.label)
+                            ),
+                            m(
+                              'ul.caps',
+                              sc.capabilities &&
+                                sc.capabilities.map((cap) => {
+                                  const { assessmentId } = cap;
+                                  const assessment = assessmentScale
+                                    .filter((a) => a.id === assessmentId)
+                                    .shift();
+                                  const color = assessment ? assessment.color : undefined;
+                                  const title = assessment ? assessment.label : undefined;
+                                  return m(
+                                    'li',
+                                    m(
+                                      m.route.Link,
+                                      {
+                                        href: createRoute(Dashboards.ASSESSMENT),
+                                        selector: 'a.black-text',
+                                        params: { id: cap.id },
+                                        options: { replace: true },
+                                      },
+                                      [
                                         m('.capability', [
                                           m('.square', {
                                             title,
@@ -276,51 +257,51 @@ export const OverviewPage: MeiosisComponent = () => {
                                                   ? `${cap.capabilityStakeholders.length}<i class="inline-icon material-icons">people</i> `
                                                   : ''
                                               }${cap.shouldDevelop ? '✓' : ''}
-                                                  ${
-                                                    projectProposals.length > 0 &&
-                                                    projectProposals.filter(
-                                                      (p) =>
-                                                        !p.approved &&
-                                                        p.capabilityIds &&
-                                                        p.capabilityIds.includes(cap.id)
-                                                    ).length > 0
-                                                      ? `${
-                                                          projectProposals.filter(
-                                                            (p) =>
-                                                              !p.approved &&
-                                                              p.capabilityIds &&
-                                                              p.capabilityIds.includes(cap.id)
-                                                          ).length
-                                                        }<i class="inline-icon material-icons">lightbulb</i>`
-                                                      : ''
-                                                  }
-                                                  ${
-                                                    projectProposals.length > 0 &&
-                                                    projectProposals.filter(
-                                                      (p) =>
-                                                        p.approved &&
-                                                        p.capabilityIds &&
-                                                        p.capabilityIds.includes(cap.id)
-                                                    ).length > 0
-                                                      ? `${
-                                                          projectProposals.filter(
-                                                            (p) =>
-                                                              p.approved &&
-                                                              p.capabilityIds &&
-                                                              p.capabilityIds.includes(cap.id)
-                                                          ).length
-                                                        }<i class="inline-icon material-icons">engineering</i>`
-                                                      : ''
-                                                  }`
+                                              ${
+                                                projectProposals.length > 0 &&
+                                                projectProposals.filter(
+                                                  (p) =>
+                                                    !p.approved &&
+                                                    p.capabilityIds &&
+                                                    p.capabilityIds.includes(cap.id)
+                                                ).length > 0
+                                                  ? `${
+                                                      projectProposals.filter(
+                                                        (p) =>
+                                                          !p.approved &&
+                                                          p.capabilityIds &&
+                                                          p.capabilityIds.includes(cap.id)
+                                                      ).length
+                                                    }<i class="inline-icon material-icons">lightbulb</i>`
+                                                  : ''
+                                              }
+                                              ${
+                                                projectProposals.length > 0 &&
+                                                projectProposals.filter(
+                                                  (p) =>
+                                                    p.approved &&
+                                                    p.capabilityIds &&
+                                                    p.capabilityIds.includes(cap.id)
+                                                ).length > 0
+                                                  ? `${
+                                                      projectProposals.filter(
+                                                        (p) =>
+                                                          p.approved &&
+                                                          p.capabilityIds &&
+                                                          p.capabilityIds.includes(cap.id)
+                                                      ).length
+                                                    }<i class="inline-icon material-icons">engineering</i>`
+                                                  : ''
+                                              }`
                                             )
                                           ),
-                                        ])
-                                      )
-                                    );
-                                  })
-                              ),
-                            ]),
-                          ]
+                                        ]),
+                                      ]
+                                    )
+                                  );
+                                })
+                            ),
+                          ])
                         )
                       )
                     ),

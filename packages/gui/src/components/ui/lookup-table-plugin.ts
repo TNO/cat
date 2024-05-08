@@ -30,6 +30,8 @@ type LookupTableCreatorFieldType = InputField & {
   rows: string;
   /** Property name of an array of options (id, label) that you wish to use as column label */
   cols: string;
+  /** Header for the rows */
+  rowHeader: string;
 };
 
 export const lookupTable: PluginType = () => {
@@ -60,6 +62,7 @@ export const lookupTable: PluginType = () => {
         tbl.filter((t) => t.rowId === rId && t.colId === cId).shift();
       const opt = optTmp && optionId && optTmp.filter((o) => o.id === optionId.optionId).shift();
       const color = opt && opt.color ? opt.color : '#f0f8ff';
+      console.table({ tbl, rId, cId });
 
       if (onchange && opt && obj[id] !== opt.id) onchange(opt.id);
       return m('section.row', [
@@ -69,7 +72,7 @@ export const lookupTable: PluginType = () => {
           m(
             `.assessment-score.${getTextColorFromBackground(color)}`,
             {
-              style: `border: solid 2px black; border-radius: 8px; background: ${color}; float: right; padding: 5px; margin-top: 10px;`,
+              style: { background: color },
             },
             [m('strong', `${label}: `), m('span', opt ? opt.label : t('TBD'))]
           )
@@ -91,6 +94,7 @@ export const lookupTableCreatorPlugin: PluginType = () => {
         options = '',
         rows = '',
         cols = '',
+        rowHeader = '',
       } = field as LookupTableCreatorFieldType;
       if (obj instanceof Array) return;
       if (!obj.hasOwnProperty(id)) obj[id] = [];
@@ -139,7 +143,11 @@ export const lookupTableCreatorPlugin: PluginType = () => {
                 m('table.highlight.responsive-table', [
                   m(
                     'thead',
-                    m('tr', [m('th', label), ...colOpt.map((c) => m('th.center-align', c.label))])
+                    m('tr', [m('th'), m('th.center-align', { colspan: colOpt.length - 1 }, label)]),
+                    m('tr', [
+                      m('th', rowHeader),
+                      ...colOpt.map((c) => m('th.center-align', c.label)),
+                    ])
                   ),
                   m(
                     'tbody',

@@ -113,9 +113,10 @@ export const settingsModel = () =>
     {
       id: 'assessmentTable',
       type: 'create-lookup-table',
-      label: t('task_perf_scale'),
       options: 'assessmentScale',
       rows: 'taskScale',
       cols: 'performanceScale',
+      label: t('ass_perf_scale'),
+      rowHeader: t('ass_task_scale'),
     },
   ] as UIForm<ICapabilityDataModel>;

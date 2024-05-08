@@ -56,6 +56,7 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       descriptionLabel: t('Explanation'),
       overallAssessmentLabel: t('avg_perf'),
       overallAssessment: 'avg',
+      excludeLabel: t('ignore'),
     },
     {
       id: 'assessmentId',
@@ -71,6 +72,11 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       label: t('add_gap'),
       repeat: true,
       pageSize: 1,
+      // onNewItem: (obj: any, i: any) => {
+      //   console.log('CALLED: ' + i);
+      //   console.log(obj);
+      //   return {};
+      // },
       type: [
         { id: 'title', label: t('title'), type: 'text', className: 'col s8 m5 l3' },
         { id: 'desc', label: t('desc'), type: 'textarea', className: 'col m7 l9' },
