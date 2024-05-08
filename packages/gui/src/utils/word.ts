@@ -378,6 +378,12 @@ const capabilityToWord = (data: Partial<ICapabilityDataModel>, cap: ICapability)
                 heading: HeadingLevel.HEADING_5,
               })
             );
+            gap.desc &&
+              acc.push(
+                new Paragraph({
+                  text: gap.desc,
+                })
+              );
             acc.push(toTable(gapRows));
             if (doc) {
               acc.push(
