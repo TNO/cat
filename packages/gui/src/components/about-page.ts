@@ -4,9 +4,9 @@ import { Dashboards, UserType } from '../models';
 import { MeiosisComponent } from '../services';
 import tnoLogo from '../assets/tno_txt.svg';
 import { Select, ISelectOptions } from 'mithril-materialized';
-import { t } from 'mithriljs-i18n';
+import { i18n, t } from 'mithriljs-i18n';
 
-const md = `#### Capability Assessment Tool
+const mdNl = `#### Capability Assessment Tool
 
 De Capability Assessment Tool (CAT) ondersteunt het proces om in het veiligheidsdomein op systematische wijze de status van de voor het betreffende domein essentiële capability’s te analyseren en eventuele verbetervoorstellen vast te leggen en te delen met betrokken stakeholders. De belangrijkste functionaliteiten van CAT hebben betrekking op het assisteren bij:
 
@@ -75,6 +75,70 @@ Vastleggen van één of meer voorstellen om een capability te versterken. Het be
 
 ...`;
 
+const mdEn = `#### Capability Assessment Tool
+
+De Capability Assessment Tool (CAT) supports the process of systematically analysing the status of essential capabilities within the domain of Disaster Resilient Societies (DRS) and documenting and sharing any improvement proposals with relevant stakeholders. The main functionalities of CAT pertain to assisting with:
+
+1. Defining and characterizing relevant capabilities within the domain of DRS.
+2. Evaluating the importance and current performance of these capabilities, as well as assessing the need for any potential enhancements.
+
+##### Structure
+
+After starting up, the START screen appears, containing a brief introduction to CAT and options to save data or retrieve previously saved data. The seven icons (depended on the select user, see ABOUT) at the top right of the screen provide access to the various screens that make up CAT. The first five screens-indicated by dark blue icons-contain information that can only be consulted. The remaining two-indicated by light blue icons-are CAT modules that can be adjusted. These include:
+
+- HOME: Start screen.
+- OVERVIEW: Summary of all capabilities defined within the relevant phases of the Disaster Management Cycle (mitigation/prevention, preparedness, response and recovery).
+- ASSESSMENT: Module for determining the evaluation of each capability.
+- ABOUT: Background information on CAT, including explanations of its structure, methodology, and usage. In the top right corner users can select their role from three options: Regular user (access to HOME, OVERVIEW, ASSESSMENT, ABOUT and TAXONOMY), Moderator (access to an additional tab: PREPARATION), and Administrator (access to an additional tab: SETTINGS)
+- TAXONOMY: Glossary of terms.
+- PREPARATION: Module for entering a capability hierarchy for the relevant security domain at three levels, including the involved organizations and objectives to be achieved.
+- SETTINGS: Settings such as scales, performance criteria, gaps and assessments can be adjusted.
+
+##### OVERVIEW
+
+In this screen, all subcategories defined within the categories are displayed in coloured tiles, including the capabilities established at the third level within the subcategories. By clicking on the name, you will switch to the ASSESSMENT screen of thee respective capability.
+
+For each capability, the status of the latest assessment is indicated in a box using colour coding. If the box is grey, no assessment has been conducted yet.
+
+##### CAT-modules
+
+###### SETTINGS
+
+Settings can be adjusted to fit the needs of your assessment (this task can only be carried out as an Administrator):
+
+- GENERAL: Possibility to turn on Solution Assessment, allows users to add improvement proposals for each capability, including expectations regarding enhanced performance following the implementation of these proposals.
+- TASKS: Adjusting the scales for the assessment themes
+- PERFORMANCE: Adjusting the assessment aspects
+- GAPS: Adjusting the problem areas of the gaps
+- ASSESSMENT MATRIX: Adjusting the scales for assessment score
+
+###### PREPARATION
+
+Further specifying the environment within the DRS domain in which evaluation takes place based on (this task can be carried out as a Moderator and Administrator):
+
+- GROUP GOALS: Specifying the main objectives of your organization within the DRS domain.
+- STAKEHOLDER: Specifying the stakeholders involved in performing one or more capabilities.
+- CATEGORIES: Specifying categories to organize the capabilities (currently organized per Disaster Management Cycle phase).
+- CAPABILITIES: Specifying capabilities within all subcategories of categories (per Disaster Management Cycle phase).
+
+###### ASSESSMENT FRAMEWORK
+
+Establishing the assessment framework within the relevant phase of the Disaster Management Cycle based on:
+
+- DESCRIPTION: Describing the capability.
+- STAKEHOLDER TYPES: Defining the types of stakeholders involved.
+- ASSESSMENT THEMES: Assessing the contribution of the capability to the themes (preventing incidents, minimise losses from hazards, help victims, adequate recovery).
+- ASSESSMENT ASPECTS: Assessing the aspects (effectiveness, safety/security of professionals and efficiency) of the capability
+- ADD CAPABILITY GAPS: Describe the gap within this capability
+- PROBLEM AREAS: Evaluate the capability gap using the THOR-method (technological, human, organizational, regulatory), indicate if and how the gap affects each area.
+- DOCUMENTATION: If possible, include relevant documents or websites, to support the THOR assessment.
+
+> **Note:** In the top right corner the assessment score of the capability is shown: dark green (need for improvement, very low), light green (need for improvement, low), yellow (need for improvement, moderate), orange (need for improvement, high) and red (need for improvement, very high). Next to the assessment score there is a download button, this generates a Capability Assessment Report, of the capability.
+
+###### EVALUATION
+
+Evaluating the state of a capability, indicated by a color-coded assessment of the need for improvements, is shown for each assessed capability in the overview. On the left side of the page, there are several options to filter results, including capabilities, descriptions, keywords and stakeholders. Below the filter options, there is an EXPORT TO WORD button, which generates a Capability Assessment Report containing all the completed assessments.`;
+
 export const Attribution: MeiosisComponent = () => {
   return {
     view: ({
@@ -142,7 +206,7 @@ export const AboutPage: MeiosisComponent = () => ({
           onchange: (v) => v && actions.saveCurUser(v[0]),
           className: 'col offset-s6 s6 offset-m9 m3',
         } as ISelectOptions<UserType>),
-        m('.col.s12.markdown', m.trust(render(md))),
+        m('.col.s12.markdown', m.trust(render(i18n.currentLocale === 'nl' ? mdNl : mdEn))),
       ]),
       m(Attribution, { state, actions }),
     ];

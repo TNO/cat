@@ -657,7 +657,7 @@ a.waves-effect.waves-teal.btn-flat.selected {
 
 .footer {
   width: 100%;
-  background-color: #f0f0f0; /* optional */
+  /* background-color: #f0f0f0; optional */
   padding: 10px;
   text-align: center;
 }
