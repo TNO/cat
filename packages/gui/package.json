@@ -45,14 +45,14 @@
     "mithriljs-i18n": "workspace:*"
   },
   "devDependencies": {
-    "@rspack/cli": "^0.6.3",
-    "@rspack/core": "^0.6.3",
+    "@rspack/cli": "^0.7.0",
+    "@rspack/core": "^0.7.0",
     "@types/file-saver": "^2.0.7",
     "@types/materialize-css": "^1.0.14",
     "@types/mithril": "^2.2.6",
     "dotenv": "16.4.5",
     "dotenv-webpack": "^8.1.0",
-    "rimraf": "^5.0.5",
+    "rimraf": "^5.0.7",
     "ts-node": "^10.9.2",
     "typescript": "5.4.5"
   }
