@@ -77,7 +77,7 @@ Vastleggen van één of meer voorstellen om een capability te versterken. Het be
 
 const mdEn = `#### Capability Assessment Tool
 
-De Capability Assessment Tool (CAT) supports the process of systematically analysing the status of essential capabilities within the domain of Disaster Resilient Societies (DRS) and documenting and sharing any improvement proposals with relevant stakeholders. The main functionalities of CAT pertain to assisting with:
+The Capability Assessment Tool (CAT) supports the process of systematically analysing the status of essential capabilities within the domain of Disaster Resilient Societies (DRS) and documenting and sharing any improvement proposals with relevant stakeholders. The main functionalities of CAT pertain to assisting with:
 
 1. Defining and characterizing relevant capabilities within the domain of DRS.
 2. Evaluating the importance and current performance of these capabilities, as well as assessing the need for any potential enhancements.
